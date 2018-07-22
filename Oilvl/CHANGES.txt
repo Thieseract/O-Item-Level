@@ -1,0 +1,10 @@
+------------------------------------------------------------------------
+r814 | olzenkhaw | 2018-04-13 00:19:06 +0000 (Fri, 13 Apr 2018) | 1 line
+Changed paths:
+   M /trunk/Oilvl.toc
+   M /trunk/libs/LibQTip-1.0/LibQTip-1.0.lua
+   M /trunk/libs/LibQTip-1.0/LibQTip-1.0.toc
+
+v6.7.37 - Update LibQTip lib to v7.3.5.3
+------------------------------------------------------------------------
+
