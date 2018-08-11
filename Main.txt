@@ -1,0 +1,1 @@
+Changing enchants requires updating local oenchantItem to have a 1 for each slot that can be enchanted and updating local enchantID to have the correct ID for the best enchants. Changing gems requires update local gemTexture with the texture ID of the best gems.

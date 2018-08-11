@@ -6,7 +6,7 @@ local HELM, NECK, SHOULDER, SHIRT, CHEST, WAIST, LEGS, FEET, WRISTS, HANDS, RING
 local oenchantItem = {
 	[0] = {0, INVTYPE_AMMO},
 	[1] = {0, INVTYPE_HEAD},
-	[2] = {1, INVTYPE_NECK},
+	[2] = {0, INVTYPE_NECK},
 	[3] = {0, INVTYPE_SHOULDER},
 	[4] = {0, INVTYPE_BODY},
 	[5] = {0, INVTYPE_CHEST},
@@ -19,8 +19,8 @@ local oenchantItem = {
 	[12] = {1, INVTYPE_FINGER.."2"},
 	[13] = {0, INVTYPE_TRINKET.."1"},
 	[14] = {0, INVTYPE_TRINKET.."2"},
-	[15] = {1, INVTYPE_CLOAK},
-	[16] = {0, INVTYPE_WEAPON},
+	[15] = {0, INVTYPE_CLOAK},
+	[16] = {1, INVTYPE_WEAPON},
 	[17] = {0, INVTYPE_SHIELD},
 }
 
@@ -85,11 +85,11 @@ local ORole = {
 	-- left/width, right/width, top/height, bottom/height
 	-- from x = 32 to 48,       from y = 0 to 16
 	-- 32/64, 48/64, 0/16, 16/16
-	["TANK"]   = {"Interface\\LFGFrame\\LFGRole", 0.5, 0.75, 0, 1}, 
+	["TANK"]   = {"Interface\\LFGFrame\\LFGRole", 0.5, 0.75, 0, 1},
 	-- 48/64, 64/64, 0/16, 16/16
-	["HEALER"] = {"Interface\\LFGFrame\\LFGRole", 0.75, 1, 0, 1}, 
+	["HEALER"] = {"Interface\\LFGFrame\\LFGRole", 0.75, 1, 0, 1},
 	-- 16/64, 32/64, 0/16, 16/16
-	["DAMAGER"] = {"Interface\\LFGFrame\\LFGRole", 0.25, 0.5, 0, 1}, 
+	["DAMAGER"] = {"Interface\\LFGFrame\\LFGRole", 0.25, 0.5, 0, 1},
 	["NONE"] = {"",0,0,0,0}
 }
 
@@ -118,9 +118,9 @@ local OPvP = {"Interface/PVPFrame/UI-CHARACTER-PVP-ELEMENTS",460/512,1,0,75/512}
 local pvpsw = false;
 
 local ORole2 = {
-	["TANK"]   = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:32:48:0:16:255:255:255|t", 
-	["HEALER"] = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:48:64:0:16:255:255:255|t",  
-	["DAMAGER"] = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:16:32:0:16:255:255:255|t", 
+	["TANK"]   = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:32:48:0:16:255:255:255|t",
+	["HEALER"] = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:48:64:0:16:255:255:255|t",
+	["DAMAGER"] = "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:16:32:0:16:255:255:255|t",
 	["NONE"] = ""
 }
 
@@ -190,7 +190,7 @@ oilvlframedata.gear = {};
 local OILVL_Unit="";
 local OTilvl=0;
 local OTmia=0;
-local OTTop=0;	
+local OTTop=0;
 local Omover=0;
 local omover2=0;
 local OTCurrent=""; -- current raid frame
@@ -551,7 +551,7 @@ function OItemAnalysis_CheckPvPGear(unitid,slot)
 	OPvPFrame:SetOwner(UIParent, 'ANCHOR_NONE');
 	OPvPFrame:ClearLines();
 	OPvPFrame:SetInventoryItem(unitid, slot)
-	
+
 	for i = 1, 30 do
 		if _G["OPvPTooltipTextLeft"..i]:GetText() then
 			local pvpilvl = _G["OPvPTooltipTextLeft"..i]:GetText():match(PVP_ITEM_LEVEL_TOOLTIP:gsub("%%d","(%%d+)"));
@@ -592,7 +592,7 @@ function OItemAnalysis_CheckILVLGear4(unitid,slot)
 	if unitid and slot then
 		OILVLFrame:SetOwner(UIParent, 'ANCHOR_NONE');
 		OILVLFrame:ClearLines();
-		OILVLFrame:SetInventoryItem(unitid, slot)		
+		OILVLFrame:SetInventoryItem(unitid, slot)
 		for i = 1, 4 do
 			if _G["OILVLTooltipTextLeft"..i]:GetText() then
 				local xilvl = _G["OILVLTooltipTextLeft"..i]:GetText():match(ITEM_LEVEL:gsub("%%d","(%%d+)"));
@@ -680,7 +680,7 @@ end
 function oilvl(unit)
 	if InspectFrame and (InspectFrame.unit or InspectFrame:IsShown()) then return -1 end
 	if InspectFrame and InspectFrame.unit then return -1 end
-	if not UnitAffectingCombat("player") then 
+	if not UnitAffectingCombat("player") then
 		OILVL_Unit=unit;
 		if CheckInteractDistance(OILVL_Unit, 1) and CanInspect(OILVL_Unit) then
 			OILVL:RegisterEvent("INSPECT_READY");
@@ -695,7 +695,7 @@ function oilvl(unit)
 		end
 	end
 end
-	
+
 -- Get Raid Frame Item Level
 function ORfbIlvl(ounit)
 	if InspectFrame and InspectFrame:IsShown() then return -1 end
@@ -703,7 +703,7 @@ function ORfbIlvl(ounit)
 		local i=0;
 		OTCurrent3 = tonumber(ounit);
 		if IsInRaid() then
-			OTCurrent = "OILVLRAIDFRAME"..ounit;		
+			OTCurrent = "OILVLRAIDFRAME"..ounit;
 			OTCurrent2 = "raid"..ounit;
 			if _G[OTCurrent] == nil then return -1 end
 			if GetUnitName(OTCurrent2,"") ~= nil then
@@ -788,7 +788,7 @@ end
 local LoadRPDTooltip = CreateFrame('GameTooltip', 'LOADRPDTooltip', nil, 'GameTooltipTemplate');
 
 function OilvlRunMouseoverTooltips(oframe)
-	local ounit = oframe:GetAttribute("unit") 
+	local ounit = oframe:GetAttribute("unit")
 	if not otooltip2 then
 		OilvlTooltip:SetOwner(oframe, "ANCHOR_BOTTOMRIGHT");
 		OilvlTooltip:SetUnit(ounit)
@@ -817,7 +817,7 @@ function OilvlRunMouseoverTooltips(oframe)
 		OilvlTooltip:Show()
 		rpdframe = oframe;
 		rpdframesw = true;
-		rpdounit = ounit;		
+		rpdounit = ounit;
 	end
 end
 
@@ -877,7 +877,7 @@ function OILVLCheckUpdate()
 			if not _G["OILVLRAIDFRAME"..i]:IsShown() then
 				return 0;
 			end
-			local ilvl 
+			local ilvl
 			if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] then
 				ilvl = oilvlframedata.ilvl[i][1]
 			else
@@ -898,10 +898,10 @@ function OILVLCheckUpdate()
 					ORfbIlvl(1); return 0;
 				end
 			end
-		end	
+		end
 	end
 end
-	
+
 function OVILRefresh()
 if not UnitAffectingCombat("player")  and oilvlframesw then
 	local i=0;
@@ -1132,7 +1132,7 @@ function OilvlCheckFrame()
 			rnum = GetNumGroupMembers();
 			if rnum < 16 then
 				OIVLFRAME:SetWidth(400);
-			end		
+			end
 			if rnum >= 16 and rnum <= 20 then
 				OIVLFRAME:SetWidth(400);
 			end
@@ -1211,7 +1211,7 @@ function OilvlCheckFrame()
 				_G["OilvlUpgrade"..i]:SetText(oilvlCheckUpgrade(i))
 			end
 		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
-			rnum = GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE) - 1		
+			rnum = GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE) - 1
 			if rnum > 0 then
 				for j=1, rnum do
 					for i=2, 5 do
@@ -1382,12 +1382,12 @@ function OilvlCheckFrame()
 					OILVLRAIDFRAME1:SetText(oClassColor("player")..GetUnitName("player",""):gsub("%-.+", ""));
 					OIVLFRAME:SetWidth(400);
 					oilvlframedata.guid[1] = UnitGUID("player");
-					oilvlframedata.name[1] = GetUnitName("player",""):gsub("%-.+", "");	
+					oilvlframedata.name[1] = GetUnitName("player",""):gsub("%-.+", "");
 					oilvlframedata.ilvl[1] = {"",otooltip6gearsw};
 					oilvlframedata.me[1] = "";
 					oilvlframedata.mg[1] = "";
 					oilvlframedata.spec[1] = "";
-					oilvlframedata.gear[1] = "";				
+					oilvlframedata.gear[1] = "";
 				end
 			end
 			OilvlSetRank(1, 0);
@@ -1395,7 +1395,7 @@ function OilvlCheckFrame()
 			OilvlSetMouseoverTooltips(OILVLRAIDFRAME1, "player");
 			Oilvltier1:SetText(oilvlCheckTierBonusSet(1))
 			OilvlUpgrade1:SetText(oilvlCheckUpgrade(1))
-		end	
+		end
 	end
 	--OTCurrent=""; OTCurrent2=""; OTCurrent3="";
 end
@@ -1421,11 +1421,11 @@ function oilvlcheckrange()
 		local totaldps=0;
 		local nheal=0;
 		local totalheal=0;
-		ail=0; ailtank=0; aildps=0; ailheal=0;	
+		ail=0; ailtank=0; aildps=0; ailheal=0;
 		range = 0 melee = 0
 		if IsInRaid() then
 			rnum = GetNumGroupMembers();
-			for i = 1, rnum do				
+			for i = 1, rnum do
 				if RM[oilvlframedata.spec[i]] == "M" then melee = melee + 1 end
 				if RM[oilvlframedata.spec[i]] == "R" then range = range + 1 end
 				if not CheckInteractDistance("raid"..i, 1) then
@@ -1435,7 +1435,7 @@ function oilvlcheckrange()
 					end
 					local ntex4 = _G["OILVLRAIDFRAME"..i]:CreateTexture()
 					ntex4:SetColorTexture(0,0,0,1)
-					ntex4:SetAllPoints()	
+					ntex4:SetAllPoints()
 					_G["OILVLRAIDFRAME"..i]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
@@ -1445,16 +1445,16 @@ function oilvlcheckrange()
 				else
 					local ntex4 = _G["OILVLRAIDFRAME"..i]:CreateTexture()
 					ntex4:SetColorTexture(0.2,0.2,0.2,0.5)
-					ntex4:SetAllPoints()	
-					_G["OILVLRAIDFRAME"..i]:SetNormalTexture(ntex4)					
+					ntex4:SetAllPoints()
+					_G["OILVLRAIDFRAME"..i]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
 							if oicomp[k].id == i then otooltip6:SetCellColor(k+4,2,0,0,0,0) break end
 						end
 					end
 				end
-				
-				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then 
+
+				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then
 					n = n + 1;
 					total = total + oilvlframedata.ilvl[i][1];
 					if oilvlframedata.role[i] == "TANK" then
@@ -1474,15 +1474,15 @@ function oilvlcheckrange()
 		elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
 			rnum = GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE) - 1
 			for i = 1, rnum do
-				if not CheckInteractDistance("party"..i, 1) then 
+				if not CheckInteractDistance("party"..i, 1) then
 					if OTCurrent2 == "party"..i then
 						miacount=0;	miaunit[1]="";miaunit[2]="";miaunit[3]="";miaunit[4]="";miaunit[5]="";miaunit[6]="";
 						OTCurrent=""; OTCurrent2=""; OTCurrent3=""; OILVL_Unit="";
 					end
 					local ntex4 = _G["OILVLRAIDFRAME"..(i+1)]:CreateTexture()
 					ntex4:SetColorTexture(0,0,0,1)
-					ntex4:SetAllPoints()	
-					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)	
+					ntex4:SetAllPoints()
+					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
 							if oicomp[k].id == i+1 then otooltip6:SetCellColor(k+4,2,0.5,0.5,0.5,1) break end
@@ -1491,8 +1491,8 @@ function oilvlcheckrange()
 				else
 					local ntex4 = _G["OILVLRAIDFRAME"..(i+1)]:CreateTexture()
 					ntex4:SetColorTexture(0.2,0.2,0.2,0.5)
-					ntex4:SetAllPoints()	
-					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)	
+					ntex4:SetAllPoints()
+					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
 							if oicomp[k].id == i+1 then otooltip6:SetCellColor(k+4,2,0,0,0,0) break end
@@ -1501,7 +1501,7 @@ function oilvlcheckrange()
 				end
 			end
 			for i = 1, rnum + 1 do
-				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then 
+				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then
 					n = n + 1;
 					total = total + oilvlframedata.ilvl[i][1];
 					if oilvlframedata.role[i] == "TANK" then
@@ -1516,20 +1516,20 @@ function oilvlcheckrange()
 						nheal = nheal + 1;
 						totalheal = totalheal + oilvlframedata.ilvl[i][1];
 					end
-				end			
+				end
 			end
-		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then		
+		elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
 			rnum = GetNumGroupMembers(LE_PARTY_CATEGORY_HOME) - 1
 			for i = 1, rnum do
-				if not CheckInteractDistance("party"..i, 1) then 
+				if not CheckInteractDistance("party"..i, 1) then
 					if OTCurrent2 == "party"..i then
 						miacount=0;	miaunit[1]="";miaunit[2]="";miaunit[3]="";miaunit[4]="";miaunit[5]="";miaunit[6]="";
 						OTCurrent=""; OTCurrent2=""; OTCurrent3=""; OILVL_Unit="";
 					end
 					local ntex4 = _G["OILVLRAIDFRAME"..(i+1)]:CreateTexture()
 					ntex4:SetColorTexture(0,0,0,1)
-					ntex4:SetAllPoints()	
-					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)	
+					ntex4:SetAllPoints()
+					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
 							if oicomp[k].id == i+1 then otooltip6:SetCellColor(k+4,2,0.5,0.5,0.5,1) break end
@@ -1538,8 +1538,8 @@ function oilvlcheckrange()
 				else
 					local ntex4 = _G["OILVLRAIDFRAME"..(i+1)]:CreateTexture()
 					ntex4:SetColorTexture(0.2,0.2,0.2,0.5)
-					ntex4:SetAllPoints()	
-					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)	
+					ntex4:SetAllPoints()
+					_G["OILVLRAIDFRAME"..(i+1)]:SetNormalTexture(ntex4)
 					if otooltip6 and oicomp then
 						for k = 1, #oicomp do
 							if oicomp[k].id == i+1 then otooltip6:SetCellColor(k+4,2,0,0,0,0) break end
@@ -1548,7 +1548,7 @@ function oilvlcheckrange()
 				end
 			end
 			for i = 1, rnum + 1 do
-				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then 
+				if oilvlframedata.ilvl[i] and oilvlframedata.ilvl[i][1] ~= "" then
 					n = n + 1;
 					total = total + oilvlframedata.ilvl[i][1];
 					if oilvlframedata.role[i] == "TANK" then
@@ -1563,7 +1563,7 @@ function oilvlcheckrange()
 						nheal = nheal + 1;
 						totalheal = totalheal + oilvlframedata.ilvl[i][1];
 					end
-				end			
+				end
 			end
 		else
 			local ntex4 = OILVLRAIDFRAME1:CreateTexture()
@@ -1678,7 +1678,7 @@ function oilvlcheckrange()
 			rpunit="";
 			Omover2=0;
 		end
-		
+
 		if oframe == nil then resetrpd() return -1 end
 		if oframe:IsForbidden() then resetrpd() return -1 end
 		if oframe:GetName() == nil and otooltip6 == nil then resetrpd() return -1 end
@@ -1694,10 +1694,10 @@ function oilvlcheckrange()
 					if cfg.raidmenuid == 4 then msg = msg:find(TOVname); if msg then break end end
 					if cfg.raidmenuid == 3 then msg = msg:find(TNname); if msg then break end end
 					if cfg.raidmenuid == 2 then msg = msg:find(TOSname); if msg then break end end
-					if cfg.raidmenuid == 1 then msg = msg:find(ABTname); if msg then break end end				
+					if cfg.raidmenuid == 1 then msg = msg:find(ABTname); if msg then break end end
 				end
-			end	
-			if not msg then		
+			end
+			if not msg then
 				OilvlRunMouseoverTooltips(oframe)
 			end
 		end
@@ -1729,7 +1729,7 @@ end
 
 function OSendToTarget(button)
 	local i=0;local q=0;
-	if not UnitExists("target") then 
+	if not UnitExists("target") then
 		return -1;
 	end
 	local comp = {};
@@ -1774,9 +1774,9 @@ function OSendToTarget(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "WHISPER", nil, targetname) end
 		end
 		if button ~= "MiddleButton" then
@@ -1811,7 +1811,7 @@ function OSendToTarget(button)
 				end
 				SendChatMessage(msg, "WHISPER", nil, targetname);
 			end
-		end		
+		end
 	end
 end
 
@@ -1855,9 +1855,9 @@ function OSendToParty(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "PARTY") end
 		end
 		if button ~= "MiddleButton" then
@@ -1892,7 +1892,7 @@ function OSendToParty(button)
 				end
 				SendChatMessage(msg, "PARTY");
 			end
-		end		
+		end
 	end
 end
 
@@ -1936,9 +1936,9 @@ function OSendToInstance(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "INSTANCE_CHAT") end
 		end
 		if button ~= "MiddleButton" then
@@ -1973,7 +1973,7 @@ function OSendToInstance(button)
 				end
 				SendChatMessage(msg, "INSTANCE_CHAT");
 			end
-		end		
+		end
 	end
 end
 
@@ -2017,9 +2017,9 @@ function OSendToGuild(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "GUILD") end
 		end
 		if button ~= "MiddleButton" then
@@ -2054,7 +2054,7 @@ function OSendToGuild(button)
 				end
 				SendChatMessage(msg, "GUILD");
 			end
-		end		
+		end
 	end
 end
 
@@ -2098,9 +2098,9 @@ function OSendToRaid(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "RAID") end
 		end
 		if button ~= "MiddleButton" then
@@ -2135,7 +2135,7 @@ function OSendToRaid(button)
 				end
 				SendChatMessage(msg, "RAID");
 			end
-		end		
+		end
 	end
 end
 
@@ -2179,9 +2179,9 @@ function OSendToOfficer(button)
 			if tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 			if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-			return tonumber(a.ilvl) > tonumber(b.ilvl) 
+			return tonumber(a.ilvl) > tonumber(b.ilvl)
 		end)
-		if button ~= "RightButton" then 
+		if button ~= "RightButton" then
 			for _, info in ipairs(comp) do  SendChatMessage(info.mmsg, "OFFICER") end
 		end
 		if button ~= "MiddleButton" then
@@ -2216,7 +2216,7 @@ function OSendToOfficer(button)
 				end
 				SendChatMessage(msg, "OFFICER");
 			end
-		end		
+		end
 	end
 end
 
@@ -2230,13 +2230,13 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 	f:RegisterForDrag("LeftButton");
 	f:SetScript("OnDragStart", f.StartMoving);
 	f:SetScript("OnDragStop", function() f:StopMovingOrSizing();  end);
-	
+
 	local g = CreateFrame("EditBox", cname, f, InputBoxTemplate)
 	g:SetAutoFocus(true)
 	g:SetWidth(cw)
-	g:SetHeight(20)	
+	g:SetHeight(20)
 	g:SetMultiLine(true)
-	g:SetScript("OnEscapePressed", function(self) 
+	g:SetScript("OnEscapePressed", function(self)
 		_G[cname.."Frame"]:Hide();
 		_G[cname.."_bodyBackground"]:Hide();
 	end)
@@ -2262,9 +2262,9 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 	gg:SetWidth(30)
 	gg:SetHeight(30)
 	gg:SetPoint("TOPRIGHT", g, "TOPRIGHT", 15, 5)
-	gg:SetScript("OnClick", function(self) OIlvlCopyEB_bodyBackground:Hide(); OIlvlCopyEBFrame:Hide() end)	
+	gg:SetScript("OnClick", function(self) OIlvlCopyEB_bodyBackground:Hide(); OIlvlCopyEBFrame:Hide() end)
 end
-	
+
 local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
 	local f=CreateFrame("frame",cname,UIParent);
 	f:SetWidth(cw+10); f:SetHeight(ch+10);
@@ -2284,7 +2284,7 @@ local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
 	f:SetScript("OnDragStop", function() f:StopMovingOrSizing(); end);
 	tinsert(UISpecialFrames,cname);
 	f:Hide();
-	
+
 	local fsc = CreateFrame("ScrollingMessageFrame",cname.."Frame",f);
 	fsc:SetWidth(cw); fsc:SetHeight(ch);
 	fsc:SetPoint("TOPLEFT",f,10,-10);
@@ -2292,7 +2292,7 @@ local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
 	fsc:SetJustifyH("LEFT")
 	fsc:SetFading(false)
 	fsc:SetMaxLines(18)
-	fsc:SetHyperlinksEnabled(true) 
+	fsc:SetHyperlinksEnabled(true)
 	fsc:SetInsertMode("TOP")
 	fsc:SetScript("OnHyperlinkEnter", function(self,linkData,link)
 		OilvlInspectTooltip:SetOwner(f, "ANCHOR_NONE");
@@ -2307,7 +2307,7 @@ local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
 			if chatWindow then
 				chatWindow:Insert(link)
 			end
-		end	
+		end
 		if IsControlKeyDown() then
 			DressUpItemLink(link)
 		end
@@ -2321,7 +2321,7 @@ local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
 	g:SetWidth(30)
 	g:SetHeight(30)
 	g:SetPoint("TOPRIGHT", f, "TOPRIGHT", -4, -4)
-	g:SetScript("OnClick", cbfunc)	
+	g:SetScript("OnClick", cbfunc)
 end
 
 function oilvlminbutton(parent, mname, func, x,y)
@@ -2332,9 +2332,9 @@ function oilvlminbutton(parent, mname, func, x,y)
 	g:SetWidth(30)
 	g:SetHeight(30)
 	g:SetPoint("TOPRIGHT", parent, "TOPRIGHT", x, y)
-	g:SetScript("OnClick", func)	
+	g:SetScript("OnClick", func)
 end
-	
+
 CopyEditBox("OIlvlCopyEB", 0, 250, 500, 300)
 CopyEditBox2("OIlvlInspect", 0, 250, 400, 260, function(self) OIlvlInspect:Hide() end)
 CopyEditBox2("OIlvlInspect2", 0, -20, 400, 260, function(self) OIlvlInspect2:Hide() end)
@@ -2344,16 +2344,16 @@ local function obfbutton2(btnName, btnText, btnParent, btnTemplate, btnPoint, bt
 	button:SetPoint(btnPoint, btnX, btnY)
 	button:SetWidth(btnW)
 	button:SetHeight(btnH)
-	
+
 	button:SetText(btnText)
 	button:SetNormalFontObject("GameFontNormal")
-	
+
 	local ntex = button:CreateTexture()
 	ntex:SetTexture("Interface/Buttons/UI-Panel-Button-Up")
 	ntex:SetTexCoord(0, 0.625, 0, 0.6875)
-	ntex:SetAllPoints()	
+	ntex:SetAllPoints()
 	button:SetNormalTexture(ntex)
-	
+
 	local htex = button:CreateTexture()
 	htex:SetTexture("Interface/Buttons/UI-Panel-Button-Highlight")
 	htex:SetTexCoord(0, 0.625, 0, 0.6875)
@@ -2401,9 +2401,9 @@ function OSendToCopy(button)
 		if tonumber(a.ilvl) == nil then return false end
 		if tonumber(b.ilvl) == nil and tonumber(a.ilvl) == nil then return false end
 		if tonumber(b.ilvl) == nil and tonumber(a.ilvl) ~= nil then return true end
-		return tonumber(a.ilvl) > tonumber(b.ilvl) 
+		return tonumber(a.ilvl) > tonumber(b.ilvl)
 	end)
-	if button ~= "RightButton" then 
+	if button ~= "RightButton" then
 		for _, info in ipairs(comp) do  ebmsg = ebmsg.."\n"..info.mmsg end
 	end
 	if button ~= "MiddleButton" then
@@ -2424,22 +2424,22 @@ function oilvlbutton(btnName, btnText, btnParent, btnTemplate, btnPoint, btnX, b
 	button:SetPoint(btnPoint, btnX, btnY)
 	button:SetWidth(btnW)
 	button:SetHeight(btnH)
-	
+
 	button:SetText(btnText)
 	button:SetNormalFontObject("GameFontNormal")
-	
+
 	local ntex = button:CreateTexture()
 	ntex:SetTexture("Interface/Buttons/UI-Panel-Button-Up")
 	ntex:SetTexCoord(0, 0.625, 0, 0.6875)
-	ntex:SetAllPoints()	
+	ntex:SetAllPoints()
 	button:SetNormalTexture(ntex)
-	
+
 	local htex = button:CreateTexture()
 	htex:SetTexture("Interface/Buttons/UI-Panel-Button-Highlight")
 	htex:SetTexCoord(0, 0.625, 0, 0.6875)
 	htex:SetAllPoints()
 	button:SetHighlightTexture(htex)
-	
+
 	local ptex = button:CreateTexture()
 	ptex:SetTexture("Interface/Buttons/UI-Panel-Button-Down")
 	ptex:SetTexCoord(0, 0.625, 0, 0.6875)
@@ -2455,17 +2455,17 @@ function OPvPButton(btnParent)
 	button:SetPoint("TOPLEFT", 65, -38)
 	button:SetWidth(20)
 	button:SetHeight(20)
-	
+
 	local ntex = button:CreateTexture(nil, "BACKGROUND")
 	ntex:SetSize(20,20);
 	ntex:SetPoint("CENTER",-1,1);
 	ntex:SetTexture(OPvP[1])
 	ntex:SetTexCoord(OPvP[2],OPvP[3],OPvP[4],OPvP[5])
-	
+
 	local ptex = button:CreateTexture("OPvPSet", "BACKGROUND")
 	ptex:SetSize(20,20);
 	ptex:SetPoint("CENTER",-1,1);
-	ptex:SetColorTexture(1,0,0,0.2)	
+	ptex:SetColorTexture(1,0,0,0.2)
 	ptex:Hide();
 
 	local htex = button:CreateTexture()
@@ -2473,7 +2473,7 @@ function OPvPButton(btnParent)
 	htex:SetPoint("CENTER",-1,1);
 	htex:SetColorTexture(1,1,1,0.3)
 	button:SetHighlightTexture(htex)
-	
+
 	button:RegisterForClicks("LeftButtonDown", "MiddleButtonDown", "RightButtonDown");
 	button:SetScript("OnClick", function(self, button)
 		if OPvPSet:IsVisible() then
@@ -2490,7 +2490,7 @@ function OPvPButton(btnParent)
 		end
 		OilvlCheckFrame();
 	end)
-	button:SetScript("OnEnter", function(self) 
+	button:SetScript("OnEnter", function(self)
 		OilvlPvPTooltip:SetOwner(button, "ANCHOR_CURSOR");
 		OilvlPvPTooltip:AddLine(PVP);
 		OilvlPvPTooltip:Show();
@@ -2504,7 +2504,7 @@ function oilvlcfgbutton(btnParent)
 	button:SetPoint("TOPLEFT", -10, 10)
 	button:SetWidth(70)
 	button:SetHeight(70)
-	
+
 --    local border = button:CreateTexture(nil, "BORDER");
 --    border:SetSize(64,64);
 --    border:SetPoint("CENTER", 12, -13);
@@ -2515,14 +2515,14 @@ function oilvlcfgbutton(btnParent)
 	ntex:SetSize(120,120);
 	ntex:SetPoint("CENTER",-1,1);
 	ntex:SetTexture("Interface/AddOns/Oilvl/config.tga")
-	
+
 	local htex = button:CreateTexture()
 --	htex:SetSize(40,40);
 	htex:SetSize(70,70);
 	htex:SetPoint("CENTER",-1,1);
 	htex:SetTexture("Interface/Minimap/UI-Minimap-ZoomButton-Highlight")
 	button:SetHighlightTexture(htex)
-	
+
 	button:RegisterForClicks("LeftButtonDown", "MiddleButtonDown", "RightButtonDown");
 	button:SetScript("OnClick", function(self, button)
 		if button == "MiddleButton" or button == "MiddleButtonDown" then
@@ -2539,7 +2539,7 @@ function oilvlcfgbutton(btnParent)
 		else
 			--PlaySound("igMainMenuOption");
 			InterfaceOptionsFrameTab2:Click();
-			InterfaceOptionsFrame_OpenToCategory("O Item Level (OiLvL)")		
+			InterfaceOptionsFrame_OpenToCategory("O Item Level (OiLvL)")
 		end
 	end);
 --	button:SetScript("OnEnter", function(self, button) LDB_ANCHOR=btnParent; otooltip6func() end);
@@ -2548,7 +2548,7 @@ end
 function OilvlSetCA()
 	ounit = rpdounit
 	if not rpsw and CheckInteractDistance(ounit, 1) and UnitExists(ounit) and cfg.oilvlms then
-		Omover2=1;						
+		Omover2=1;
 		ClearAchievementComparisonUnit();
 		OILVL:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 		rpsw=true;
@@ -2562,14 +2562,14 @@ function OilvlSetCA()
 		end
 	end
 end
-	
+
 function oilvlframe()
 	local f = CreateFrame("Frame", "OIVLFRAME", UIParent, "ButtonFrameTemplate");
 	f:SetWidth(676);
 	f:SetHeight(404);
 	f:SetFrameStrata("LOW");
 
--- set moveable and dragable	
+-- set moveable and dragable
 	f:SetMovable(true);
 	f:EnableMouse(true);
 	f:RegisterForDrag("LeftButton");
@@ -2584,7 +2584,7 @@ function oilvlframe()
 	f.text:SetJustifyV("TOP");
 	f.text:SetTextColor(1,1,1,1);
 	f.text:SetFont("Fonts\\FRIZQT__.TTF",12,"")
-	f.text:SetText("O Item Level");	
+	f.text:SetText("O Item Level");
 
 --background texture
 	local t = f:CreateTexture(nil,"BACKGROUND")
@@ -2592,7 +2592,7 @@ function oilvlframe()
 	t:SetAllPoints(f)
 	f.texture = t
 	f:SetPoint("TOPLEFT",15,-60);
-	
+
  --icon
 --    local icon = f:CreateTexture("$parentIcon", "OVERLAY", nil, -8);
 --    icon:SetSize(60,60);
@@ -2611,13 +2611,13 @@ function oilvlframe()
 		local g = f:CreateTexture(tname, "OVERLAY", nil, -8);
 		g:SetSize(15,15);
 		g:SetPoint("BOTTOMLEFT",p,q);
-		g:SetTexture(tt);	
-		g:SetTexCoord(t1,t2,t3,t4);	
+		g:SetTexture(tt);
+		g:SetTexCoord(t1,t2,t3,t4);
 		local t = f:CreateFontString(fsname,"ARTWORK","GameFontHighlight")
 		t:SetPoint("BOTTOMLEFT",x,y)
 		t:SetText(" ");
 	end
-	
+
 	local function OCreateFontString(fsname,x,y)
 		local t = f:CreateFontString(fsname,"ARTWORK","GameFontHighlight")
 		t:SetPoint("BOTTOMLEFT",x,y)
@@ -2627,28 +2627,28 @@ function oilvlframe()
 	CreateTextureFontString("ONumTank",10,50,ORole["TANK"][1],ORole["TANK"][2],ORole["TANK"][3],ORole["TANK"][4],ORole["TANK"][5],"OilvlAIL_TANK",28,50)
 	CreateTextureFontString("ONumDPS",100+adjustl,50,ORole["DAMAGER"][1],ORole["DAMAGER"][2],ORole["DAMAGER"][3],ORole["DAMAGER"][4],ORole["DAMAGER"][5],"OilvlAIL_DPS",118+adjustl,50)
 	CreateTextureFontString("ONumHeal",200+adjustl*2,50,ORole["HEALER"][1],ORole["HEALER"][2],ORole["HEALER"][3],ORole["HEALER"][4],ORole["HEALER"][5],"OilvlAIL_HEAL",218+adjustl*2,50)
-	
+
 	-- Vanquisher
-	CreateTextureFontString("ONumDEATHKNIGHT",10,104,OClassTexture["BASE"],OClassTexture["DEATHKNIGHT"][1],OClassTexture["DEATHKNIGHT"][2],OClassTexture["DEATHKNIGHT"][3],OClassTexture["DEATHKNIGHT"][4],"OilvlAIL_DEATHKNIGHT",28,104)	
-	CreateTextureFontString("ONumDRUID",60,104,OClassTexture["BASE"],OClassTexture["DRUID"][1],OClassTexture["DRUID"][2],OClassTexture["DRUID"][3],OClassTexture["DRUID"][4],"OilvlAIL_DRUID",78,104)	
-	CreateTextureFontString("ONumMAGE",110,104,OClassTexture["BASE"],OClassTexture["MAGE"][1],OClassTexture["MAGE"][2],OClassTexture["MAGE"][3],OClassTexture["MAGE"][4],"OilvlAIL_MAGE",128,104)	
-	CreateTextureFontString("ONumROGUE",160,104,OClassTexture["BASE"],OClassTexture["ROGUE"][1],OClassTexture["ROGUE"][2],OClassTexture["ROGUE"][3],OClassTexture["ROGUE"][4],"OilvlAIL_ROGUE",178,104)	
-	OCreateFontString("VanqText",200,104) 
+	CreateTextureFontString("ONumDEATHKNIGHT",10,104,OClassTexture["BASE"],OClassTexture["DEATHKNIGHT"][1],OClassTexture["DEATHKNIGHT"][2],OClassTexture["DEATHKNIGHT"][3],OClassTexture["DEATHKNIGHT"][4],"OilvlAIL_DEATHKNIGHT",28,104)
+	CreateTextureFontString("ONumDRUID",60,104,OClassTexture["BASE"],OClassTexture["DRUID"][1],OClassTexture["DRUID"][2],OClassTexture["DRUID"][3],OClassTexture["DRUID"][4],"OilvlAIL_DRUID",78,104)
+	CreateTextureFontString("ONumMAGE",110,104,OClassTexture["BASE"],OClassTexture["MAGE"][1],OClassTexture["MAGE"][2],OClassTexture["MAGE"][3],OClassTexture["MAGE"][4],"OilvlAIL_MAGE",128,104)
+	CreateTextureFontString("ONumROGUE",160,104,OClassTexture["BASE"],OClassTexture["ROGUE"][1],OClassTexture["ROGUE"][2],OClassTexture["ROGUE"][3],OClassTexture["ROGUE"][4],"OilvlAIL_ROGUE",178,104)
+	OCreateFontString("VanqText",200,104)
 
 	-- Protector
-	CreateTextureFontString("ONumHUNTER",10,86,OClassTexture["BASE"],OClassTexture["HUNTER"][1],OClassTexture["HUNTER"][2],OClassTexture["HUNTER"][3],OClassTexture["HUNTER"][4],"OilvlAIL_HUNTER",28,86)	
+	CreateTextureFontString("ONumHUNTER",10,86,OClassTexture["BASE"],OClassTexture["HUNTER"][1],OClassTexture["HUNTER"][2],OClassTexture["HUNTER"][3],OClassTexture["HUNTER"][4],"OilvlAIL_HUNTER",28,86)
 	CreateTextureFontString("ONumMONK",60,86,OClassTexture["BASE"],OClassTexture["MONK"][1],OClassTexture["MONK"][2],OClassTexture["MONK"][3],OClassTexture["MONK"][4],"OilvlAIL_MONK",78,86)
-	CreateTextureFontString("ONumSHAMAN",110,86,OClassTexture["BASE"],OClassTexture["SHAMAN"][1],OClassTexture["SHAMAN"][2],OClassTexture["SHAMAN"][3],OClassTexture["SHAMAN"][4],"OilvlAIL_SHAMAN",128,86)	
+	CreateTextureFontString("ONumSHAMAN",110,86,OClassTexture["BASE"],OClassTexture["SHAMAN"][1],OClassTexture["SHAMAN"][2],OClassTexture["SHAMAN"][3],OClassTexture["SHAMAN"][4],"OilvlAIL_SHAMAN",128,86)
 	CreateTextureFontString("ONumWARRIOR",160,86,OClassTexture["BASE"],OClassTexture["WARRIOR"][1],OClassTexture["WARRIOR"][2],OClassTexture["WARRIOR"][3],OClassTexture["WARRIOR"][4],"OilvlAIL_WARRIOR",178,86)
-	OCreateFontString("ProtText",200,86) 
+	OCreateFontString("ProtText",200,86)
 
 	-- Conqueror
 	CreateTextureFontString("ONumPALADIN",10,68,OClassTexture["BASE"],OClassTexture["PALADIN"][1],OClassTexture["PALADIN"][2],OClassTexture["PALADIN"][3],OClassTexture["PALADIN"][4],"OilvlAIL_PALADIN",28,68)
 	CreateTextureFontString("ONumPRIEST",60,68,OClassTexture["BASE"],OClassTexture["PRIEST"][1],OClassTexture["PRIEST"][2],OClassTexture["PRIEST"][3],OClassTexture["PRIEST"][4],"OilvlAIL_PRIEST",78,68)
 	CreateTextureFontString("ONumWARLOCK",110,68,OClassTexture["BASE"],OClassTexture["WARLOCK"][1],OClassTexture["WARLOCK"][2],OClassTexture["WARLOCK"][3],OClassTexture["WARLOCK"][4],"OilvlAIL_WARLOCK",128,68)
 	CreateTextureFontString("ONumDEMONHUNTER",160,68,OClassTexture["BASE"],OClassTexture["DEMONHUNTER"][1],OClassTexture["DEMONHUNTER"][2],OClassTexture["DEMONHUNTER"][3],OClassTexture["DEMONHUNTER"][4],"OilvlAIL_DEMONHUNTER",178,68)
-	OCreateFontString("ConqText",200,68) 
-	
+	OCreateFontString("ConqText",200,68)
+
 -- 	Enchantment Reminder
 	local ercb = CreateFrame("CheckButton", "oilvlercb", f, "ChatConfigCheckButtonTemplate");
 	ercb:SetPoint("BOTTOMRIGHT", -20,25);
@@ -2656,13 +2656,13 @@ function oilvlframe()
 	ercb.tooltip = L["Enable Sending Enchantment Reminder"];
 	ercb:SetHitRectInsets(0,0,0,0);
 	ercb:SetSize(25,25);
-	ercb:SetScript("PostClick", function() 
-		cfg.oilvlme = oilvlercb:GetChecked(); 
-		oilvleer:SetChecked(cfg.oilvlme) 
+	ercb:SetScript("PostClick", function()
+		cfg.oilvlme = oilvlercb:GetChecked();
+		oilvleer:SetChecked(cfg.oilvlme)
 		if oilvleer:GetChecked() then oilvlbestenchant:Enable(); else	oilvlbestenchant:Disable(); end
 	end);
 	ercb:SetChecked(cfg.oilvlme);
-	
+
 -- 	Auto Scan
 	local autoscan = CreateFrame("CheckButton", "oilvlautoscan", f, "ChatConfigCheckButtonTemplate");
 	autoscan:SetPoint("BOTTOMRIGHT", -80,25);
@@ -2670,7 +2670,7 @@ function oilvlframe()
 	autoscan.tooltip = L["Auto Scan"];
 	autoscan:SetHitRectInsets(0,0,0,0);
 	autoscan:SetSize(25,25);
-	autoscan:SetScript("PostClick", function() 
+	autoscan:SetScript("PostClick", function()
 		if cfg.oilvlautoscan then
 			cfg.oilvlautoscan = false
 			autoscan:SetChecked(cfg.oilvlautoscan);
@@ -2680,10 +2680,10 @@ function oilvlframe()
 		end
 	end);
 	autoscan:SetChecked(cfg.oilvlautoscan);
-	
-	
+
+
 	OPvPButton(f)
-	
+
 -- Config Button
 	oilvlcfgbutton(f);
 --Refresh button
@@ -2726,22 +2726,22 @@ function oilvlframe()
 			local _,bheight,_ = button4:GetNormalFontObject():GetFont()
 			button4:SetSize(80,bheight*4)
 			button4:SetPoint("TOPLEFT",OIVLFRAME,"TOPLEFT",10+(b4j-1)*82, -66-(b4i-1)*(bheight*4+2))
-	
+
 			local ntex4 = button4:CreateTexture()
 			ntex4:SetColorTexture(0.2,0.2,0.2,0.5)
-			ntex4:SetAllPoints()	
+			ntex4:SetAllPoints()
 			button4:SetNormalTexture(ntex4)
-	
+
 			local htex4 = button4:CreateTexture()
 			htex4:SetColorTexture(0,0,1,0.5)
 			htex4:SetAllPoints()
 			button4:SetHighlightTexture(htex4)
-	
+
 			local ptex4 = button4:CreateTexture()
 			ptex4:SetColorTexture(0,1,1,0.5)
 			ptex4:SetAllPoints()
 			button4:SetPushedTexture(ptex4)
-		
+
 			-- Right Click
 			button4:SetAttribute("type2", "target");
 			button4:SetAttribute("target2", "mouseover");
@@ -2755,7 +2755,7 @@ function oilvlframe()
 			button4:SetAttribute("alt-macrotext2", "/tar mouseover\n/inspect");
 
 			-- hide tooltips
-			button4:SetScript("OnLeave", function(self) 
+			button4:SetScript("OnLeave", function(self)
 				OilvlTooltip:Hide()
 				LoadRPDTooltip:Hide()
 				--ClearAchievementComparisonUnit();
@@ -2767,9 +2767,9 @@ function oilvlframe()
 					Omover2=0;
 				end
 			end)
-			
+
 			button4:SetScript("OnEnter", function(self)
-				if not otooltip2 then					
+				if not otooltip2 then
 					local ounit = self:GetAttribute("unit");
 					OilvlTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
 					OilvlTooltip:SetUnit(ounit)
@@ -2808,37 +2808,37 @@ function oilvlframe()
 			Oilvlrole[rfb]:SetPoint("BOTTOMRIGHT",0,0);
 			Oilvlrole[rfb]:SetTexture(nil);
 			Oilvlrole[rfb]:SetTexCoord(0,0,0,0);
-			
+
 			-- set rank variable
 			Oilvlrank[rfb] = button4:CreateTexture("Oilvlrank"..rfb, "OVERLAY", nil, -8);
 			Oilvlrank[rfb]:SetSize(15,15);
 			Oilvlrank[rfb]:SetPoint("TOPLEFT",0,5);
 			Oilvlrank[rfb]:SetTexture(nil);
 --			Oilvlrank[rfb]:SetTexCoord(0,0,0,0);
-			
-			-- set mark for send 
+
+			-- set mark for send
 			button4:CreateTexture("Oilvlmark"..rfb, "OVERLAY", nil, -8);
 			_G["Oilvlmark"..rfb]:SetSize(15,15);
 			_G["Oilvlmark"..rfb]:SetPoint("RIGHT",0,0);
 			_G["Oilvlmark"..rfb]:SetTexture("Interface/RAIDFRAME/ReadyCheck-Ready");
 			_G["Oilvlmark"..rfb]:Hide();
-			
+
 			-- set tier
-			local tier = button4:CreateFontString("Oilvltier"..rfb,"ARTWORK","GameFontNormalLarge") 
-			tier:SetPoint("TOPRIGHT") 
+			local tier = button4:CreateFontString("Oilvltier"..rfb,"ARTWORK","GameFontNormalLarge")
+			tier:SetPoint("TOPRIGHT")
 			tier:SetText("")
-			
+
 			-- total upgrade
-			local tier = button4:CreateFontString("OilvlUpgrade"..rfb,"ARTWORK","GameFontNormalSmall") 
-			tier:SetPoint("BOTTOMLEFT") 
+			local tier = button4:CreateFontString("OilvlUpgrade"..rfb,"ARTWORK","GameFontNormalSmall")
+			tier:SetPoint("BOTTOMLEFT")
 			tier:SetTextHeight(10)
-			tier:SetText("")			
+			tier:SetText("")
 
 			-- Left Click, Middle Click, Right Click
 			button4:RegisterForClicks("LeftButtonDown", "RightButtonDown", "MiddleButtonDown");
-			button4:SetScript("PostClick", function(self, button, down) 					
+			button4:SetScript("PostClick", function(self, button, down)
 					if (button == "LeftButton" or button == "LeftButtonDown") and not IsControlKeyDown() and not IsAltKeyDown()then
-						ORfbIlvl(self:GetName():gsub("OILVLRAIDFRAME", "").."",true) 
+						ORfbIlvl(self:GetName():gsub("OILVLRAIDFRAME", "").."",true)
 					end
 					if button == "MiddleButton" or button == "MiddleButtonDown" then
 						if _G["Oilvlmark"..self:GetName():gsub("OILVLRAIDFRAME","")]:IsShown() then
@@ -2850,7 +2850,7 @@ function oilvlframe()
 					if (button == "LeftButton" or button == "LeftButtonDown") and IsAltKeyDown() then
 						local nn = tonumber(self:GetName():gsub("OILVLRAIDFRAME","").."");
 						if oilvlframedata.gear[nn] ~= "" then
-							OIlvlInspectFrame:Clear();	
+							OIlvlInspectFrame:Clear();
 							local nline = 0
 							for crg = 17,1,-1 do
 								if oilvlframedata.gear[nn][crg] ~= nil then
@@ -2873,7 +2873,7 @@ function oilvlframe()
 					if (button == "LeftButton" or button == "LeftButtonDown") and IsControlKeyDown() then
 						local nn = tonumber(self:GetName():gsub("OILVLRAIDFRAME","").."");
 						if oilvlframedata.gear[nn] ~= "" then
-							OIlvlInspect2Frame:Clear();							
+							OIlvlInspect2Frame:Clear();
 							for crg = 17,1,-1 do
 								if oilvlframedata.gear[nn][crg] ~= nil then
 									if pvpsw then
@@ -2894,23 +2894,23 @@ function oilvlframe()
 			end);
 			rfb = rfb + 1;
 		end
-	end	
+	end
 
 -- Set OiLvLFrame height
 	OIVLFRAME:SetHeight(66+5*(OILVLRAIDFRAME1:GetHeight()+2)+128)
-	
+
 -- Oilvl Game Tooltips
 	CreateFrame("GameTooltip", "OilvlTooltip", UIParent, "GameTooltipTemplate");
 
 -- Oilvl Inspect Tooltips
-	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "GameTooltipTemplate"); 
-	
+	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "GameTooltipTemplate");
+
 -- Oilvl Roll Tooltips
-	CreateFrame("GameTooltip", "OilvlRollTooltip", UIParent, "GameTooltipTemplate"); 
-		
+	CreateFrame("GameTooltip", "OilvlRollTooltip", UIParent, "GameTooltipTemplate");
+
 -- Oilvl PvP Tooltips
-	CreateFrame("GameTooltip", "OilvlPvPTooltip", UIParent, "GameTooltipTemplate"); 
-	
+	CreateFrame("GameTooltip", "OilvlPvPTooltip", UIParent, "GameTooltipTemplate");
+
 -- Refresh
 	oilvlframesw=true;
 	OVILRefresh();
@@ -2931,7 +2931,7 @@ function OilvlGetStatisticId(OCategory, ORaidName, OTable, Oprint)
 	for _, CategoryId in pairs(GetStatisticsCategoryList()) do
 		local Title, ParentCategoryId, Something
 		Title, ParentCategoryId, Something = GetCategoryInfo(CategoryId)
-		
+
 		if Title == OCategory then
 			local i
 			local statisticCount = GetCategoryNumAchievements(CategoryId)
@@ -3033,37 +3033,37 @@ function OGetRaidProgression(RaidName, OSTAT, NumRaidBosses)
 	orp["Mythic"]={};
 	orp["unitname"], orp["unitid"] = GameTooltip:GetUnit();
 	orp["oframe"] = GameTooltip:GetOwner();
-	if rpunit == "" or not UnitExists("target") or not CheckInteractDistance("target", 1) or orp["oframe"] == nil then 
+	if rpunit == "" or not UnitExists("target") or not CheckInteractDistance("target", 1) or orp["oframe"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
 		rpunit="";
 		Omover2=0;
-		return -1; 
+		return -1;
 	end
-	if orp["unitname"] == nil then 
+	if orp["unitname"] == nil then
 		ClearAchievementComparisonUnit();
 		OILVL:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 		SetAchievementComparisonUnit("target");
 		rpunit = "target";
 		rpsw=true;
-		return -1; 
+		return -1;
 	end
-	if orp["unitid"] == nil then 
+	if orp["unitid"] == nil then
 		ClearAchievementComparisonUnit();
 		OILVL:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 		SetAchievementComparisonUnit("target");
 		rpunit = "target";
 		rpsw=true;
-		return -1; 
-	end	
-	if UnitGUID(rpunit) ~= UnitGUID(orp["unitid"]) then 
+		return -1;
+	end
+	if UnitGUID(rpunit) ~= UnitGUID(orp["unitid"]) then
 		ClearAchievementComparisonUnit();
 		OILVL:RegisterEvent("INSPECT_ACHIEVEMENT_READY")
 		SetAchievementComparisonUnit("target");
 		rpunit = "target";
 		rpsw=true;
-		return -1; 
+		return -1;
 	end
 	for i = 2, GameTooltip:NumLines() do
 		local msg = _G["GameTooltipTextLeft"..i]:GetText();
@@ -3075,18 +3075,18 @@ function OGetRaidProgression(RaidName, OSTAT, NumRaidBosses)
 			matchi=i+1;
 			break;
 		end
-	end	
+	end
 	if not omatch then
 		GameTooltip:SetHeight(GameTooltip:GetHeight()+15);
 		GameTooltip:AddLine(RaidName);
 	end
 	local op=0;
-	for i = 1, NumRaidBosses do	
+	for i = 1, NumRaidBosses do
 		if GetComparisonStatistic(OSTAT[i][4]) ~= "--" then
 			op = op + 1;
 		end
 		orp["Mythic"][i] = GetComparisonStatistic(OSTAT[i][4]);
-	end	
+	end
 	if op > 0 then
 		progression=progression.."|cFF00FF00"..op.."/"..NumRaidBosses.." |r|cFFFFFFFF"..PLAYER_DIFFICULTY6.." ";
 		twohighest = twohighest + 1
@@ -3139,7 +3139,7 @@ function OGetRaidProgression(RaidName, OSTAT, NumRaidBosses)
 	--ClearAchievementComparisonUnit();
 	rpsw=false;
 	rpunit="";
-	
+
 	-- Show raid progression on tooltip:
 	if cfg.oilvlrpdetails then
 		if LibQTip:IsAcquired("Oraidprog") then
@@ -3153,7 +3153,7 @@ function OGetRaidProgression(RaidName, OSTAT, NumRaidBosses)
 			otooltip:SetClampedToScreen(false)
 			otooltip:SetPoint("TOPRIGHT", GameTooltip, "TOPLEFT")
 		end
-	
+
 		local line = otooltip:AddLine()
 		otooltip:SetCell(line, 1, "|cffffffff" ..RaidName.. "|r", "LEFT", 3)
 		line = otooltip:AddHeader()
@@ -3179,11 +3179,11 @@ end
 testabc=""
 -- OiLvL Frame
 local function SaveAOTCCE(tt,...)
-	local an = {...} 
-	for j = 1, #an do 
-		local temp = {GetAchievementComparisonInfo(an[j])} 
-		local _,temp2,_ = GetAchievementInfo(an[j]); 
-		for i = 1, 4 do tt[#tt+1] = temp[i] end 
+	local an = {...}
+	for j = 1, #an do
+		local temp = {GetAchievementComparisonInfo(an[j])}
+		local _,temp2,_ = GetAchievementInfo(an[j]);
+		for i = 1, 4 do tt[#tt+1] = temp[i] end
 		tt[#tt+1] = temp2
 		if temp[1] then
 			_, cunitid = OilvlTooltip:GetUnit();
@@ -3215,7 +3215,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 	orp={};
 	orp["unitname"], orp["unitid"] = OilvlTooltip:GetUnit();
 	orp["oframe"] = OilvlTooltip:GetOwner();
-	if orp["oframe"] == nil then 
+	if orp["oframe"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3224,14 +3224,14 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		LoadRPDTooltip:Hide();
 		return -1;
 	end
-	if rpunit == "" or rpunit == "target" or not UnitExists(rpunit) or not UnitExists(orp["unitid"]) or not CheckInteractDistance(rpunit, 1) or not CheckInteractDistance(orp["unitid"], 1) then 
+	if rpunit == "" or rpunit == "target" or not UnitExists(rpunit) or not UnitExists(orp["unitid"]) or not CheckInteractDistance(rpunit, 1) or not CheckInteractDistance(orp["unitid"], 1) then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
 		rpunit="";
 		Omover2=0;
 		LoadRPDTooltip:Hide();
-		return -1; 
+		return -1;
 	end
 	if orp["oframe"]:GetName() ~= nil then
 		if orp["oframe"]:GetName():gsub("%d","") ~= "OILVLRAIDFRAME" then
@@ -3241,7 +3241,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 			rpunit="";
 			Omover2=0;
 			LoadRPDTooltip:Hide();
-			return -1; 			
+			return -1;
 		end
 	end
 	if orp["oframe"]:GetName() == nil and orp["oframe"] ~= otooltip6 then
@@ -3251,9 +3251,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		rpunit="";
 		Omover2=0;
 		LoadRPDTooltip:Hide();
-		return -1; 			
+		return -1;
 	end
-	if orp["unitname"] == nil then 
+	if orp["unitname"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3262,7 +3262,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		LoadRPDTooltip:Hide();
 		return -1;
 	end
-	if orp["unitid"] == nil then 
+	if orp["unitid"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3317,12 +3317,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 			LoadRPDTooltip:Hide();
 			return -1;
 		end
-	end	
+	end
 	if not omatch and not cfg.oilvlrpdetails then
 		OilvlTooltip:SetHeight(OilvlTooltip:GetHeight()+15);
 		OilvlTooltip:AddLine(RaidName);
 	end
-	
+
 	local twohighest=0;
 	local progression="";
 	twohighest=0;
@@ -3334,7 +3334,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 	orp["Heroic"]={};
 	orp["Mythic"]={};
 	local bigorp = {}
-	
+
 	local function Save_orp(RaidName, OSTAT, NumRaidBosses)
 		--collectgarbage()
 		local twohighest=0;
@@ -3349,12 +3349,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		local op=0;
 		for d = 1, #difficulties do
 			op=0
-			for i = 1, NumRaidBosses do	
+			for i = 1, NumRaidBosses do
 				if GetComparisonStatistic(OSTAT[i][difficulties[d][3]]) ~= "--" then
 					op = op + 1;
 				end
 				orp[difficulties[d][1]][i] = GetComparisonStatistic(OSTAT[i][difficulties[d][3]]);
-			end	
+			end
 			if op > 0 and twohighest < 2 then
 				progression=progression.."|cFF00FF00"..op.."/"..NumRaidBosses.." |r|cFFFFFFFF"..difficulties[d][2];
 				orp["progression"]=orp["progression"]..op.."/"..NumRaidBosses..difficulties[d][4];
@@ -3368,13 +3368,13 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		local ORP = {OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"], progression}
 		return ORP;
 	end
-	
+
 	bigorp[TNname] = Save_orp(TNname, OSTATTN, 10)
 	bigorp[TENname] = Save_orp(TENname, OSTATTEN, 7)
 	bigorp[TOVname] = Save_orp(TOVname, OSTATTOV, 3)
 	bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
 	bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
-	
+
 	local function Save_orp_vars(raidname3)
 		OSTAT, NumRaidBosses, twohighest, progression, orp["raidname"], orp["progression"], orp["LFR"], orp["Normal"], orp["Heroic"], orp["Mythic"] = bigorp[raidname3][1],bigorp[raidname3][2],bigorp[raidname3][3],bigorp[raidname3][4],bigorp[raidname3][5],bigorp[raidname3][6],bigorp[raidname3][7],bigorp[raidname3][8],bigorp[raidname3][9],bigorp[raidname3][10]
 	end
@@ -3393,12 +3393,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 	-- check Achivements for 3 raids
 	local RaidAchiv = {}
 	RaidAchiv[TNname],RaidAchiv[TENname], RaidAchiv[TOVname], RaidAchiv[TOSname], RaidAchiv[ABTname] ={},{},{},{},{}
-	SaveAOTCCE(RaidAchiv[TNname],11195,11192) 
-	SaveAOTCCE(RaidAchiv[TENname],11194,11191) 
+	SaveAOTCCE(RaidAchiv[TNname],11195,11192)
+	SaveAOTCCE(RaidAchiv[TENname],11194,11191)
 	SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
 	SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
 	SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
-	
+
 	local oilvltooltiptexts = {}
 	for i = 1, OilvlTooltip:NumLines() do
 		if i > 1 and i < 5 then
@@ -3406,12 +3406,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		else
 			oilvltooltiptexts[i] = _G["OilvlTooltipTextLeft"..i]:GetText();
 		end
-	end	
+	end
 	OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 	--ClearAchievementComparisonUnit();
 	rpsw=false;
 	rpunit="";
-	Omover2=0;	
+	Omover2=0;
 	-- Show raid progression on tooltip:
 	if cfg.oilvlrpdetails then
 		if LibQTip:IsAcquired("Oraidprog") or otooltip2 then
@@ -3440,7 +3440,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 			else
 				otooltip2:SetPoint("TOPLEFT", OilvlTooltip:GetOwner(),"BOTTOMRIGHT")
 			end
-			otooltip2:SetAutoHideDelay(0.25, OilvlTooltip:GetOwner(), function() 
+			otooltip2:SetAutoHideDelay(0.25, OilvlTooltip:GetOwner(), function()
 				otooltip2:Clear()
 				otooltip2:Hide()
 				LibQTip:Release(otooltip2)
@@ -3452,52 +3452,52 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 				if oframe:GetName() == nil then return -1 end
 				if oframe:GetName():gsub("%d","").."" ~= "OILVLRAIDFRAME" then return -1; end
 				OilvlRunMouseoverTooltips(oframe)
-			end);			
+			end);
 		OilvlTooltip:Hide();
 		LoadRPDTooltip:Hide();
 	local function DrawOTooltip2()
 		--collectgarbage()
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
-			
+
 		local line = otooltip2:AddLine("")
 		otooltip2:SetCell(1,4,"|cffffffff"..ABTname,"LEFT",2)
-		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
 			Save_orp_vars(ABTname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(2,4,"|cffffffff"..TNname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
 			Save_orp_vars(TNname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(3,4,"|cffffffff"..TENname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
 			Save_orp_vars(TENname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 			Save_orp_vars(TOVname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(5,4,"|cffffffff"..TOSname,"LEFT",2)
-		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
 			Save_orp_vars(TOSname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
-		
+
 		line = otooltip2:AddLine()
 		otooltip2:SetCell(line, 1, "|cffffffff" ..orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"].. "|r", "LEFT", 5)
-		otooltip2:SetLineScript(1, "OnMouseUp", function() 
-			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])		
+		otooltip2:SetLineScript(1, "OnMouseUp", function()
+			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])
 		end)
-		otooltip2:SetLineScript(line, "OnMouseUp", function() 
-			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])		
+		otooltip2:SetLineScript(line, "OnMouseUp", function()
+			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])
 		end)
 		otooltip2:AddSeparator();
 		line = otooltip2:AddHeader()
@@ -3505,46 +3505,46 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		line = otooltip2:SetCell(line, 2, PLAYER_DIFFICULTY3)
 		otooltip2:SetCellScript(line, 2, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["LFR"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["LFR"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY3.." "..xprog.."/"..NumRaidBosses.."L)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["LFR"][m] ~= "--" then orpd=orpd..orp["LFR"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 3, PLAYER_DIFFICULTY1)
 		otooltip2:SetCellScript(line, 3, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Normal"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Normal"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY1.." "..xprog.."/"..NumRaidBosses.."N)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Normal"][m] ~= "--" then orpd=orpd..orp["Normal"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 4, PLAYER_DIFFICULTY2)
 		otooltip2:SetCellScript(line, 4, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Heroic"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Heroic"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY2.." "..xprog.."/"..NumRaidBosses.."H)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 5, PLAYER_DIFFICULTY6)
 		otooltip2:SetCellScript(line, 5, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Mythic"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Mythic"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY6.." "..xprog.."/"..NumRaidBosses.."M)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		otooltip2:AddSeparator()
 
@@ -3555,7 +3555,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 			line = otooltip2:SetCell(line, 3, orp["Normal"][m])
 			line = otooltip2:SetCell(line, 4, orp["Heroic"][m])
 			line = otooltip2:SetCell(line, 5, orp["Mythic"][m])
-		end	
+		end
 		otooltip2:AddSeparator()
 		line = otooltip2:AddLine()
 		line = otooltip2:SetCell(line, 1, "|cffffffff"..SEND_LABEL)
@@ -3563,7 +3563,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 		line = otooltip2:SetCell(line, 3, "|cffffffff"..CHAT_MSG_RAID)
 		line = otooltip2:SetCell(line, 4, "|cffffffff"..GUILD_RANK1_DESC)
 		line = otooltip2:SetCell(line, 5, "|cffffffff"..STATUS_TEXT_TARGET)
-		otooltip2:SetCellScript(line, 2, "OnMouseUp", function() 
+		otooltip2:SetCellScript(line, 2, "OnMouseUp", function()
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"], "GUILD");
 			for m = 1, NumRaidBosses do
 				local orpd="";
@@ -3572,9 +3572,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].."H".." "; end
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].."M".." "; end
 				if orpd ~= "" then SendChatMessage(OSTAT[m][5]..":"..orpd, "GUILD"); end
-			end			
+			end
 		end)
-		otooltip2:SetCellScript(line, 3, "OnMouseUp", function() 
+		otooltip2:SetCellScript(line, 3, "OnMouseUp", function()
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"], "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
@@ -3583,9 +3583,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].."H".." "; end
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].."M".." "; end
 				if orpd ~= "" then SendChatMessage(OSTAT[m][5]..":"..orpd, "RAID"); end
-			end			
+			end
 		end)
-		otooltip2:SetCellScript(line, 4, "OnMouseUp", function() 
+		otooltip2:SetCellScript(line, 4, "OnMouseUp", function()
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"], "OFFICER");
 			for m = 1, NumRaidBosses do
 				local orpd="";
@@ -3594,9 +3594,9 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].."H".." "; end
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].."M".." "; end
 				if orpd ~= "" then SendChatMessage(OSTAT[m][5]..":"..orpd, "OFFICER"); end
-			end			
+			end
 		end)
-		otooltip2:SetCellScript(line, 5, "OnMouseUp", function() 
+		otooltip2:SetCellScript(line, 5, "OnMouseUp", function()
 			if not UnitExists("target") then return -1;	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"], "WHISPER", nil, UnitName("target"));
 			for m = 1, NumRaidBosses do
@@ -3606,7 +3606,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses)
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].."H".." "; end
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].."M".." "; end
 				if orpd ~= "" then SendChatMessage(OSTAT[m][5]..":"..orpd, "WHISPER", nil, UnitName("target")); end
-			end			
+			end
 		end)
 		otooltip2:AddSeparator()
 		if RaidAchiv[orp["raidname"]] then
@@ -3644,7 +3644,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 	orp["Mythic"]={};
 	orp["unitname"], orp["unitid"] = OilvlTooltip:GetUnit();
 	orp["oframe"] = OilvlTooltip:GetOwner();
-	if orp["oframe"] == nil then 
+	if orp["oframe"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3654,7 +3654,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		local oframe = GetMouseFocus();
 		if oframe == nil then return -1 end
 		if oframe:IsForbidden() then return -1 end
-		if oframe ~= otooltip6rpd then return -1 end				
+		if oframe ~= otooltip6rpd then return -1 end
 		if CheckInteractDistance(otooltip6rpdunit, 1) and UnitExists(otooltip6rpdunit) and cfg.oilvlms then
 			Omover2=2;
 			ClearAchievementComparisonUnit();
@@ -3668,10 +3668,10 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 				LoadRPDTooltip:SetBackdropColor(1, 0, 0,1)
 				LoadRPDTooltip:Show();
 			end
-		end		
+		end
 		return -1;
 	end
-	if rpunit == "" or rpunit == "target" or not UnitExists(rpunit) or not UnitExists(orp["unitid"]) or not CheckInteractDistance(rpunit, 1) or not CheckInteractDistance(orp["unitid"], 1) then 
+	if rpunit == "" or rpunit == "target" or not UnitExists(rpunit) or not UnitExists(orp["unitid"]) or not CheckInteractDistance(rpunit, 1) or not CheckInteractDistance(orp["unitid"], 1) then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3681,7 +3681,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		otooltip6rpd=nil;
 		otooltip6rpdunit=nil;
 		otooltip6rpdid=nil;
-		return -1; 
+		return -1;
 	end
 	if orp["oframe"] ~= otooltip6rpd then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
@@ -3693,9 +3693,9 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		otooltip6rpd=nil;
 		otooltip6rpdunit=nil;
 		otooltip6rpdid=nil;
-		return -1; 			
+		return -1;
 	end
-	if orp["unitname"] == nil then 
+	if orp["unitname"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3707,7 +3707,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		otooltip6rpdid=nil;
 		return -1;
 	end
-	if orp["unitid"] == nil then 
+	if orp["unitid"] == nil then
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -3772,7 +3772,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 			matchi=i+1;
 			break;
 		end
-	end	
+	end
 	if not omatch and not cfg.oilvlrpdetails then
 		OilvlTooltip:SetHeight(OilvlTooltip:GetHeight()+15);
 		OilvlTooltip:AddLine(RaidName);
@@ -3793,12 +3793,12 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		local op=0;
 		for d = 1, #difficulties do
 			op=0
-			for i = 1, NumRaidBosses do	
+			for i = 1, NumRaidBosses do
 				if GetComparisonStatistic(OSTAT[i][difficulties[d][3]]) ~= "--" then
 					op = op + 1;
 				end
 				orp[difficulties[d][1]][i] = GetComparisonStatistic(OSTAT[i][difficulties[d][3]]);
-			end	
+			end
 			if op > 0 and twohighest < 2 then
 				progression=progression.."|cFF00FF00"..op.."/"..NumRaidBosses.." |r|cFFFFFFFF"..difficulties[d][2];
 				orp["progression"]=orp["progression"]..op.."/"..NumRaidBosses..difficulties[d][4];
@@ -3835,8 +3835,8 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 
 	local RaidAchiv = {}
 	RaidAchiv[TNname],RaidAchiv[TENname], RaidAchiv[TOVname], RaidAchiv[TOSname], RaidAchiv[ABTname] ={},{},{},{},{}
-	SaveAOTCCE(RaidAchiv[TNname],11195,11192) 
-	SaveAOTCCE(RaidAchiv[TENname],11194,11191) 
+	SaveAOTCCE(RaidAchiv[TNname],11195,11192)
+	SaveAOTCCE(RaidAchiv[TENname],11194,11191)
 	SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
 	SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
 	SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
@@ -3848,8 +3848,8 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		else
 			oilvltooltiptexts[i] = _G["OilvlTooltipTextLeft"..i]:GetText();
 		end
-	end	
-	
+	end
+
 	OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 	--ClearAchievementComparisonUnit();
 	rpsw=false;
@@ -3879,15 +3879,15 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 				otooltip2:SetPoint("TOPLEFT", OilvlTooltip, "TOPRIGHT")
 				otooltip2:SetAutoHideDelay(0.25, OilvlTooltip:GetOwner());
 			end]]--
-			local _, obottom, _, _ = otooltip6rpd:GetRect() 
+			local _, obottom, _, _ = otooltip6rpd:GetRect()
 			otooltip2:SmartAnchorTo(self)
-			otooltip2:SetAutoHideDelay(0.25, self, function() 
+			otooltip2:SetAutoHideDelay(0.25, self, function()
 				-- reset otooltip6 SetAutoHideDelay
 				if not otooltip6sw and otooltip6 then
 					otooltip6:SetAutoHideDelay(0.25,self,function()
 						--ClearAchievementComparisonUnit();
 						if GetMouseFocus() ~= otooltip6 then
-							otooltip6:Hide() 
+							otooltip6:Hide()
 							if otooltip6 ~= nil then
 								LibQTip:Release(otooltip6)
 								otooltip6 = nil
@@ -3895,14 +3895,14 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 						end
 					end)
 				end
-				
+
 				otooltip2:Clear()
 				otooltip2:Hide()
 				LibQTip:Release(otooltip2)
 				otooltip2 = nil
 				local oframe = GetMouseFocus();
 				if oframe == nil then otooltip6rpd=nil; otooltip6rpdunit=nil; otooltip6rpdid=nil; return -1 end
-				if oframe ~= otooltip6rpd then otooltip6rpd=nil; otooltip6rpdunit=nil; otooltip6rpdid=nil; return -1 end				
+				if oframe ~= otooltip6rpd then otooltip6rpd=nil; otooltip6rpdunit=nil; otooltip6rpdid=nil; return -1 end
 				if not rpsw and CheckInteractDistance(otooltip6rpdunit, 1) and UnitExists(otooltip6rpdunit) and cfg.oilvlms then
 					Omover2=2;
 					ClearAchievementComparisonUnit();
@@ -3918,40 +3918,40 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 					end
 				end
 				otooltip6rpd=nil; otooltip6rpdunit=nil; otooltip6rpdid=nil;
-			end);			
+			end);
 			OilvlTooltip:Hide();
 			LoadRPDTooltip:Hide();
 	local function DrawOTooltip2()
 		--collectgarbage()
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
-			
+
 		local line = otooltip2:AddLine("")
 		otooltip2:SetCell(1,4,"|cffffffff"..ABTname,"LEFT",2)
-		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
 			Save_orp_vars(ABTname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(2,4,"|cffffffff"..TNname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
 			Save_orp_vars(TNname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(3,4,"|cffffffff"..TENname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
 			Save_orp_vars(TENname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 			Save_orp_vars(TOVname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
 		otooltip2:SetCell(5,4,"|cffffffff"..TOSname,"LEFT",2)
-		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s) 
+		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
 			Save_orp_vars(TOSname)
 			otooltip2:Clear()
 			DrawOTooltip2()
@@ -3959,10 +3959,10 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 
 		line = otooltip2:AddLine()
 		otooltip2:SetCell(line, 1, "|cffffffff" ..orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"].. "|r", "LEFT", 5)
-		otooltip2:SetLineScript(1, "OnMouseUp", function() 
+		otooltip2:SetLineScript(1, "OnMouseUp", function()
 			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])
 		end)
-		otooltip2:SetLineScript(line, "OnMouseUp", function() 
+		otooltip2:SetLineScript(line, "OnMouseUp", function()
 			oilvl_link(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["progression"].." "..orp["raidname"])
 		end)
 		otooltip2:AddSeparator();
@@ -3971,46 +3971,46 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 		line = otooltip2:SetCell(line, 2, PLAYER_DIFFICULTY3)
 		otooltip2:SetCellScript(line, 2, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["LFR"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["LFR"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY3.." "..xprog.."/"..NumRaidBosses.."L)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["LFR"][m] ~= "--" then orpd=orpd..orp["LFR"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 3, PLAYER_DIFFICULTY1)
 		otooltip2:SetCellScript(line, 3, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Normal"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Normal"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY1.." "..xprog.."/"..NumRaidBosses.."N)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Normal"][m] ~= "--" then orpd=orpd..orp["Normal"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 4, PLAYER_DIFFICULTY2)
 		otooltip2:SetCellScript(line, 4, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Heroic"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Heroic"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY2.." "..xprog.."/"..NumRaidBosses.."H)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Heroic"][m] ~= "--" then orpd=orpd..orp["Heroic"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		line = otooltip2:SetCell(line, 5, PLAYER_DIFFICULTY6)
 		otooltip2:SetCellScript(line, 5, "OnMouseUp", function()
 			local xprog = 0
-			for m = 1, NumRaidBosses do	if orp["Mythic"][m] ~= "--" then xprog = xprog + 1 end	end	
+			for m = 1, NumRaidBosses do	if orp["Mythic"][m] ~= "--" then xprog = xprog + 1 end	end
 			SendChatMessage(orp["unitname"].."("..orp["ilvl"].." "..orp["spec"].." "..orp["class"]..") "..orp["raidname"].." ("..PLAYER_DIFFICULTY6.." "..xprog.."/"..NumRaidBosses.."M)", "RAID");
 			for m = 1, NumRaidBosses do
 				local orpd="";
 				if orp["Mythic"][m] ~= "--" then orpd=orpd..orp["Mythic"][m].." X "; end
 				if orpd ~= "" then SendChatMessage(orpd..OSTAT[m][5], "RAID"); end
-			end	
+			end
 		end)
 		otooltip2:AddSeparator()
 		for m = 1, NumRaidBosses do
@@ -4020,7 +4020,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses)
 			line = otooltip2:SetCell(line, 3, orp["Normal"][m])
 			line = otooltip2:SetCell(line, 4, orp["Heroic"][m])
 			line = otooltip2:SetCell(line, 5, orp["Mythic"][m])
-		end	
+		end
 		otooltip2:AddSeparator()
 		if RaidAchiv[orp["raidname"]] then
 			for i = 1, #RaidAchiv[orp["raidname"]],6 do
@@ -4060,7 +4060,7 @@ function otooltip4func()
 		OilvlRollTooltip:SetOwner(otooltip4, "ANCHOR_NONE");
 		OilvlRollTooltip:SetPoint("TOPLEFT",otooltip4,"TOPRIGHT",0,0)
 		OilvlRollTooltip:ClearLines()
-		OilvlRollTooltip:SetHyperlink(oroll[1][2])		
+		OilvlRollTooltip:SetHyperlink(oroll[1][2])
 	end)
 	otooltip4:SetCellScript(line, 1, "OnLeave", function() OilvlRollTooltip:Hide() end)
 	otooltip4:SetCellScript(line, 1, "OnMouseUp", function()
@@ -4069,7 +4069,7 @@ function otooltip4func()
 			if chatWindow then
 				chatWindow:Insert(oroll[1][2])
 			end
-		end	
+		end
 		if IsControlKeyDown() then
 			DressUpItemLink(oroll[1][2])
 		end
@@ -4084,16 +4084,16 @@ function otooltip4func()
 	local temporoll = {}
 	for m = 2, orolln do
 		temporoll[m-1] = {
-			name = oroll[m][1], 
-			roll = oroll[m][2], 
-			ilvl1 = oroll[m][3], 
-			item1 = oroll[m][4], 
-			ilvl2 = oroll[m][5], 
+			name = oroll[m][1],
+			roll = oroll[m][2],
+			ilvl1 = oroll[m][3],
+			item1 = oroll[m][4],
+			ilvl2 = oroll[m][5],
 			item2 = oroll[m][6]
 		}
 	end
 	-- sort roll
-	sort(temporoll, function(a,b) return a.roll > b.roll end);	
+	sort(temporoll, function(a,b) return a.roll > b.roll end);
 	for m = 1,  orolln - 1 do
 		line = otooltip4:AddLine()
 		otooltip4:SetCell(line, 1, temporoll[m].name)
@@ -4114,7 +4114,7 @@ function otooltip4func()
 				if chatWindow then
 					chatWindow:Insert(temporoll[m].item1)
 				end
-			end	
+			end
 			if IsControlKeyDown() and temporoll[m].item1 and temporoll[m].item1 ~= "" then
 				DressUpItemLink(temporoll[m].item1)
 			end
@@ -4135,17 +4135,17 @@ function otooltip4func()
 				if chatWindow then
 					chatWindow:Insert(temporoll[m].item2)
 				end
-			end	
+			end
 			if IsControlKeyDown() and temporoll[m].item2 and temporoll[m].item2 ~= "" then
 				DressUpItemLink(temporoll[m].item2)
 			end
 		end)
-	end	
+	end
 	otooltip4:AddSeparator()
 	line = otooltip4:AddLine()
 	otooltip4:SetCell(line, 5, "|cffffffff"..HIDE)
-	otooltip4:SetCellScript(line, 5, "OnMouseUp", function() 
-		otooltip4:Hide() 
+	otooltip4:SetCellScript(line, 5, "OnMouseUp", function()
+		otooltip4:Hide()
 		if otooltip4 ~= nil then
 			LibQTip:Release(otooltip4)
 			otooltip4 = nil
@@ -4185,7 +4185,7 @@ function otooltip5func()
 			if GetMouseButtonClicked() == "LeftButton" then
 				local nn = self._line - 3;
 				if cfg.oilvlgears[nn] and  cfg.oilvlgears[nn][1] and cfg.oilvlgears[nn][2] then
-					OIlvlInspectFrame:Clear();					
+					OIlvlInspectFrame:Clear();
 					for crg = 17,1,-1 do
 						if cfg.oilvlgears[nn][4][crg] ~= nil then
 							OIlvlInspectFrame:AddMessage(cfg.oilvlgears[nn][4][crg][1].." "..cfg.oilvlgears[nn][4][crg][2].."  ("..oenchantItem[crg][2]..")",cfg.oilvlgears[nn][4][crg][3]*cfg.oilvlgears[nn][4][crg][5],1,cfg.oilvlgears[nn][4][crg][4]*cfg.oilvlgears[nn][4][crg][6]);
@@ -4210,12 +4210,12 @@ function otooltip5func()
 			end
 		end)
 		otooltip5:SetCell(line, 2, cfg.oilvlgears[m][3])
-	end	
+	end
 	otooltip5:AddSeparator()
 	line = otooltip5:AddLine()
 	otooltip5:SetCell(line, 2, "|cffffffff"..HIDE)
-	otooltip5:SetCellScript(line, 2, "OnMouseUp", function() 
-		otooltip5:Hide() 
+	otooltip5:SetCellScript(line, 2, "OnMouseUp", function()
+		otooltip5:Hide()
 		if otooltip5 ~= nil then
 			LibQTip:Release(otooltip5)
 			otooltip5 = nil
@@ -4233,30 +4233,30 @@ local tierslots = {INVTYPE_HEAD,INVTYPE_SHOULDER,INVTYPE_CHEST,INVTYPE_HAND,INVT
 -- Antorus Set = 152112 to 152183
 local function checktierID(id) if id >= 152112 and id <= 152183 then return true else return false end end
 
-local function checkNtier(slot) 
+local function checkNtier(slot)
 	if slot then if 	(slot[1] == 930
 					or	slot[1] == 935
-					or	slot[1] == 940) 					
-	and checktierID(slot[8]) then return true else return false end end 
+					or	slot[1] == 940)
+	and checktierID(slot[8]) then return true else return false end end
 end
-local function checkHtier(slot) 
+local function checkHtier(slot)
 	if slot then if 	(slot[1] == 945
 					or	slot[1] == 950
 					or	slot[1] == 955)
-	and checktierID(slot[8]) then return true else return false end end 
+	and checktierID(slot[8]) then return true else return false end end
 end
-local function checkMtier(slot) 
+local function checkMtier(slot)
 	if slot then if 	(slot[1] == 960
 					or	slot[1] == 965
 					or	slot[1] == 970)
-	and checktierID(slot[8]) then return true else return false end end 
+	and checktierID(slot[8]) then return true else return false end end
 end
 
 local function otooltip6sort(method)
 	otooltip6sortMethod = method;
 	if method == "NAME" then
 			sort(oicomp, function(a,b) return a.name < b.name end);
-	elseif method == "NAME2" then			
+	elseif method == "NAME2" then
 			sort(oicomp, function(a,b) return a.name > b.name end);
 	elseif method == "ROLE" then
 			sort(oicomp, function(a,b) return a.role < b.role end);
@@ -4270,20 +4270,20 @@ local function otooltip6sort(method)
 					return true
 				elseif tonumber(a.ilvl) and not tonumber(b.ilvl) then
 					return false
-				else 
-					return a.ilvl < b.ilvl 
+				else
+					return a.ilvl < b.ilvl
 				end
 			end);
 	elseif method == "ILVL2" then
-			sort(oicomp, function(a,b) 
+			sort(oicomp, function(a,b)
 				if not tonumber(a.ilvl) and not tonumber(b.ilvl) then
 					return a.id > b.id
 				elseif not tonumber(a.ilvl) and tonumber(b.ilvl) then
 					return false
 				elseif tonumber(a.ilvl) and not tonumber(b.ilvl) then
 					return true
-				else 
-					return a.ilvl > b.ilvl 
+				else
+					return a.ilvl > b.ilvl
 				end
 			end);
 	elseif method == "ID" then
@@ -4302,7 +4302,7 @@ function otooltip6func()
 		otooltip6:Hide()
 		LibQTip:Release(otooltip6)
 		otooltip6 = nil
-	end	
+	end
 	--collectgarbage()
 	if LibQTip:IsAcquired("Oraidprog") or otooltip2 then
 		otooltip2:Clear()
@@ -4323,7 +4323,7 @@ function otooltip6func()
 	if not otooltip6sw then
 		otooltip6:SetAutoHideDelay(0.25,self,function()
 			if GetMouseFocus() ~= otooltip6 then
-				otooltip6:Hide() 
+				otooltip6:Hide()
 				if otooltip6 ~= nil then
 					LibQTip:Release(otooltip6)
 					otooltip6 = nil
@@ -4343,32 +4343,32 @@ function otooltip6func()
 	if otooltip6gearsw or otooltip6gearsw2 then
 		otooltip6:SetCell(line, 2, "O Item Level","CENTER",19)
 		otooltip6:SetCell(line, 21, "|cffffffff"..HIDE.." "..ITEMS)
-		otooltip6:SetCellScript(line,2, "OnMouseUp", function() 
+		otooltip6:SetCellScript(line,2, "OnMouseUp", function()
 			otooltip6gearsw=false
 			otooltip6gearsw2=false
 			for gsw = 1, 40 do	oilvlframedata.ilvl[gsw][2] = false	end
-			otooltip6func() 
+			otooltip6func()
 		end)
-		otooltip6:SetCellScript(line,21, "OnMouseUp", function() 
+		otooltip6:SetCellScript(line,21, "OnMouseUp", function()
 			otooltip6gearsw=false
 			otooltip6gearsw2=false
 			for gsw = 1, 40 do	oilvlframedata.ilvl[gsw][2] = false	end
-			otooltip6func() 
+			otooltip6func()
 		end)
 	else
 		otooltip6:SetCell(line, 2, "O Item Level","CENTER",3)
 		otooltip6:SetCell(line, 5, "|cffffffff"..SHOW.." "..ITEMS)
-		otooltip6:SetCellScript(line,2, "OnMouseUp", function() 
+		otooltip6:SetCellScript(line,2, "OnMouseUp", function()
 			otooltip6gearsw=true
 			otooltip6gearsw2=true
 			for gsw = 1, 40 do	oilvlframedata.ilvl[gsw][2] = true	end
-			otooltip6func() 
+			otooltip6func()
 		end)
-		otooltip6:SetCellScript(line,5, "OnMouseUp", function() 
+		otooltip6:SetCellScript(line,5, "OnMouseUp", function()
 			otooltip6gearsw=true
 			otooltip6gearsw2=true
 			for gsw = 1, 40 do	oilvlframedata.ilvl[gsw][2] = true	end
-			otooltip6func() 
+			otooltip6func()
 		end)
 	end
 	otooltip6:AddSeparator();
@@ -4376,33 +4376,33 @@ function otooltip6func()
 	otooltip6:SetCell(line, 1, "|cffffffffID")
 	otooltip6:SetCellScript(line, 1, "OnMouseUp", function()
 		if otooltip6sortMethod == "ID" then
-			otooltip6sortMethod = "ID2"; otooltip6func(); 
+			otooltip6sortMethod = "ID2"; otooltip6func();
 		else
-			otooltip6sortMethod = "ID"; otooltip6func(); 
+			otooltip6sortMethod = "ID"; otooltip6func();
 		end
 	end)
 	otooltip6:SetCell(line, 2, "|cffffffff"..NAME)
-	otooltip6:SetCellScript(line, 2, "OnMouseUp", function() 
+	otooltip6:SetCellScript(line, 2, "OnMouseUp", function()
 		if otooltip6sortMethod == "NAME" then
-			otooltip6sortMethod = "NAME2"; otooltip6func(); 
+			otooltip6sortMethod = "NAME2"; otooltip6func();
 		else
-			otooltip6sortMethod = "NAME"; otooltip6func(); 
+			otooltip6sortMethod = "NAME"; otooltip6func();
 		end
 	end)
 	otooltip6:SetCell(line, 3, "|cffffffff"..ROLE)
 	otooltip6:SetCellScript(line, 3, "OnMouseUp", function()
 		if otooltip6sortMethod == "ROLE" then
-			otooltip6sortMethod = "ROLE2"; otooltip6func(); 
+			otooltip6sortMethod = "ROLE2"; otooltip6func();
 		else
-			otooltip6sortMethod = "ROLE"; otooltip6func(); 
+			otooltip6sortMethod = "ROLE"; otooltip6func();
 		end
 	end)
 	otooltip6:SetCell(line, 4, "|cffffffff"..L["Item Level"])
 	otooltip6:SetCellScript(line, 4, "OnMouseUp", function()
 		if otooltip6sortMethod == "ILVL" then
-			otooltip6sortMethod = "ILVL2"; otooltip6func(); 
+			otooltip6sortMethod = "ILVL2"; otooltip6func();
 		else
-			otooltip6sortMethod = "ILVL"; otooltip6func(); 
+			otooltip6sortMethod = "ILVL"; otooltip6func();
 		end
 	end)
 	otooltip6:SetCell(line,5,"|cffffffff"..SCENARIO_BONUS_LABEL)
@@ -4415,7 +4415,7 @@ function otooltip6func()
 	otooltip6:AddSeparator()
 	wipe(oicomp)
 	oicomp = nil
-	oicomp = {};	
+	oicomp = {};
 	local compi = 0;
 	for m = 1, 40 do
 		if oilvlframedata.name[m] ~= ""  and oilvlframedata.name[m] and oilvlframedata.guid[m] ~= "" and oilvlframedata.guid[m] then
@@ -4428,9 +4428,9 @@ function otooltip6func()
 					elseif oilvlframedata.gear[n][slot][4] == 0 then eg = "|cFF00FFFF"  -- missing gem
 					elseif oilvlframedata.gear[n][slot][5] == 0 then eg = "|cFFFFFF00"  -- low level enchant
 					elseif oilvlframedata.gear[n][slot][6] == 0 then eg = "|cFFFFFF00" end -- low level gem
-					if tonumber(oilvlframedata.gear[n][slot][pp]) == 0 then 
+					if tonumber(oilvlframedata.gear[n][slot][pp]) == 0 then
 						return {oilvlframedata.gear[n][slot][1],oilvlframedata.gear[n][slot][2],eg,oilvlframedata.gear[n][slot][9]}
-					else 
+					else
 						return {oilvlframedata.gear[n][slot][pp],oilvlframedata.gear[n][slot][2],eg,oilvlframedata.gear[n][slot][9]}
 					end
 				else
@@ -4456,11 +4456,11 @@ function otooltip6func()
 		otooltip6:SetCellScript(line, 2, "OnMouseUp", function(f,info,button)
 			if button == "LeftButton" then	ORfbIlvl(oicomp[m].id,true) end
 			if button == "MiddleButton" then
-				if _G["Oilvlmark"..oicomp[m].id]:IsShown() then	
+				if _G["Oilvlmark"..oicomp[m].id]:IsShown() then
 					otooltip6:SetCellColor(f._line,1,0,0,0,0)
 					_G["Oilvlmark"..oicomp[m].id]:Hide()
 				else
-					otooltip6:SetCellColor(f._line,1,0,1,0,1) 
+					otooltip6:SetCellColor(f._line,1,0,1,0,1)
 					_G["Oilvlmark"..oicomp[m].id]:Show()
 				end
 			end
@@ -4483,8 +4483,8 @@ function otooltip6func()
 				local ounit;
 				if IsInRaid() then ounit = "raid"..oicomp[m].id
 				elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) or IsInGroup(LE_PARTY_CATEGORY_HOME) then
-					if oicomp[m].name:sub(11) == UnitName("player") then 
-						ounit = "player" 
+					if oicomp[m].name:sub(11) == UnitName("player") then
+						ounit = "player"
 						else
 						ounit = "party"..(oicomp[m].id-1)
 					end
@@ -4525,7 +4525,7 @@ function otooltip6func()
 					OilvlTooltip:SetHeight(GameTooltip:GetHeight()+15);
 					OilvlTooltip:AddLine(L["Raid Progression Details"]..":\n|cFF00FF00"..ERR_OUT_OF_RANGE);
 				end
-				OilvlTooltip:Show()					
+				OilvlTooltip:Show()
 				if CheckInteractDistance(ounit, 1) and UnitExists(ounit) and cfg.oilvlms then
 					Omover2=2;
 					ClearAchievementComparisonUnit();
@@ -4545,7 +4545,7 @@ function otooltip6func()
 		)
 		otooltip6:SetCell(line, 3, ORole2[oicomp[m].role],"CENTER")
 		local msg = _G["OILVLRAIDFRAME"..oicomp[m].id]:GetText():find("FFFF8000")
-		if msg and tonumber(oicomp[m].ilvl) then 
+		if msg and tonumber(oicomp[m].ilvl) then
 			otooltip6:SetCell(line, 4, "|cFFFF8000"..oicomp[m].ilvl)
 			if oilvlframedata.name[oicomp[m].id]:find("~") then otooltip6:SetCellColor(line,4,1,1,0,0.3) end
 			if oilvlframedata.name[oicomp[m].id]:find("!") then otooltip6:SetCellColor(line,4,0,1,1,0.3) end
@@ -4556,9 +4556,9 @@ function otooltip6func()
 				if oilvlframedata.name[oicomp[m].id]:find("!") then otooltip6:SetCellColor(line,4,0,1,1,0.3) end
 			end
 		end
-		
+
 		if tonumber(oicomp[m].ilvl) then
-			otooltip6:SetCellScript(line, 4, "OnMouseUp", function(f) 
+			otooltip6:SetCellScript(line, 4, "OnMouseUp", function(f)
 				if oicomp[m].sw then oicomp[m].sw = false else oicomp[m].sw = true end
 				oilvlframedata.ilvl[oicomp[m].id][2] = oicomp[m].sw
 				otooltip6gearsw2 = true
@@ -4572,8 +4572,8 @@ function otooltip6func()
 		otooltip6:SetCell(line, 5, oicomp[m].nset,"CENTER")
 		if (otooltip6gearsw or otooltip6gearsw2) and oicomp[m].sw then
 			for ot = 6,21 do
-				if tonumber(oicomp[m][ot6gear[ot-5]][1]) and tonumber(oilvlframedata.gear[oicomp[m].id][ot6gear[ot-5]][1]) and 
-					tonumber(oicomp[m].ilvl) then 
+				if tonumber(oicomp[m][ot6gear[ot-5]][1]) and tonumber(oilvlframedata.gear[oicomp[m].id][ot6gear[ot-5]][1]) and
+					tonumber(oicomp[m].ilvl) then
 					if checklegendary(oicomp[m][ot6gear[ot-5]][2]) then
 						otooltip6:SetCell(line,ot, "|cFFFF8000"..oicomp[m][ot6gear[ot-5]][1].." |cFF00FF00"..(oicomp[m][ot6gear[ot-5]][4] or ""))
 					else
@@ -4600,9 +4600,9 @@ function otooltip6func()
 						local additionalTooltipBackdrop = {bgFile="Interface/Buttons/WHITE8X8",edgeFile="Interface/Tooltips/UI-Tooltip-Border",tile=false,edgeSize=14,insets={left=0.5,right=0.5,top=0.5,bottom=0.5}}
 						OilvlInspectTooltip:SetBackdrop(additionalTooltipBackdrop)
 						OilvlInspectTooltip:SetBackdropColor(0,0,0,1)
-						OilvlInspectTooltip:SetBackdropBorderColor(1,1,1,1)	
-						
-						if oicomp[m][ot6gear[ot-5]][2] ~= "" and oilvlframedata.gear[oicomp[m].id][ot6gear[ot-5]] and oilvlframedata.spec[oicomp[m].id] ~= "" then 
+						OilvlInspectTooltip:SetBackdropBorderColor(1,1,1,1)
+
+						if oicomp[m][ot6gear[ot-5]][2] ~= "" and oilvlframedata.gear[oicomp[m].id][ot6gear[ot-5]] and oilvlframedata.spec[oicomp[m].id] ~= "" then
 							OilvlInspectTooltip:SetHyperlink(
 								oilvlframedata.gear[oicomp[m].id][ot6gear[ot-5]][2],
 								CheckClass(oilvlframedata.spec[oicomp[m].id]),
@@ -4611,14 +4611,14 @@ function otooltip6func()
 
 							-- check tier
 							do
-								local j,sn,ns; 
+								local j,sn,ns;
 								-- j=line number for tier set (n/n)
 								-- sn = name of tier set
 								-- ns = total number of gears in the tier set
 								for i = 1, OilvlInspectTooltip:NumLines() do
 									j = i;
 									sn,ns = _G["OilvlInspectTooltipTextLeft"..i]:GetText():match("(.+) %(%d+/(%d+)")
-									if ns then 
+									if ns then
 										ns = tonumber(ns)
 										break
 									end
@@ -4651,7 +4651,7 @@ function otooltip6func()
 									end
 									_G["OilvlInspectTooltipTextLeft"..j]:SetText(sn.." ("..tn.."/"..ns..")")
 									_G["OilvlInspectTooltipTextLeft"..j]:SetTextColor(1,210/255,0,1)
-									for i = j+1, j+ns do 
+									for i = j+1, j+ns do
 										if tieravail[i-j] then
 											_G["OilvlInspectTooltipTextLeft"..i]:SetTextColor(1,1,151/255,1)
 										else
@@ -4663,23 +4663,23 @@ function otooltip6func()
 									end
 									if tn >= 4 then
 										_G["OilvlInspectTooltipTextLeft"..j+ns+3]:SetTextColor(0,1,0,1)
-									end									
+									end
 								end
 							end
-							
-						end	
+
+						end
 						OilvlInspectTooltip:Show()
 					end)
 					otooltip6:SetCellScript(line, ot, "OnLeave", function(f) OilvlInspectTooltip:Hide() end)
 				end
 			end
-		end	
+		end
 	end
 	otooltip6:AddSeparator()
 	-- average item level for tank, healer and dps
 	if IsInRaid() or IsInGroup(LE_PARTY_CATEGORY_INSTANCE) or IsInGroup(LE_PARTY_CATEGORY_HOME) then
 		line = otooltip6:AddLine()
-		otooltip6:SetCell(line, 1, "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:32:48:0:16:255:255:255|t","CENTER",2)	
+		otooltip6:SetCell(line, 1, "|TInterface\\LFGFrame\\LFGRole:0:0:0:0:64:16:32:48:0:16:255:255:255|t","CENTER",2)
 		otooltip6:SetCell(line, 3, NumRole["TANK"])
 		otooltip6:SetCell(line, 4, ailtank)
 		line = otooltip6:AddLine()
@@ -4840,7 +4840,7 @@ function otooltip7func()
 			if GetMouseButtonClicked() == "LeftButton" then
 				local nn = self._line - 3;
 				if cfg.oilvlcache[nn] and cfg.oilvlcache[nn].oname and cfg.oilvlcache[nn].orealm then
-					OIlvlInspectFrame:Clear();					
+					OIlvlInspectFrame:Clear();
 					for crg = 17,1,-1 do
 						if cfg.oilvlcache[nn].ogear[crg] ~= nil then
 							if pvpsw then
@@ -4884,36 +4884,36 @@ function otooltip7func()
 		otooltip7:SetCell(line, 4, cfg.oilvlcache[m].oclass)
 		cfg.oilvlcache[m].oilvl = OTgathertilPvPCache(m)
 		otooltip7:SetCell(line, 5, cfg.oilvlcache[m].oilvl)
-	end	
+	end
 	otooltip7:AddSeparator()
 	line = otooltip7:AddLine()
 	-- DISABLE
 	if cfg.oilvlcachesw then
 		otooltip7:SetCell(line, 3, "|cffffffff"..DISABLE)
-		otooltip7:SetCellScript(line, 3, "OnMouseUp", function() 
+		otooltip7:SetCellScript(line, 3, "OnMouseUp", function()
 			cfg.oilvlcachesw = false
-			cfg.oilvlcache = {} 
+			cfg.oilvlcache = {}
 			otooltip7func()
 		end)
 	else
 		otooltip7:SetCell(line, 3, "|cffffffff"..ENABLE)
-		otooltip7:SetCellScript(line, 3, "OnMouseUp", function() 
+		otooltip7:SetCellScript(line, 3, "OnMouseUp", function()
 			cfg.oilvlcachesw = true
-			cfg.oilvlcache = {} 
+			cfg.oilvlcache = {}
 			otooltip7func()
 		end)
 	end
-	
+
 	-- CLEAR_ALL
 	otooltip7:SetCell(line, 4, "|cffffffff"..CLEAR_ALL)
-	otooltip7:SetCellScript(line, 4, "OnMouseUp", function() 
-		cfg.oilvlcache = {} 
+	otooltip7:SetCellScript(line, 4, "OnMouseUp", function()
+		cfg.oilvlcache = {}
 		otooltip7func()
 	end)
 	-- HIDE
 	otooltip7:SetCell(line, 5, "|cffffffff"..HIDE)
-	otooltip7:SetCellScript(line, 5, "OnMouseUp", function() 
-		otooltip7:Hide() 
+	otooltip7:SetCellScript(line, 5, "OnMouseUp", function()
+		otooltip7:Hide()
 		if otooltip7 ~= nil then
 			LibQTip:Release(otooltip7)
 			otooltip7 = nil
@@ -4922,13 +4922,13 @@ function otooltip7func()
 	otooltip7:AddSeparator();
 	otooltip7:UpdateScrolling(400);
 	if otooltip7exit == nil then
-		oilvlminbutton(otooltip7, "otooltip7exit", function() 
+		oilvlminbutton(otooltip7, "otooltip7exit", function()
 			otooltip7:Hide()
 			otooltip7exit:Hide();
 			if otooltip7 ~= nil then
 				LibQTip:Release(otooltip7)
 				otooltip7 = nil
-			end	
+			end
 		end, 10,10)
 	else
 		otooltip7exit:SetParent(otooltip7)
@@ -4939,13 +4939,13 @@ function otooltip7func()
 end
 
 local enchantID = {
-	[5434]=true,[5435]=true,[5436]=true, -- cloak
-	[5889]=true,[5890]=true,[5891]=true,[5437]=true,[5438]=true,[5439]=true, -- neck
-	[5427]=true,[5428]=true,[5429]=true,[5430]=true -- ring
+
+	[5942]=true,[5943]=true,[5944]=true,[5945]=true, -- ring
+	[5946]=true,[5948]=true,[5949]=true,[5950]=true,[5965]=true,[5964]=true,[5963]=true,[5966]=true,[5962]=true -- weapon
 }
 
 local gemTexture = {
-	[1686572]=true,[1686573]=true,[1686574]=true, [1686575]=true, [1379221]=true
+	[1990986]=true,[1990989]=true,[1990987]=true, [1990984]=true, [1995542]=true
 }
 
 local OgemFrame = CreateFrame('GameTooltip', 'OSocketTooltip', nil, 'GameTooltipTemplate');
@@ -4955,11 +4955,11 @@ function OItemAnalysis_CountEmptySockets(unitid, slot, itemLink)
 	local count = 0; -- missing gem
 	local count2 = 0; -- low lever gem
 	local temp = OILVLTooltipTexture1:GetTexture();
-	if temp and temp == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then 
+	if temp and temp == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then
 		count = count + 1;
 	end
 	local _, gemlink = GetItemGem(itemLink,1)
-	if temp and gemlink and slot ~= 16 and slot ~= 17 and not gemTexture[temp] then count2 = count2 + 1 end 
+	if temp and gemlink and slot ~= 16 and slot ~= 17 and not gemTexture[temp] then count2 = count2 + 1 end
 	return count, count2;
 end
 
@@ -4968,23 +4968,23 @@ function OItemAnalysis_CountEmptySockets2(unitid, slot)
 	OgemFrame:SetOwner(UIParent, 'ANCHOR_NONE');
 	OgemFrame:ClearLines();
 	OgemFrame:SetInventoryItem(unitid, slot)
-	
+
 	local temp = OSocketTooltipTexture1:GetTexture();
-	if temp and temp == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then 
+	if temp and temp == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then
 		count = count + 1;
-	end 
+	end
 	return count
 end
 
 function OItemAnalysisLowGem(unitid, slot)
 	local count2 = 0; -- low lever gem
-	
+
 	OgemFrame:SetOwner(UIParent, 'ANCHOR_NONE');
 	OgemFrame:ClearLines();
 	OgemFrame:SetInventoryItem(unitid, slot)
-	
+
 	local temp = OSocketTooltipTexture1:GetTexture();
-	if temp and not gemTexture[temp] then count2 = count2 + 1 end 
+	if temp and not gemTexture[temp] then count2 = count2 + 1 end
 	return count2;
 end
 
@@ -5014,15 +5014,15 @@ function OGetArtifactRelicPlus5(itemLink)
 		end
 		if restLink then
 			restLink = restLink:gsub("|h.-$","")
-		
+
 			if upgradeType and (tonumber(upgradeType) or 0) < 1000 then
 				local _,newRestLink = strsplit(":",restLink,2)
 				restLink = newRestLink
 			else
 				local _,_,newRestLink = strsplit(":",restLink,3)
-				restLink = newRestLink							
+				restLink = newRestLink
 			end
-			
+
 			for relic=1,3 do
 				if not restLink then
 					break
@@ -5030,11 +5030,11 @@ function OGetArtifactRelicPlus5(itemLink)
 				local numBonusRelic,newRestLink = strsplit(":",restLink,2)
 				numBonusRelic = tonumber(numBonusRelic or "?") or 0
 				restLink = newRestLink
-				
+
 				if numBonusRelic > 10 then	--Got Error in parsing here
 					break
 				end
-				
+
 				local relicBonus = numBonusRelic
 				for j=1,numBonusRelic do
 					if not restLink then
@@ -5042,9 +5042,9 @@ function OGetArtifactRelicPlus5(itemLink)
 					end
 					local bonusID,newRestLink = strsplit(":",restLink,2)
 					restLink = newRestLink
-					relicBonus = relicBonus .. ":" .. bonusID					
+					relicBonus = relicBonus .. ":" .. bonusID
 				end
-				
+
 				local relicItemID = select(3+relic, strsplit(":",itemLink) )
 				if relicItemID and relicItemID ~= "" then
 					relics[relic] = "item:"..relicItemID.."::::::::110:0::0:"..relicBonus..":::"
@@ -5068,7 +5068,7 @@ function OTgathertil(guid, unitid)
 	local missHenchant = "";
 	local missHgem = "";
 	local _,_,_,_,_,armorname,_ = GetItemInfo(124262)
-	if OTCurrent3 ~= "" then 
+	if OTCurrent3 ~= "" then
 		oilvlframedata.gear[OTCurrent3] = {};
 	end
 	local cgear = {}
@@ -5080,16 +5080,16 @@ function OTgathertil(guid, unitid)
 		local xupgrade = nil
 		local xname = nil
 		if(i ~= 4) then
-			OILVLFrame:SetInventoryItem(unitid, i, nil, true)			
+			OILVLFrame:SetInventoryItem(unitid, i, nil, true)
 			local _,item = OILVLFrame:GetItem()
 
 			if item and (i == 16 or i == 17) and item:find("item::") then
 				item = GetInventoryItemLink(unitid, i)
 			end
-			
+
 			if(item) then
 				_,_,_,itemLevel,_,itemClass,_,_,equipType = GetItemInfo(item)
-				
+
 				if(itemLevel) then
 					count = count + 1
 					if(i == 16) then
@@ -5101,22 +5101,22 @@ function OTgathertil(guid, unitid)
 					-- check miss enchant
 					item = item:gsub("::",":0:"):gsub("::",":0:")
 					local itemID,enchant,_,_,_,_,_ = item:match("%a+:(%d+):(%d+):(%d+):(%d+):(%d+):(%d+)");
-					
+
 					local ogme=1; -- save for gear missing enchant
 					if oenchantItem[i][1] == 1 and enchant == "0" then
 						if i ~= 17 then
 							if missenchant == "" then
-								missenchant = missenchant..oenchantItem[i][2]; 
+								missenchant = missenchant..oenchantItem[i][2];
 							else
-								missenchant = missenchant..", "..oenchantItem[i][2]; 
+								missenchant = missenchant..", "..oenchantItem[i][2];
 							end
 							ogme = 0;
 						else
 							if i == 17 and itemClass ~= armorname and  twoHander ~= 1 then
 								if missenchant == "" then
-									missenchant = missenchant..oenchantItem[i][2]; 
+									missenchant = missenchant..oenchantItem[i][2];
 								else
-									missenchant = missenchant..", "..oenchantItem[i][2]; 
+									missenchant = missenchant..", "..oenchantItem[i][2];
 								end
 								ogme = 0;
 							end
@@ -5127,31 +5127,31 @@ function OTgathertil(guid, unitid)
 					if oenchantItem[i][1] == 1 and enchant ~= "0" and not enchantID[tonumber(enchant)] then
 						if i ~= 17 then
 							if missHenchant == "" then
-								missHenchant = missHenchant..oenchantItem[i][2]; 
+								missHenchant = missHenchant..oenchantItem[i][2];
 							else
-								missHenchant = missHenchant..", "..oenchantItem[i][2]; 
+								missHenchant = missHenchant..", "..oenchantItem[i][2];
 							end
 							ogmHe = 0;
 						else
 							if i == 17 and itemClass ~= armorname and  twoHander ~= 1 and enchant ~= "0" and not enchantID[tonumber(enchant)] then
 								if missHenchant == "" then
-									missHenchant = missHenchant..oenchantItem[i][2]; 
+									missHenchant = missHenchant..oenchantItem[i][2];
 								else
-									missHenchant = missHenchant..", "..oenchantItem[i][2]; 
+									missHenchant = missHenchant..", "..oenchantItem[i][2];
 								end
 								ogmHe = 0;
 							end
 						end
 					end
-					
+
 					-- check missing gems
 					local ogmg=1; -- save for gear missing gem
 					local socketstatus, lowgem = OItemAnalysis_CountEmptySockets(unitid,i,item)
 					if socketstatus ~= 0 then
 						if missgem == "" then
-							missgem = missgem..oenchantItem[i][2]; 
+							missgem = missgem..oenchantItem[i][2];
 						else
-							missgem = missgem..", "..oenchantItem[i][2]; 
+							missgem = missgem..", "..oenchantItem[i][2];
 						end
 						ogmg = 0;
 					end
@@ -5159,29 +5159,29 @@ function OTgathertil(guid, unitid)
 					local ogmHg=1; -- save for gear missing gem
 					if socketstatus == 0 and lowgem ~= 0 then
 						if missHgem == "" then
-							missHgem = missHgem..oenchantItem[i][2]; 
+							missHgem = missHgem..oenchantItem[i][2];
 						else
-							missHgem = missHgem..", "..oenchantItem[i][2]; 
+							missHgem = missHgem..", "..oenchantItem[i][2];
 						end
 						ogmHg = 0;
 					end
-					
+
 					-- check item level
 					if OItemAnalysis_CheckILVLGear(unitid,i) ~= 0 then
-						itemLevel, xupgrade = OItemAnalysis_CheckILVLGear(unitid,i)						
-					end	
-					
-					-- temp fix for ilvl in nether crucible
-					if (i == 16 or i == 17) and UnitName("player") ~= UnitName(unitid) then
-						local _,itemID,enchant,gem1,gem2,gem3,gem4,suffixID,uniqueID,level,specializationID,upgradeType,instanceDifficultyID,numBonusIDs,restLink = strsplit(":",item,15)
-						local gemactive = 0
-						if (gem1 and gem1 ~= "") then gemactive = gemactive + 1 end
-						if (gem2 and gem2 ~= "") then gemactive = gemactive + 1 end
-						if (gem3 and gem3 ~= "") then gemactive = gemactive + 1 end
-						itemLevel = itemLevel + gemactive*5
+						itemLevel, xupgrade = OItemAnalysis_CheckILVLGear(unitid,i)
 					end
+
+					-- temp fix for ilvl in nether crucible
+					--if (i == 16 or i == 17) and UnitName("player") ~= UnitName(unitid) then
+						--local _,itemID,enchant,gem1,gem2,gem3,gem4,suffixID,uniqueID,level,specializationID,upgradeType,instanceDifficultyID,numBonusIDs,restLink = strsplit(":",item,15)
+						--local gemactive = 0
+						--if (gem1 and gem1 ~= "") then gemactive = gemactive + 1 end
+						--if (gem2 and gem2 ~= "") then gemactive = gemactive + 1 end
+						--if (gem3 and gem3 ~= "") then gemactive = gemactive + 1 end
+						--itemLevel = itemLevel + gemactive*5
+					--end
 					--------------------------------------------------------------
-					
+
 					if cgear[16] and cgear[16][1] and i == 17 and OTCheckartifactwep(tonumber(itemID)) then
 						if cgear[16][1] > itemLevel then
 							itemLevel, xupgrade = cgear[16][1], cgear[16][9]
@@ -5198,7 +5198,7 @@ function OTgathertil(guid, unitid)
 						end
 					end
 					--[[if OTCheckartifactwep(tonumber(itemID)) then
-						for aw = 1, 3 do 
+						for aw = 1, 3 do
 							local reliclink = select(2,GetItemGem(item,aw))
 							if reliclink then
 								relic[aw] = {reliclink, OItemAnalysis_CheckILVLRelic(reliclink), tonumber(C_ArtifactUI.GetItemLevelIncreaseProvidedByRelic(reliclink))}
@@ -5216,10 +5216,10 @@ function OTgathertil(guid, unitid)
 					end
 					if itemLevel == nil then itemLevel = "" end
 					if item == nil then item = "" end
-					
+
 					-- check legendary
 					if OTCheckLegendary(tonumber(itemID)) then legendary = legendary + 1 end
-					
+
 					if OTCurrent3 ~= "" then
 						oilvlframedata.gear[OTCurrent3][i] = {itemLevel, item, ogme, ogmg, ogmHe, ogmHg, OItemAnalysis_CheckPvPGear(unitid,i),tonumber(itemID),xupgrade}
 					end
@@ -5229,12 +5229,12 @@ function OTgathertil(guid, unitid)
 		end
 	end
 	if count < 15 and twoHander then
-		mia = 15-count;	
+		mia = 15-count;
 	end
 	if count < 16 and not twoHander then
 		mia = 16-count;
 	end
-	
+
 	if totalIlvl > 0 and count > 0 then
 		if cgear[16] and cgear[16][1] and not cgear[17] then
 			avgIlvl = round((totalIlvl+cgear[16][1]) / 16, cfg.oilvldp)
@@ -5301,7 +5301,7 @@ function OTgathertil(guid, unitid)
 		oilvlframedata.ilvl[OTCurrent3] = {avgIlvl,otooltip6gearsw,count,legendary};
 		oilvlframedata.me[OTCurrent3] = {missenchant,missHenchant};
 		oilvlframedata.mg[OTCurrent3] = {missgem,missHgem};
-		oilvlframedata.spec[OTCurrent3] = GetInspectSpecialization(unitid);	
+		oilvlframedata.spec[OTCurrent3] = GetInspectSpecialization(unitid);
 	end
 	return avgIlvl, mia, missenchant, missgem, missHenchant, missHgem, count, legendary, GetInspectSpecialization(unitid);
 end
@@ -5357,7 +5357,7 @@ function OTgathertilPvPCache(r)
 end
 
 function oilvlUpdateLDBTooltip()
-	if otooltip6 ~= nil then 
+	if otooltip6 ~= nil then
 		if otooltip6:IsShown() then
 			if LibQTip:IsAcquired("OiLvLDB") then otooltip6:Clear() end
 			otooltip6:Hide()
@@ -5365,7 +5365,7 @@ function oilvlUpdateLDBTooltip()
 			otooltip6 = nil
 			otooltip6func();
 		end
-	end						
+	end
 end
 
 function oilvlSetABCD(i)
@@ -5422,7 +5422,7 @@ function oilvlSaveItemLevel(n)
 			OTCurrent = "";
 			OTCurrent2 = "";
 			OTCurrent3 = "";
-			OILVL_Unit="";	
+			OILVL_Unit="";
 		else
 			if OTmia < 3 and OTmia > 0 then
 				miacount = miacount + 1
@@ -5460,14 +5460,14 @@ function events:INSPECT_READY(guid)
 	end
 	--print(guid,GetTime() - LastInspectTime)
 	LastInspectTime = GetTime()
-	-- GameTooltip		
+	-- GameTooltip
 	if (Omover ==1) and cfg.oilvlms then
 		Omover=0;
 		if not UnitAffectingCombat("player")  and cfg.oilvlms and UnitExists("target") and CheckInteractDistance("target", 1) then
 			local oname, _ = GameTooltip:GetUnit();
 			if oname ~= nil then oname = oname:gsub("%-.+", ""); else return -1; end
 			if oname ~= GetUnitName("target",""):gsub("%-.+", "") then return -1; end
-			local OTilvl2, OTmia2, missenchant, missgem = OTgathertil(UnitGUID("target"),"target")				
+			local OTilvl2, OTmia2, missenchant, missgem = OTgathertil(UnitGUID("target"),"target")
 			if (OTmia2 == 0) then
 				local i=0;
 				local omatch=false;
@@ -5484,10 +5484,10 @@ function events:INSPECT_READY(guid)
 							omatch=true;
 							break;
 						end
-					end	
+					end
 					if not omatch then
 						GameTooltip:SetHeight(GameTooltip:GetHeight()+15);
-						GameTooltip:AddLine(SPECIALIZATION..": |r|cFF00FF00"..oospec);	
+						GameTooltip:AddLine(SPECIALIZATION..": |r|cFF00FF00"..oospec);
 					end
 					-- item level
 					omatch=false;
@@ -5501,10 +5501,10 @@ function events:INSPECT_READY(guid)
 							omatch=true;
 							break;
 						end
-					end	
+					end
 					if not omatch then
 						GameTooltip:SetHeight(GameTooltip:GetHeight()+15);
-						GameTooltip:AddLine(L["Item Level"]..": |r|cFF00FF00"..OTilvl2);	
+						GameTooltip:AddLine(L["Item Level"]..": |r|cFF00FF00"..OTilvl2);
 					end
 				end
 			else
@@ -5522,27 +5522,27 @@ function events:INSPECT_READY(guid)
 						omatch=true;
 						break;
 					end
-				end	
+				end
 				if not omatch and oospec ~= nil then
 					GameTooltip:SetHeight(GameTooltip:GetHeight()+15);
-					GameTooltip:AddLine(L["Item Level"]..":".."|r|cFF00FF00"..oospec);	
+					GameTooltip:AddLine(L["Item Level"]..":".."|r|cFF00FF00"..oospec);
 				end
 				-- item level
-				omatch=false;						
+				omatch=false;
 				for i = 2, GameTooltip:NumLines() do
 					local msg = _G["GameTooltipTextLeft"..i]:GetText();
 					if msg then
 						msg = msg:find(L["Item Level"]..":");
-					end						
+					end
 					if msg and OTilvl2 then
 						_G["GameTooltipTextLeft"..i]:SetText(L["Item Level"]..": |r|cFFFF0000"..OTilvl2);
 						omatch=true;
 						break;
 					end
-				end	
+				end
 				if not omatch and OTilvl2 then
 					GameTooltip:SetHeight(GameTooltip:GetHeight()+15);
-					GameTooltip:AddLine(L["Item Level"]..": |r|cFFFF0000"..OTilvl2);	
+					GameTooltip:AddLine(L["Item Level"]..": |r|cFFFF0000"..OTilvl2);
 				end
 				Oilvltimer:ScheduleTimer(OMouseover,1);
 			end
@@ -5609,7 +5609,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 				InspectAchievements("target")
 				--C_Timer.After(2, function() print(AchievementFrameComparisonHeaderPoints:GetText()) end)
 			end
-		end	
+		end
 	end)
 	OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY")
 end
@@ -5640,14 +5640,14 @@ end
 
 function events:PLAYER_SPECIALIZATION_CHANGED(...)
 	if not UnitAffectingCombat("player")  then
-		C_Timer.After(0.8,function() 
+		C_Timer.After(0.8,function()
 			if IsInRaid() then
 				for i=1,40 do
 					if GetRaidRosterInfo(i) == UnitName("player") then
 						oilvlSetABCD(i)
 						break
 					end
-				end	
+				end
 			else
 				oilvlSetABCD(1)
 			end
@@ -5692,9 +5692,9 @@ function events:PLAYER_LOGIN(...)
 	oilvlframe();
 	OVILRefresh();
 	print("O Item Level (|cFFFFFF00OiLvL|r|cFFFFFFFF) |r|cFF00FF00v"..GetAddOnMetadata("Oilvl","Version").." |r|cFFFFFFFF is loaded.")
-	if minimapicon then 
-		minimapicon:Register("O Item Level",LDB, cfg) 
-		if cfg.oilvlminimapicon then 
+	if minimapicon then
+		minimapicon:Register("O Item Level",LDB, cfg)
+		if cfg.oilvlminimapicon then
 			C_Timer.After(1, function() minimapicon:Show("O Item Level") end)
 		else
 			C_Timer.After(1, function() minimapicon:Hide("O Item Level") end)
@@ -5703,7 +5703,7 @@ function events:PLAYER_LOGIN(...)
 	if cfg.oilvlaltclickroll then
 		if not lootslotSW then C_Timer.After(5,function() oilvlaltc() end); end
 		if not oilvlOnHyperlinkClickSW then C_Timer.After(5,function() oilvlOnHyperlinkClick() end); end
-	end	
+	end
 	oilvlSetOSTATTEN()
 	oilvlSetOSTATTN()
 	oilvlSetOSTATTOV()
@@ -5732,15 +5732,15 @@ function events:PLAYER_LOGIN(...)
 		hooksecurefunc("LoadAddOn",unregisterBlizz)
 	end
 	------------------------------------------------------------------
-	GameTooltip:HookScript("OnTooltipSetUnit", function() 
+	GameTooltip:HookScript("OnTooltipSetUnit", function()
 		if not UnitAffectingCombat("player")  and cfg.oilvlms and UnitExists("target") and not IsInRaid() and not IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and not IsInGroup(LE_PARTY_CATEGORY_HOME) then
 			local oname, _ = GameTooltip:GetUnit()
 			if oname ~= nil then oname = oname:gsub("%-.+", ""); else return -1; end
 			if  oname == GetUnitName("target",""):gsub("%-.+", "") then
 				OMouseover();
 			end
-		end 
-	end); 	
+		end
+	end);
 end
 
 function events:PLAYER_ENTERING_WORLD(...)
@@ -5797,7 +5797,7 @@ function events:PLAYER_REGEN_DISABLED(...)
 	orollgear = ""
 	oilvlUpdateLDBTooltip()
 	otooltip6sw = false
-	
+
 	OILVL_Unit="";
 	OTCurrent = "";
 	OTCurrent2 = "";
@@ -5822,12 +5822,12 @@ function events:PLAYER_REGEN_ENABLED(...)
 	Omover2 = 0;
 	orollgear = ""
 	oilvlUpdateLDBTooltip()
-	
+
 	OILVL_Unit="";
 	OTCurrent = "";
 	OTCurrent2 = "";
 	OTCurrent3 = "";
-end	
+end
 
 function events:ROLE_CHANGED_INFORM(...)
 	if oilvlframesw then OilvlCheckFrame() end
@@ -5868,7 +5868,7 @@ function events:ROLE_CHANGED_INFORM(...)
 					if oldrole ~= "NONE" then NumRole[oldrole] = NumRole[oldrole] - 1; end
 				end
 			end
-		end	
+		end
 	end
 	OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 	--ClearAchievementComparisonUnit();
@@ -5904,7 +5904,7 @@ for k, v in pairs(events) do
  OILVL:RegisterEvent(k); -- Register all events for which handlers have been defined
 end
 
--- Set GameTooltip	
+-- Set GameTooltip
 function OMouseover()
 	if InspectFrame and (InspectFrame.unit or InspectFrame:IsShown()) then return -1 end
 	if not UnitExists("target") or not CheckInteractDistance("target", 1) then
@@ -5952,11 +5952,11 @@ function OilvlRaidMenu()
 	if not ORaidDropDownMenu then
 	   CreateFrame("frame", "ORaidDropDownMenu", cfg.frame, "L_UIDropDownMenuTemplate")
 	end
-	 
+
 	ORaidDropDownMenu:ClearAllPoints()
 	ORaidDropDownMenu:SetPoint("TOPLEFT", cfg.frame, "TOPLEFT", 16+25, -230)
 	ORaidDropDownMenu:Show()
-	 
+
 	local items = {
 		ABTname,
 		TOSname,
@@ -5964,24 +5964,24 @@ function OilvlRaidMenu()
 		TOVname,
 		TENname,
 	}
-	 
+
 	local function OnClick(self)
 		L_UIDropDownMenu_SetSelectedID(ORaidDropDownMenu, self:GetID())
 		cfg.raidmenuid = self:GetID()
 	end
-	 
+
 	local function initialize(self, level)
 	   local info = L_UIDropDownMenu_CreateInfo()
-	   
+
 	   for k,v in pairs(items) do
 		  info = L_UIDropDownMenu_CreateInfo()
 		  info.text = v
-		  info.value = v  
+		  info.value = v
 		  info.func = OnClick
 		  L_UIDropDownMenu_AddButton(info)
 	   end
 	end
-	
+
 	L_UIDropDownMenu_SetWidth(ORaidDropDownMenu, 150);
 	L_UIDropDownMenu_Initialize(ORaidDropDownMenu, initialize)
 	L_UIDropDownMenu_SetButtonWidth(ORaidDropDownMenu, 124)
@@ -5997,14 +5997,14 @@ function OilvlConfigFrame()
 	local title = cfg.frame:CreateFontString(nil,"ARTWORK","GameFontNormalLarge")
 	title:SetPoint("TOPLEFT",16,-16)
 	title:SetText("O Item Level (OiLvL) v"..GetAddOnMetadata("Oilvl","Version")) -- can get version from GetAddOnMetadata
-	
+
 --  oilvl scale
 	local oscale = CreateFrame("Slider", "Oilvlscale", cfg.frame, "OptionsSliderTemplate")
 	oscale:SetWidth(200)
 	oscale:SetHeight(20)
 	oscale:SetOrientation('HORIZONTAL');
 	oscale:SetPoint("TOPLEFT",16,-70);
-	
+
 	local scaletitle = oscale:CreateFontString(nil,"ARTWORK","GameFontNormal")
 	scaletitle:SetPoint("LEFT",oscale,"LEFT",0,35)
 	scaletitle:SetText("O Item Level Frame");
@@ -6012,50 +6012,50 @@ function OilvlConfigFrame()
 	getglobal(oscale:GetName() .. 'Low'):SetText('1'); --Sets the left-side slider text (default is "Low").
 	getglobal(oscale:GetName() .. 'High'):SetText('100'); --Sets the right-side slider text (default is "High").
 	getglobal(oscale:GetName() .. 'Text'):SetText(L["Scale"]); --Sets the "title" text (top-centre of slider).
-	
+
 	oscale:SetMinMaxValues(0, 2);
 	oscale:SetValue(cfg.oilvlscale);
 	oscale:RegisterForDrag("LeftButton");
-	oscale:SetScript("OnDragStop", function(self, button) 
-	local n=oscale:GetValue(); 
-		if n > 0 then 
-			OIVLFRAME:SetScale(n) 
+	oscale:SetScript("OnDragStop", function(self, button)
+	local n=oscale:GetValue();
+		if n > 0 then
+			OIVLFRAME:SetScale(n)
 			cfg.oilvlscale = n;
 		end
 	end);
-	oscale:SetScript("OnMouseDown", function(self, button) 
-	local n=oscale:GetValue(); 
-		if n > 0 then 
-			OIVLFRAME:SetScale(n) 
+	oscale:SetScript("OnMouseDown", function(self, button)
+	local n=oscale:GetValue();
+		if n > 0 then
+			OIVLFRAME:SetScale(n)
 			cfg.oilvlscale = n;
 		end
 	end);
-	
+
 --  oilvl opacity
 	local oalpha = CreateFrame("Slider", "Oilvlalpha", cfg.frame, "OptionsSliderTemplate")
 	oalpha:SetWidth(200)
 	oalpha:SetHeight(20)
 	oalpha:SetOrientation('HORIZONTAL');
 	oalpha:SetPoint("TOPLEFT",16,-120);
-	
+
 	getglobal(oalpha:GetName() .. 'Low'):SetText('0'); --Sets the left-side slider text (default is "Low").
 	getglobal(oalpha:GetName() .. 'High'):SetText('1'); --Sets the right-side slider text (default is "High").
 	getglobal(oalpha:GetName() .. 'Text'):SetText(OPACITY); --Sets the "title" text (top-centre of slider).
-	
+
 	oalpha:SetMinMaxValues(0, 1);
 	oalpha:SetValue(cfg.oilvlalpha);
-	oalpha:RegisterForDrag("LeftButton");	
-	oalpha:SetScript("OnMouseDown", function(self, button) 
-	local n=oalpha:GetValue(); 
-		OIVLFRAME:SetAlpha(n) 
+	oalpha:RegisterForDrag("LeftButton");
+	oalpha:SetScript("OnMouseDown", function(self, button)
+	local n=oalpha:GetValue();
+		OIVLFRAME:SetAlpha(n)
 		cfg.oilvlalpha = n;
 	end);
-	oalpha:SetScript("OnDragStop", function(self) 
-	local n=oalpha:GetValue(); 
-		OIVLFRAME:SetAlpha(n) 
+	oalpha:SetScript("OnDragStop", function(self)
+	local n=oalpha:GetValue();
+		OIVLFRAME:SetAlpha(n)
 		cfg.oilvlalpha = n;
 	end);
-	
+
 	-- Raid Progression Checkbutton
 	function createCheckbutton(parent, x_loc, y_loc, varname, displayname)
 		local checkbutton = CreateFrame("CheckButton", varname, parent, "ChatConfigCheckButtonTemplate");
@@ -6068,8 +6068,8 @@ function OilvlConfigFrame()
 	-- Tooltips option
 	local mscb = createCheckbutton(cfg.frame, 16, -170, "oilvlsilvl"," "..L["Enable Showing item level / raid progression on tooltips"]);
 	mscb:SetSize(30,30);
-	mscb:SetScript("PostClick", function() 
-		cfg.oilvlms = oilvlsilvl:GetChecked() 
+	mscb:SetScript("PostClick", function()
+		cfg.oilvlms = oilvlsilvl:GetChecked()
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
@@ -6083,29 +6083,29 @@ function OilvlConfigFrame()
 		end
 	end);
 	if cfg.oilvlms then mscb:SetChecked(true) end
-	
-	-- Raid Progression Details 
+
+	-- Raid Progression Details
 	local rpdcb = createCheckbutton(cfg.frame, 16+25, -200, "oilvlsrpd", " "..L["Enable Showing Raid Progression Details on tooltips"]);
 	rpdcb:SetSize(30,30);
-	rpdcb:SetScript("PostClick", function() 
-		cfg.oilvlrpdetails = oilvlsrpd:GetChecked() 
+	rpdcb:SetScript("PostClick", function()
+		cfg.oilvlrpdetails = oilvlsrpd:GetChecked()
 		OILVL:UnregisterEvent("INSPECT_ACHIEVEMENT_READY");
 		--ClearAchievementComparisonUnit();
 		rpsw=false;
 		rpunit="";
 		Omover=0
-		Omover2 = 0;	
+		Omover2 = 0;
 	end);
 	if cfg.oilvlrpdetails then rpdcb:SetChecked(true) end
 
-	OilvlRaidMenu()	
-	
+	OilvlRaidMenu()
+
 	-- miss enchant option
 	local eercb = createCheckbutton(cfg.frame, 16, -260, "oilvleer"," "..L["Enable Sending Enchantment Reminder"]);
 	eercb:SetSize(30,30);
-	eercb:SetScript("PostClick", function() 
-		cfg.oilvlme = oilvleer:GetChecked() 
-		oilvlercb:SetChecked(cfg.oilvlme) 
+	eercb:SetScript("PostClick", function()
+		cfg.oilvlme = oilvleer:GetChecked()
+		oilvlercb:SetChecked(cfg.oilvlme)
 		if oilvleer:GetChecked() then oilvlbestenchant:Enable(); else	oilvlbestenchant:Disable(); end
 	end);
 	eercb:SetChecked(cfg.oilvlme);
@@ -6114,13 +6114,13 @@ function OilvlConfigFrame()
 	local cfilvlcb = createCheckbutton(cfg.frame, 16, -320, "oilvlcfilvl"," "..L["Enable Showing Gear Item Level on Character Frame"]);
 	cfilvlcb:SetSize(30,30);
 	cfilvlcb:SetScript("PostClick", function() cfg.oilvlcharilvl = oilvlcfilvl:GetChecked() OiLvlPlayer_Update() end);
-	if cfg.oilvlcharilvl then cfilvlcb:SetChecked(true) end	
+	if cfg.oilvlcharilvl then cfilvlcb:SetChecked(true) end
 
-	-- best enchant option 
+	-- best enchant option
 	local eercb2 = createCheckbutton(cfg.frame, 16+25, -290, "oilvlbestenchant", " "..BEST.." "..ENSCRIBE);
 	eercb2:SetSize(30,30);
 	eercb2:SetScript("PostClick", function()
-		cfg.oilvlme2 = oilvlbestenchant:GetChecked() 
+		cfg.oilvlme2 = oilvlbestenchant:GetChecked()
 		if CharacterFrame and CharacterFrame:IsShown() and OiLvlPlayer_Update then
 			OiLvlPlayer_Update()
 		end
@@ -6130,20 +6130,20 @@ function OilvlConfigFrame()
 	end);
 	eercb2:SetChecked(cfg.oilvlme2);
 	if oilvleer:GetChecked() then oilvlbestenchant:Enable(); else oilvlbestenchant:Disable(); end
-	
-	-- minimap icon option 
+
+	-- minimap icon option
 	local micon = createCheckbutton(cfg.frame, 16, -380, "oilvlshowminimap", L["Show minimap button"]);
 	micon:SetSize(30,30);
-	micon:SetScript("PostClick", function() 
+	micon:SetScript("PostClick", function()
 		cfg.oilvlminimapicon = oilvlshowminimap:GetChecked()
-		if cfg.oilvlminimapicon then 
-			minimapicon:Show("O Item Level") 
+		if cfg.oilvlminimapicon then
+			minimapicon:Show("O Item Level")
 		else
-			minimapicon:Hide("O Item Level") 
+			minimapicon:Hide("O Item Level")
 		end
 	end);
 	micon:SetChecked(cfg.oilvlminimapicon);
-	
+
 	-- item level decimal places
 	local dptitle = cfg.frame:CreateFontString(nil,"ARTWORK","GameFontNormal")
 	dptitle:SetTextColor(1,1,1)
@@ -6152,7 +6152,7 @@ function OilvlConfigFrame()
 	local dp = CreateFrame("EditBox", "ODP",cfg.frame,"InputBoxTemplate")
 	dp:SetWidth(15)
 	dp:SetHeight(20)
-	dp:SetPoint("TOPLEFT",20+dptitle:GetStringWidth(),-407)	
+	dp:SetPoint("TOPLEFT",20+dptitle:GetStringWidth(),-407)
 	dp:SetFontObject("GameFontNormal")
 	dp:SetTextColor(1,1,1)
 	dp:SetMaxLetters(1)
@@ -6168,7 +6168,7 @@ function OilvlConfigFrame()
 		dp:HighlightText(0)
 	end)
 	dp:SetScript("OnEnterPressed",function(self) cfg.oilvldp = tonumber(dp:GetText()) dp:ClearFocus() OVILRefresh() end)
-	dp:SetScript("OnEscapePressed",function(self) dp:SetNumber(cfg.oilvldp) dp:ClearFocus() end)	
+	dp:SetScript("OnEscapePressed",function(self) dp:SetNumber(cfg.oilvldp) dp:ClearFocus() end)
 
 	-- upgrade number
 	local upgradenumbercb = createCheckbutton(cfg.frame, 16+25, -350, "oilvlupgradeno",ITEM_UPGRADE_TOOLTIP_FORMAT:gsub(": %%d/%%d",""):gsub("：",""):gsub("%%d/%%d",""));
@@ -6220,14 +6220,14 @@ function OMouseover2()
 		if  oname == GetUnitName("target",""):gsub("%-.+", "") then
 			OMouseover();
 		end
-	end 
+	end
 end
 
 function oilvlaltc()
 	lootslotSW = true;
 	for i = 1, LOOTFRAME_NUMBUTTONS do
 		_G["LootButton"..i]:HookScript("OnClick", function(self, button)
-			if IsAltKeyDown() then 
+			if IsAltKeyDown() then
 				local link = GetLootSlotLink(i);
 				local scantip = CreateFrame("GameTooltip", "OiLvlRoll_Tooltip", nil, "GameTooltipTemplate")
 				local silvl="";
@@ -6240,11 +6240,11 @@ function oilvlaltc()
 					if silvl ~= nil then break end
 				end
 				if silvl == nil then silvl = "" end
-				if UnitIsGroupLeader("player") then 
+				if UnitIsGroupLeader("player") then
 					ChatFrame_OpenChat("/rw "..silvl.." "..link.." "..ROLL.." ")
 				end
 				if otooltip4 ~= nil then
-					otooltip4:Hide() 
+					otooltip4:Hide()
 					LibQTip:Release(otooltip4)
 					otooltip4 = nil
 				end
@@ -6254,13 +6254,13 @@ function oilvlaltc()
 				oroll[1] = {silvl,link,""}
 				otooltip4func();
 			else
-				orollgear = "";			
+				orollgear = "";
 			end
 		end)
 	end
 end
 
-GameTooltip:HookScript("OnHide", function(self) 
+GameTooltip:HookScript("OnHide", function(self)
 	if otooltip ~= nil then
 		LibQTip:Release(otooltip)
 		otooltip = nil
@@ -6305,9 +6305,9 @@ SlashCmdList["OILVL_OIROLL"] = function(msg)
 			if silvl ~= nil then break end
 		end
 		if silvl == nil then silvl = "" end
-		if UnitIsGroupLeader("player") then 
+		if UnitIsGroupLeader("player") then
 			SendChatMessage(ROLL.." "..silvl.." "..msg:match("|c.*|r").." "..msg:gsub("|c.*|r","").."", "RAID_WARNING")
-		end		
+		end
 		if otooltip4 ~= nil then
 			otooltip4:Hide()
 			LibQTip:Release(otooltip4)
@@ -6333,15 +6333,15 @@ StaticPopupDialogs["RELOAD"] = {
 }
 
 SLASH_OILVL_OIRALTC1 = "/oiraltc"
-SlashCmdList["OILVL_OIRALTC"] = function(msg)  
+SlashCmdList["OILVL_OIRALTC"] = function(msg)
 	local token = {msg}
-	if string.upper(token[1]) == "OFF" then 
-		cfg.oilvlaltclickroll = false 
+	if string.upper(token[1]) == "OFF" then
+		cfg.oilvlaltclickroll = false
 		print("OiLvL: Lootframe Alt-click feature is disabled")
 		StaticPopup_Show ("RELOAD")
 	end
-	if  string.upper(token[1]) == "ON" then 
-		cfg.oilvlaltclickroll = true 
+	if  string.upper(token[1]) == "ON" then
+		cfg.oilvlaltclickroll = true
 		print("OiLvL: Lootframe Alt-click feature is enabled")
 		StaticPopup_Show ("RELOAD")
 	end
@@ -6370,11 +6370,11 @@ function oilvlOnHyperlinkClick()
 				if silvl ~= nil then break end
 			end
 			if silvl == nil then silvl = "" end
-			if UnitIsGroupLeader("player") then 
+			if UnitIsGroupLeader("player") then
 				SendChatMessage(ROLL.." "..silvl.." "..link, "RAID_WARNING")
 			end
 			if otooltip4 ~= nil then
-				otooltip4:Hide() 
+				otooltip4:Hide()
 				LibQTip:Release(otooltip4)
 				otooltip4 = nil
 			end
@@ -6394,7 +6394,7 @@ function oilvlchecktiers()
 	if IsInRaid() then
 		rnum = GetNumGroupMembers();
 		for i = 1, rnum do
-			local _, _, cclass = UnitClass("raid"..i);	
+			local _, _, cclass = UnitClass("raid"..i);
 			--           DK             DRUID           MAGE          ROGUE
 			if cclass == 6 or cclass == 11 or cclass == 8 or cclass == 4 then vanquisher = vanquisher + 1 end
 			--           HUNTER         MONK           SHAMAN         WARRIOR
@@ -6409,8 +6409,8 @@ end
 function oilvlCheckTierBonusSet(i)
 	local set=0;
 	for j = 1, #tiergears do
-		if oilvlframedata.gear[i] and tiergears[j] and oilvlframedata.gear[i][tiergears[j]] then 
-			if checktierID(oilvlframedata.gear[i][tiergears[j]][8]) then set = set + 1 end 
+		if oilvlframedata.gear[i] and tiergears[j] and oilvlframedata.gear[i][tiergears[j]] then
+			if checktierID(oilvlframedata.gear[i][tiergears[j]][8]) then set = set + 1 end
 		end
 	end
 	if set >=4 then return 4 elseif set >= 2 then return 2 else	return "" end
@@ -6420,7 +6420,7 @@ function oilvlCheckUpgrade(i)
 	local upgrade=0;
 	local n = 0;
 	for j = 1, 17 do
-		if oilvlframedata.gear[i] and oilvlframedata.gear[i][j] and oilvlframedata.gear[i][j][9] then 
+		if oilvlframedata.gear[i] and oilvlframedata.gear[i][j] and oilvlframedata.gear[i][j][9] then
 			upgrade = upgrade +  oilvlframedata.gear[i][j][9] / 2;
 			n = n + 1;
 		end
@@ -6442,7 +6442,7 @@ function oilvlShowBagItemLevel()
 	}
 
 	if GetTime() - bagilvltime > 0.3 then
-		if not bagupdatesw then 
+		if not bagupdatesw then
 			bagupdatesw = true;
 			OILVL:RegisterEvent("BAG_UPDATE")
 		end
@@ -6480,7 +6480,7 @@ function oilvlShowBagItemLevel()
 						end
 					else
 						frame.iLvl:SetText("")
-					end				
+					end
 				end
 			end
 		end
@@ -6489,7 +6489,7 @@ function oilvlShowBagItemLevel()
 end
 
 SLASH_OILVL_OIT1 = "/oit"
-SlashCmdList["OILVL_OIT"] = function(msg)  
+SlashCmdList["OILVL_OIT"] = function(msg)
 	local vanquisher, protector, conqueror = oilvlchecktiers()
 	print("Vanquisher (Death Knight, Druid, Mage, Rogue): "..vanquisher)
 	print("Protector (Hunter, Monk, Shaman, Warrior): "..protector)
@@ -6497,15 +6497,15 @@ SlashCmdList["OILVL_OIT"] = function(msg)
 end
 
 SLASH_OILVL_OISF1 = "/oisf"
-SlashCmdList["OILVL_OISF"] = function(msg)  
+SlashCmdList["OILVL_OISF"] = function(msg)
 	local token = {msg}
-	if string.upper(token[1]) == "OFF" then 
-		cfg.oilvlsamefaction = false 
+	if string.upper(token[1]) == "OFF" then
+		cfg.oilvlsamefaction = false
 		print("OiLvL: Show both faction item level")
 		StaticPopup_Show ("RELOAD")
 	end
-	if  string.upper(token[1]) == "ON" then 
-		cfg.oilvlsamefaction = true 
+	if  string.upper(token[1]) == "ON" then
+		cfg.oilvlsamefaction = true
 		print("OiLvL: Show only same faction item level")
 		StaticPopup_Show ("RELOAD")
 	end
@@ -6513,7 +6513,7 @@ end
 
 SLASH_OILVL_OIBI1 = "/oibi"
 SlashCmdList["OILVL_OIBI"] = function(msg)
-	if cfg.oilvlbagilvl then 
+	if cfg.oilvlbagilvl then
 		cfg.oilvlbagilvl = false
 		print("OiLvL: Item level of items in bags are hidden")
 		oilvlShowBagItemLevel();
@@ -6527,7 +6527,7 @@ end
 --cfg.oilvlcolormatchitemrarity
 SLASH_OILVL_OIMATCHCOLOR1 = "/oimatchcolor"
 SlashCmdList["OILVL_OIMATCHCOLOR"] = function(msg)
-	if cfg.oilvlcolormatchitemrarity then 
+	if cfg.oilvlcolormatchitemrarity then
 		cfg.oilvlcolormatchitemrarity = false
 		print("OiLvL: Color matching is disabled")
 	else
@@ -6552,13 +6552,13 @@ ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", function(frame, event, messag
 			if oilvlframedata.name[i] == nil then break end
 			if oilvlframedata.name[i] == name or oilvlframedata.name[i] == "! "..name or oilvlframedata.name[i] == "~ "..name then
 				if gslot[equipSlot] ~= nil then
-					if oilvlframedata.gear[i][gslot[equipSlot]] == nil then 
+					if oilvlframedata.gear[i][gslot[equipSlot]] == nil then
 						orolln = orolln + 1; oroll[orolln] = {name,proll,"","","",""} otooltip4func();
-						break 
+						break
 					end
-					if oilvlframedata.gear[i][gslot[equipSlot]][1] == nil then 
+					if oilvlframedata.gear[i][gslot[equipSlot]][1] == nil then
 						orolln = orolln + 1; oroll[orolln] = {name,proll,"","","",""} otooltip4func();
-						break 
+						break
 					end
 					if oilvlframedata.gear[i][gslot[equipSlot]][1] ~= nil then
 						if gslot[equipSlot] == 11 then
@@ -6612,7 +6612,7 @@ end)
 local function SystemSpamFilter(frame, event, message)
 	if message:match(string.format(ERR_CHAT_PLAYER_NOT_FOUND_S, "(.+)")) then
 		return true
-	end	
+	end
     return false
 end
 ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", SystemSpamFilter)
