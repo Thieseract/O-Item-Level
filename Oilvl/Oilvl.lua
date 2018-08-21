@@ -5766,7 +5766,7 @@ function events:PLAYER_ENTERING_WORLD(...)
 		hooksecurefunc("ToggleAllBags",function() oilvlShowBagItemLevel() C_Timer.After(0.3, oilvlShowBagItemLevel) end)
 		hooksecurefunc("ToggleBag",function() oilvlShowBagItemLevel() C_Timer.After(0.3, oilvlShowBagItemLevel) end)
 		hooksecurefunc("OpenBag",function() oilvlShowBagItemLevel() C_Timer.After(0.3, oilvlShowBagItemLevel) end)
-		if Bagnon then
+		if Bagnon and BagnonFrameinventory then
 			BagnonFrameinventory:HookScript('onShow', function()
 				oilvlShowBagItemLevel()
 				C_Timer.After(0.3, oilvlShowBagItemLevel)
