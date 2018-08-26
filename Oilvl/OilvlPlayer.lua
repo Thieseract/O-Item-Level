@@ -281,7 +281,7 @@ function OiLvlPlayer_Update(sw)
 								end
 							end
 							-- check no enchant
-							if (Value == 11 or Value == 12) and enchant == "0" then
+							if (Value == 11 or Value == 12 or Value == 16) and enchant == "0" then
 								_G[Key.."ge"]:SetText(("|TInterface\\MINIMAP\\TRACKING\\OBJECTICONS:0:0:0:0:256:64:43:53:34:61|t" or "")..L["Not enchanted"]);
 							end
 							-- check no gem
@@ -620,7 +620,7 @@ function OiLvLInspect_Update()
 							end
 						end
 						-- check no enchant
-						if (Value == 11 or Value == 12) and enchant == "0" then
+						if (Value == 11 or Value == 12 or Value == 16) and enchant == "0" then
 							_G[Key.."ge2"]:SetText(("|TInterface\\MINIMAP\\TRACKING\\OBJECTICONS:0:0:0:0:256:64:43:53:34:61|t" or "")..L["Not enchanted"]);
 						end
 						-- check no gem
