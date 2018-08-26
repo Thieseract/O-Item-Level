@@ -5469,6 +5469,7 @@ function events:PLAYER_LOGIN(...)
 	if cfg.oilvlcache == nil then cfg.oilvlcache = {}; end
 	if cfg.oilvlcachesw == nil then cfg.oilvlcachesw = true; end
 	if cfg.oilvlminimapicon == nil then cfg.oilvlminimapicon = true; end
+	if cfg.oilvlprintloaded == nil then cfg.oilvlprintloaded = false; end
 	if cfg.oilvldp == nil then cfg.oilvldp = 1 end
 	if cfg.oilvlun == nil then cfg.oilvlun = true end
 	if cfg.oilvlge == nil then cfg.oilvlge = true end
@@ -5480,7 +5481,9 @@ function events:PLAYER_LOGIN(...)
 	OilvlConfigFrame();
 	oilvlframe();
 	OVILRefresh();
-	print("O Item Level (|cFFFFFF00OiLvL|r|cFFFFFFFF) |r|cFF00FF00v"..GetAddOnMetadata("Oilvl","Version").." |r|cFFFFFFFF is loaded.")
+	if cfg.oilvlprintloaded then
+		print("O Item Level (|cFFFFFF00OiLvL|r|cFFFFFFFF) |r|cFF00FF00v"..GetAddOnMetadata("Oilvl","Version").." |r|cFFFFFFFF is loaded.")
+	end
 	if minimapicon then
 		minimapicon:Register("O Item Level",LDB, cfg)
 		if cfg.oilvlminimapicon then
@@ -5932,6 +5935,14 @@ function OilvlConfigFrame()
 		end
 	end);
 	micon:SetChecked(cfg.oilvlminimapicon);
+
+	-- print loaded message
+	local printload = createCheckbutton(cfg.frame, 16, -440, "oilvlprintloaded", L["Print Loaded Message"]);
+	printload:SetSize(30,30);
+	printload:SetScript("PostClick", function()
+		cfg.oilvlprintloaded = oilvlprintloaded:GetChecked()
+	end);
+	printload:SetChecked(cfg.oilvlprintloaded);
 
 	-- item level decimal places
 	local dptitle = cfg.frame:CreateFontString(nil,"ARTWORK","GameFontNormal")

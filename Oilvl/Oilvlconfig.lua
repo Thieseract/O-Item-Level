@@ -16,6 +16,7 @@ cfg.oilvlrpdetails = true; -- raid progression details
 cfg.oilvlgears = {}; -- players equipments
 cfg.oilvlcache = {}; -- cache
 cfg.oilvlminimapicon = true;
+cfg.oilvlprintloaded = false;
 cfg.oilvldp = 1; -- decimal places for item level
 cfg.oilvlun = true; -- show upgrade number
 cfg.oilvlge = true; -- show gem and enchant in character frame and inpection frame
