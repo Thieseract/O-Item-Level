@@ -21,7 +21,7 @@ OILVL_L = GetLocale() == "zhCN" and {
 	["Low level enchanted"] = "低等级附魔",
 	["Low level socketed"] = "低等级宝石",
 	["Auto Scan"] = "自动扫描",
-	
+
 } or GetLocale() == "ruRU" and {
 	["Set the amount of numbers past the decimal place to show"] = "Определяет количество отображаемых после запятой цифр",
 	["Show minimap button"]="Показывать кнопку у миникарты",
@@ -46,30 +46,52 @@ OILVL_L = GetLocale() == "zhCN" and {
 	["Low level enchanted"] = "Низкий уровень зачарования",
 	["Low level socketed"] = "Низкий уровень камня",
 	["Auto Scan"] = "Авто-сканирование",
-	
+
 } or GetLocale() == "zhTW" and {
-	["Set the amount of numbers past the decimal place to show"] = "設置小數點後顯示幾位元數位",
-	["Show minimap button"]="顯示小地圖按鈕",
-	["Vanquisher"]="勝利者",
-	["Protector"]="保衛者",
-	["Conqueror"]="征服者",
-	-- translated by olzenkhaw
-	["Scale"] = "比例",
-	["Enable Sending Enchantment Reminder"] = "開啟發送附魔提醒",
-	["Average"] = "平均",
-	["Enable Showing item level / raid progression on tooltips"]="開啟屏幕右下角的信息提示等級/ 團隊​​進度",
-	["Enable Showing Raid Progression Details on tooltips"] = "開啟屏幕右下角的信息提示具體團隊進度",
-	["Raid Progression Details"] = "具體團隊進度",
-	["Raid Progression"] = "團隊進度",
-	["Enable Showing Gear Item Level on Character Frame"] = "開啟在角色框架顯示裝備等級",
-	["Item Level"]="等級",
-	["Average Item Level"]="平均等级",
-	["Export"] = "導出",
-	["Not enchanted"] = "無附魔",
-	["Not socketed"] = "無寶石",
-	["Low level enchanted"] = "低等級附魔",
-	["Low level socketed"] = "低等級寶石",
-	["Auto Scan"] = "自動掃描",
+	-- ["Set the amount of numbers past the decimal place to show"] = "設置小數點後顯示幾位元數位",
+	-- ["Show minimap button"]="顯示小地圖按鈕",
+	-- ["Vanquisher"]="勝利者",
+	-- ["Protector"]="保衛者",
+	-- ["Conqueror"]="征服者",
+	-- -- translated by olzenkhaw
+	-- ["Scale"] = "比例",
+	-- ["Enable Sending Enchantment Reminder"] = "開啟發送附魔提醒",
+	-- ["Average"] = "平均",
+	-- ["Enable Showing item level / raid progression on tooltips"]="開啟屏幕右下角的信息提示等級/ 團隊​​進度",
+	-- ["Enable Showing Raid Progression Details on tooltips"] = "開啟屏幕右下角的信息提示具體團隊進度",
+	-- ["Raid Progression Details"] = "具體團隊進度",
+	-- ["Raid Progression"] = "團隊進度",
+	-- ["Enable Showing Gear Item Level on Character Frame"] = "開啟在角色框架顯示裝備等級",
+	-- ["Item Level"]="等級",
+	-- ["Average Item Level"]="平均等级",
+	-- ["Export"] = "導出",
+	-- ["Not enchanted"] = "無附魔",
+	-- ["Not socketed"] = "無寶石",
+	-- ["Low level enchanted"] = "低等級附魔",
+	-- ["Low level socketed"] = "低等級寶石",
+	-- ["Auto Scan"] = "自動掃描",
+	 ["Set the amount of numbers past the decimal place to show"] = "設置小數點後顯示幾位元數位",
+	 ["Show minimap button"]="顯示小地圖按鈕",
+	 ["Vanquisher"]="勝利者",
+	 ["Protector"]="保衛者",
+	 ["Conqueror"]="征服者",
+	 -- translated by olzenkhaw
+	 ["Scale"] = "比例",
+	 ["Enable Sending Enchantment Reminder"] = "開啟發送附魔提醒",
+	 ["Average"] = "平均",
+	 ["Enable Showing item level / raid progression on tooltips"]="開啟屏幕右下角的信息提示等級/ 團隊進度",
+	 ["Enable Showing Raid Progression Details on tooltips"] = "開啟屏幕右下角的信息提示具體團隊進度",
+	 ["Raid Progression Details"] = "具體團隊進度",
+	 ["Raid Progression"] = "團隊進度",
+	 ["Enable Showing Gear Item Level on Character Frame"] = "開啟在角色框架顯示裝備等級",
+	 ["Item Level"]="等級",
+	 ["Average Item Level"]="平均等級",
+	 ["Export"] = "導出",
+	 ["Not enchanted"] = "無附魔",
+	 ["Not socketed"] = "無寶石",
+	 ["Low level enchanted"] = "低等級附魔",
+	 ["Low level socketed"] = "低等級寶石",
+	 ["Auto Scan"] = "自動掃瞄",
 
 } or GetLocale() == "koKR" and {
 	["Set the amount of numbers past the decimal place to show"] = "좌표 표시의 소수점 자릿수를 선택합니다",
@@ -95,7 +117,7 @@ OILVL_L = GetLocale() == "zhCN" and {
 	["Low level enchanted"] = "낮은 등급 마법부여",
 	["Low level socketed"] = "낮은 등급 보석 장착",
 	["Auto Scan"] = "시 자동 스캔",
-	
+
 } or GetLocale() == "frFR" and {
 	["Set the amount of numbers past the decimal place to show"] = "Définit le nombre de chiffres à afficher après la virgule",
 	["Show minimap button"]="Bouton de la minicarte",
@@ -120,7 +142,7 @@ OILVL_L = GetLocale() == "zhCN" and {
 	["Low level enchanted"] = "Enchantement de bas niveau",
 	["Low level socketed"] = "Gemme de bas niveau",
 	["Auto Scan"] = "Scan automatique",
-	
+
 } or GetLocale() == "deDE" and {
 	["Set the amount of numbers past the decimal place to show"] = "Festlegen der Anzahl der Nachkommastellen",
 	["Show minimap button"]="Zeige Minimap-Button",
@@ -144,7 +166,7 @@ OILVL_L = GetLocale() == "zhCN" and {
 	["Not enchanted"] = "Nicht verzaubert",
 	["Not socketed"] = "Nicht gesockelt",
 	["Auto Scan"] = "Automatisches Scannen",
-	
+
 } or GetLocale() == "ptBR" and {
 	["Set the amount of numbers past the decimal place to show"] = "Escolha o quanto de números além dos decimais serão mostrados",
 	["Show minimap button"]="Mostrar botão no mini-mapa",
