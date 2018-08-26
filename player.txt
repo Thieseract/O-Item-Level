@@ -1,1 +1,2 @@
-Local enchantID is the list of good enchants to compare against.  Check low enchant and check no enchant are two if statements found in both OiLvlPlayer_Update() and OiLvlInspect_Update() the first argument is the list of gear slots to check for enchants.
+Local enchantID is the list of good enchants to compare against.  Check low enchant and check no enchant are two if statements found 
+in both OiLvlPlayer_Update() and OiLvlInspect_Update() the first argument is the list of gear slots to check for enchants.

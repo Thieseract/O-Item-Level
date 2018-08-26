@@ -1,3 +1,13 @@
+teece | 2018-08-26 | v 8.0.1
+	Updated raid IDs and progression display for both raid frame and tooltip
+	Updated enchant check slots to reflect the BFA enchant options (issue 73)
+	Updated list of good gems/enchants
+	Fixed issue with weapon ilvl showing too high
+	Fixed issue with bagnon generating an error if installed but disabled (issue 71)
+	Updated Traditional Chinese localization
+	Added button to toggle addon loaded message, defaults to off
+	
+
 teece | 2018-07-22
 	* Base 8.0 compatability changes
 
