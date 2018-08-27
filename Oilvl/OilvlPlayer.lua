@@ -556,14 +556,14 @@ function OiLvLInspect_Update()
 					if OItemAnalysis_CheckILVLGear4("target",Value) ~= 0 then
 						totalilvl[Value], xupgrade[Value] = OItemAnalysis_CheckILVLGear4("target",Value)
 						-- temp fix for ilvl in nether crucible
-						if Value == 16 or Value == 17 then
-							local _,itemID,enchant,gem1,gem2,gem3,gem4,suffixID,uniqueID,level,specializationID,upgradeType,instanceDifficultyID,numBonusIDs,restLink = strsplit(":",ItemLink,15)
-							local gemactive = 0
-							if (gem1 and gem1 ~= "") then gemactive = gemactive + 1 end
-							if (gem2 and gem2 ~= "") then gemactive = gemactive + 1 end
-							if (gem3 and gem3 ~= "") then gemactive = gemactive + 1 end
-							totalilvl[Value] = totalilvl[Value] + gemactive*5
-						end
+						-- if Value == 16 or Value == 17 then
+						-- 	local _,itemID,enchant,gem1,gem2,gem3,gem4,suffixID,uniqueID,level,specializationID,upgradeType,instanceDifficultyID,numBonusIDs,restLink = strsplit(":",ItemLink,15)
+						-- 	local gemactive = 0
+						-- 	if (gem1 and gem1 ~= "") then gemactive = gemactive + 1 end
+						-- 	if (gem2 and gem2 ~= "") then gemactive = gemactive + 1 end
+						-- 	if (gem3 and gem3 ~= "") then gemactive = gemactive + 1 end
+						-- 	totalilvl[Value] = totalilvl[Value] + gemactive*5
+						-- end
 						---------------------------------------------------------------------
 
 						xname2[Value] = itemID
