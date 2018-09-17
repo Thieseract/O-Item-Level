@@ -348,8 +348,8 @@ function OiLvlPlayer_Update(sw)
 				if n2 ~= 0 then
 					ilt = ilt.." ("..aun.."/"..n2..")"
 				end
-        local showAverage = true;
-        if showAverage then
+        --local showAverage = true;
+        if cfg.oilvlsummaryshow then
 				  CharacterFrameAverageItemLevel:SetText(ilt)
 				  CharacterFrameAverageItemLevel:ClearAllPoints()
 				  CharacterFrameAverageItemLevel:SetPoint("CENTER",CharacterLevelText,"TOP",0,0)

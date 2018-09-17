@@ -5924,7 +5924,7 @@ function OilvlConfigFrame()
 	if oilvleer:GetChecked() then oilvlbestenchant:Enable(); else oilvlbestenchant:Disable(); end
 
 	-- minimap icon option
-	local micon = createCheckbutton(cfg.frame, 16, -380, "oilvlshowminimap", L["Show minimap button"]);
+	local micon = createCheckbutton(cfg.frame, 16, -410, "oilvlshowminimap", L["Show minimap button"]);
 	micon:SetSize(30,30);
 	micon:SetScript("PostClick", function()
 		cfg.oilvlminimapicon = oilvlshowminimap:GetChecked()
@@ -5937,22 +5937,30 @@ function OilvlConfigFrame()
 	micon:SetChecked(cfg.oilvlminimapicon);
 
 	-- print loaded message
-	local printload = createCheckbutton(cfg.frame, 16, -440, "oilvlprintloaded", L["Print Loaded Message"]);
+	local printload = createCheckbutton(cfg.frame, 16, -470, "oilvlprintloaded", L["Print Loaded Message"]);
 	printload:SetSize(30,30);
 	printload:SetScript("PostClick", function()
 		cfg.oilvlprintloaded = oilvlprintloaded:GetChecked()
 	end);
 	printload:SetChecked(cfg.oilvlprintloaded);
 
+	-- print loaded message
+	local summaryshow = createCheckbutton(cfg.frame, 16+25, -380, "oilvlLevelSummary", L["Show overall iLevel at the top of the CharacterFrame"]);
+	summaryshow:SetSize(30,30);
+	summaryshow:SetScript("PostClick", function()
+		cfg.oilvlsummaryshow = summaryshow:GetChecked()
+	end);
+	summaryshow:SetChecked(cfg.oilvlsummaryshow);
+
 	-- item level decimal places
 	local dptitle = cfg.frame:CreateFontString(nil,"ARTWORK","GameFontNormal")
 	dptitle:SetTextColor(1,1,1)
-	dptitle:SetPoint("TOPLEFT",16,-410)
+	dptitle:SetPoint("TOPLEFT",16,-450)
 	dptitle:SetText(L["Set the amount of numbers past the decimal place to show"].."(0-2): ")
 	local dp = CreateFrame("EditBox", "ODP",cfg.frame,"InputBoxTemplate")
 	dp:SetWidth(15)
 	dp:SetHeight(20)
-	dp:SetPoint("TOPLEFT",20+dptitle:GetStringWidth(),-407)
+	dp:SetPoint("TOPLEFT",20+dptitle:GetStringWidth(),-447)
 	dp:SetFontObject("GameFontNormal")
 	dp:SetTextColor(1,1,1)
 	dp:SetMaxLetters(1)
