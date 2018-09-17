@@ -10,9 +10,10 @@
 ## X-Curse-Repository-ID: wow/o-item-level/mainline
 ## OptionalDeps: LibStub, LibUIDropDownMenu
 
+embeds.xml
+
 localization.lua
-libs\LibStub\LibStub.lua
-libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
+
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\AceAddon-3.0\AceAddon-3.0.xml
 libs\AceTimer-3.0\AceTimer-3.0.xml

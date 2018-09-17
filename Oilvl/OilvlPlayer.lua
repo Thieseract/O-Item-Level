@@ -221,6 +221,7 @@ function OiLvlPlayer_Update(sw)
 						Slot:ClearAllPoints();
 						Slot:SetPoint("CENTER",0,-10);
 
+
 						-- check item level
 						ItemLink = ItemLink:gsub("::",":0:"):gsub("::",":0:")
 						local itemID,enchant,_,_,_,_,_ = ItemLink:match("%a+:(%d+):(%d+):(%d+):(%d+):(%d+):(%d+)");
@@ -251,13 +252,23 @@ function OiLvlPlayer_Update(sw)
 							else
 								Slot:SetTextColor(1,1,0)
 							end
-							Slot:SetText(totalilvl[Value]);
-							Slot:SetShadowColor(1,1,1,1);
-							Slot:Show();
-							ailvl = ailvl + (totalilvl[Value] or 0)
+
+              -- added to make sure HOA neck ilevel is visible, changed text color as well
+              if Value == 2 then
+                local ArtifactNeckLevel = _G[Key]:CreateFontString(Key.."ArtifactNeckLevel","OVERLAY")
+                ArtifactNeckLevel:SetFontObject("GameFontNormal");
+                ArtifactNeckLevel:SetTextColor(237, 238, 239);
+                ArtifactNeckLevel:SetPoint("CENTER",0,1);
+                ArtifactNeckLevel:SetText(totalilvl[Value]);
+              else
+							  Slot:SetText(totalilvl[Value]);
+							  Slot:SetShadowColor(1,1,1,1);
+							  Slot:Show();
+              end
+              ailvl = ailvl + (totalilvl[Value] or 0)
 
 							-- check gem and enchant
-							if Value < 16 then
+							if Value < 17 then
 								GemEnchant:SetOwner(UIParent, 'ANCHOR_NONE');
 								GemEnchant:ClearLines();
 								GemEnchant:SetHyperlink(ItemLink);
@@ -337,9 +348,12 @@ function OiLvlPlayer_Update(sw)
 				if n2 ~= 0 then
 					ilt = ilt.." ("..aun.."/"..n2..")"
 				end
-				CharacterFrameAverageItemLevel:SetText(ilt)
-				CharacterFrameAverageItemLevel:ClearAllPoints()
-				CharacterFrameAverageItemLevel:SetPoint("CENTER",CharacterLevelText,"TOP",0,0)
+        local showAverage = true;
+        if showAverage then
+				  CharacterFrameAverageItemLevel:SetText(ilt)
+				  CharacterFrameAverageItemLevel:ClearAllPoints()
+				  CharacterFrameAverageItemLevel:SetPoint("CENTER",CharacterLevelText,"TOP",0,0)
+        end
 			end
 			-- add Show Gem / Enchant button
 			if not oilvlGemEnchantButton then
