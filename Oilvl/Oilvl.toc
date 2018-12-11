@@ -1,4 +1,4 @@
-## Interface: 80000
+## Interface: 80100
 ## Title: O Item Level|cff00ccff(OiLvL)|r
 ## Author: OlzenKhaw, Teece
 ## Version: 8.0.2
