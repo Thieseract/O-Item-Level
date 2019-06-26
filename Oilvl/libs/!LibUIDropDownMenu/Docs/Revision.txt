@@ -1,6 +1,18 @@
-$Id: Revision.txt 36 2018-08-11 13:29:16Z arith $
+$Id: Revision.txt 41 2018-12-26 17:41:59Z arith $
 Revision History:
 =================
+
+v2.00.8010028833 (2018/12/27)
+-----------------------------
+- Migrate template to Lua function call
+  (Refer to below page for more details:
+   https://www.wowace.com/projects/libuidropdownmenu/pages/faq/changes-regarding-to-dropdown-templates-usage )
+- Update major version to "LibUIDropDownMenu-2.0"
+   
+v1.08.8010028768 (2018/12/17)
+-----------------------------
+- Update to sync with 8.0.1 build 28768
+- ToC update
 
 v1.08.8000127326 (2018/08/11)
 -----------------------------

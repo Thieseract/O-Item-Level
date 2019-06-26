@@ -1,14 +1,14 @@
-<!-- $Id: LibUIDropDownMenuTemplates.xml 34 2018-07-25 13:26:33Z arith $ -->
+<!-- $Id: LibUIDropDownMenuTemplates.xml 40 2018-12-23 16:14:03Z arith $ -->
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
 	<Include file="LibUIDropDownMenuTemplates.lua"/>
+<!--
 	<Frame name="L_UIDropDownCustomMenuEntryTemplate" enableMouse="true" hidden="true" mixin="L_UIDropDownCustomMenuEntryMixin" virtual="true">
 		<Scripts>
 			<OnEnter method="OnEnter"/>
 			<OnLeave method="OnLeave"/>
 		</Scripts>
 	</Frame>
-
 	<Button name="L_UIDropDownMenuButtonTemplate" virtual="true">
 		<Size x="100" y="16"/>
 		<Layers>
@@ -170,7 +170,6 @@
 		<HighlightFont style="GameFontHighlightSmallLeft"/>
 		<DisabledFont style="GameFontDisableSmallLeft"/>
 	</Button>
-	
 	<Button name="L_UIDropDownListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
 		<Frames>
 			<Frame name="$parentBackdrop" setAllPoints="true">
@@ -206,13 +205,6 @@
 				</Scripts>
 			</Frame>
 			<Button name="$parentButton1" inherits="L_UIDropDownMenuButtonTemplate" id="1"/>
-			<Button name="$parentButton2" inherits="L_UIDropDownMenuButtonTemplate" id="2"/>
-			<Button name="$parentButton3" inherits="L_UIDropDownMenuButtonTemplate" id="3"/>
-			<Button name="$parentButton4" inherits="L_UIDropDownMenuButtonTemplate" id="4"/>
-			<Button name="$parentButton5" inherits="L_UIDropDownMenuButtonTemplate" id="5"/>
-			<Button name="$parentButton6" inherits="L_UIDropDownMenuButtonTemplate" id="6"/>
-			<Button name="$parentButton7" inherits="L_UIDropDownMenuButtonTemplate" id="7"/>
-			<Button name="$parentButton8" inherits="L_UIDropDownMenuButtonTemplate" id="8"/>
 		</Frames>
 		<Scripts>
 			<OnClick>
@@ -246,7 +238,6 @@
 			</OnHide>
 		</Scripts>
 	</Button>
-	
 	<Frame name="L_UIDropDownMenuTemplate" virtual="true">
 		<Size>
 			<AbsDimension x="40" y="32"/>
@@ -382,4 +373,5 @@
 			</OnHide>
 		</Scripts>
 	</Frame>
+-->
 </Ui>
