@@ -88,7 +88,7 @@ end
 local GemEnchant = CreateFrame('GameTooltip', 'oilvlgetooltip', UIParent, 'GameTooltipTemplate');
 local GemEnchant2 = CreateFrame('GameTooltip', 'oilvlgetooltip2', UIParent, 'GameTooltipTemplate');
 local enchantID = {
-	5942,5943,5944,5945 -- ring
+	6109,6108,6111,6110 -- ring
 }
 
 local relictooltip = {}

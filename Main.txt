@@ -3,3 +3,7 @@ to have the correct ID for the best enchants. Changing gems requires update loca
 
 Individual boss kill stats can be found with wowhead statistics and then filter by boss name.
 Example - https://www.wowhead.com/battle-for-azeroth-dungeon-and-raid-statistics/name:taloc
+
+finding the instanceID of a new raid from anywhere
+
+/run for i=1177,1200,1 do name = EJ_GetInstanceInfo(i) print(i,name) end
