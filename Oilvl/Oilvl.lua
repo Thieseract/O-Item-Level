@@ -5700,7 +5700,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression2(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression2(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATNY, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5719,7 +5719,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression3(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression3(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression3(TEPname, OSTATNY, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5738,7 +5738,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression(TEPname, OSTATTEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression(TEPname, OSTATNY, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
