@@ -231,6 +231,7 @@ local ULDid, ULDname = EJ_GetInstanceByIndex(2, true)
 local DAZAid, DAZAname = EJ_GetInstanceByIndex(3, true)
 local COSid, COSname = EJ_GetInstanceByIndex(4, true)
 local TEPid, TEPname = EJ_GetInstanceByIndex(5, true)
+local NYid, NYname = EJ_GetInstanceByIndex(6, true)
 --/run local instID = EJ_GetInstanceForMap(C_Map.GetBestMapForUnit("player")); DEFAULT_CHAT_FRAME:AddMessage(instID)
 
 -- Each raid has its own entry,
@@ -464,6 +465,81 @@ local OSTATTEP = {
 		13618, -- [3]
 		13619, -- [4]
 	}, -- [8]
+}
+
+local OSTATNY = {
+	{
+		14078, -- [1]
+		14079, -- [2]
+		14080, -- [3]
+		14082, -- [4]
+	}, -- [1]
+	{
+		14089, -- [1]
+		14091, -- [2]
+		14093, -- [3]
+		14094, -- [4]
+	}, -- [2]
+	{
+		14095, -- [1]
+		14096, -- [2]
+		14097, -- [3]
+		14098, -- [4]
+	}, -- [3]
+	{
+		14101, -- [1]
+		14102, -- [2]
+		14104, -- [3]
+		14105, -- [4]
+	}, -- [4]
+	{
+		14107, -- [1]
+		14108, -- [2]
+		14109, -- [3]
+		14110, -- [4]
+	}, -- [5]
+	{
+		14111, -- [1]
+		14112, -- [2]
+		14114, -- [3]
+		14115, -- [4]
+	}, -- [6]
+	{
+		14117, -- [1]
+		14118, -- [2]
+		14119, -- [3]
+		14120, -- [4]
+	}, -- [7]
+	{
+		14207, -- [1]
+		14208, -- [2]
+		14210, -- [3]
+		14211, -- [4]
+	}, -- [8]
+	{
+		14123, -- [1]
+		14124, -- [2]
+		14125, -- [3]
+		14126, -- [4]
+	}, -- [9]
+	{
+		14127, -- [1]
+		14128, -- [2]
+		14129, -- [3]
+		14130, -- [4]
+	}, -- [10]
+	{
+		14131, -- [1]
+		14132, -- [2]
+		14133, -- [3]
+		14134, -- [4]
+	}, -- [11]
+	{
+		14135, -- [1]
+		14136, -- [2]
+		14137, -- [3]
+		14138, -- [4]
+	}, -- [12]
 }
 
 local function round(number, digits)
@@ -1671,6 +1747,7 @@ function oilvlcheckrange()
 					--if cfg.raidmenuid == 5 then msg = msg:find(TENname); if msg then break end end
 					--if cfg.raidmenuid == 4 then msg = msg:find(TOVname); if msg then break end end
 					--if cfg.raidmenuid == 3 then msg = msg:find(TNname); if msg then break end end
+					if cfg.raidmenuid == 5 then msg = msg:find(NYname); if msg then break end end
 					if cfg.raidmenuid == 4 then msg = msg:find(TEPname); if msg then break end end
 					if cfg.raidmenuid == 3 then msg = msg:find(COSname); if msg then break end end
 					if cfg.raidmenuid == 2 then msg = msg:find(DAZAname); if msg then break end end
@@ -2970,6 +3047,12 @@ function oilvlSetOSTATTEP()
  	end
 end
 
+function oilvlSetOSTATNY()
+ 	for i = 1,12 do
+ 		OSTATNY[i][5] = select(2,GetAchievementInfo(OSTATNY[i][1])):gsub(" %(.*%)","")..""
+ 	end
+end
+
 -- function oilvlSetOSTATTN()
 -- 	for i = 1,10 do
 -- 		OSTATTN[i][5] = select(2,GetAchievementInfo(OSTATTN[i][1])):gsub(" %(.*%)","")..""
@@ -3376,6 +3459,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
 	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
 	bigorp[TEPname] = Save_orp(TEPname, OSTATTEP, 8)
+	bigorp[NYname] = Save_orp(NYname, OSTATNY, 12)
 	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
 	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
 
@@ -3394,12 +3478,14 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		end
 	end
 
-	-- check Achivements for 3 raids
+	-- check Achivements for all raids
 	local RaidAchiv = {}
 	RaidAchiv[ULDname] ={}
 	RaidAchiv[DAZAname] ={}
 	RaidAchiv[COSname] ={}
 	RaidAchiv[TEPname] ={}
+	RaidAchiv[NYname] ={}
+	SaveAOTCCE(RaidAchiv[NYname],14068,14069)
 	SaveAOTCCE(RaidAchiv[TEPname],13784,13785)
 	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
 	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
@@ -3490,6 +3576,12 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		otooltip2:SetCell(4,4,"|cffffffff"..TEPname,"LEFT",2)
 		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 		 	Save_orp_vars(TEPname)
+		 	otooltip2:Clear()
+		 	DrawOTooltip2()
+		end)
+		otooltip2:SetCell(5,4,"|cffffffff"..NYname,"LEFT",2)
+		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
+		 	Save_orp_vars(NYname)
 		 	otooltip2:Clear()
 		 	DrawOTooltip2()
 		end)
@@ -3836,6 +3928,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
 	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
 	bigorp[TEPname] = Save_orp(TEPname, OSTATTEP, 8)
+	bigorp[NYname] = Save_orp(NYname, OSTATNY, 12)
 	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
 	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
 
@@ -3859,6 +3952,8 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	RaidAchiv[DAZAname] ={}
 	RaidAchiv[COSname] ={}
 	RaidAchiv[TEPname] ={}
+	RaidAchiv[NYname] ={}
+	SaveAOTCCE(RaidAchiv[NYname],14068,14069)
 	SaveAOTCCE(RaidAchiv[TEPname],13784,13785)
 	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
 	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
@@ -3973,6 +4068,12 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		otooltip2:SetCell(4,4,"|cffffffff"..TEPname,"LEFT",2)
 		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 			Save_orp_vars(TEPname)
+			otooltip2:Clear()
+			DrawOTooltip2()
+		end)
+		otooltip2:SetCell(5,4,"|cffffffff"..NYname,"LEFT",2)
+		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
+			Save_orp_vars(NYname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
@@ -5599,6 +5700,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression2(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression2(TEPname, OSTATTEP, 8); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5617,6 +5719,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression3(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression3(TEPname, OSTATTEP, 8); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5635,6 +5738,7 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 					end
 					if cfg.raidmenuid == 3 then OGetRaidProgression(COSname, OSTATCOS, 2); end
 					if cfg.raidmenuid == 4 then OGetRaidProgression(TEPname, OSTATTEP, 8); end
+					if cfg.raidmenuid == 5 then OGetRaidProgression2(TEPname, OSTATTEP, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5759,6 +5863,7 @@ function events:PLAYER_LOGIN(...)
 	oilvlSetOSTATDAZAho()
 	oilvlSetOSTATCOS()
 	oilvlSetOSTATTEP()
+	oilvlSetOSTATNY()
 	-- oilvlSetOSTATTOS()
 	-- oilvlSetOSTATABT()
 	--[[Fix for Lua errors with Blizzard_AchievementUI below]]--
@@ -6017,7 +6122,8 @@ function OilvlRaidMenu()
 		ULDname,
 		DAZAname,
 		COSname,
-        TEPname,
+		TEPname,
+		NYname,
 	}
 
 	local function OnClick(self)
