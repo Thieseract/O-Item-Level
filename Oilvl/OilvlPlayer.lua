@@ -253,19 +253,14 @@ function OiLvlPlayer_Update(sw)
 								Slot:SetTextColor(1,1,0)
 							end
 
-              -- added to make sure HOA neck ilevel is visible, changed text color as well
-              if Value == 2 then
-                local ArtifactNeckLevel = _G[Key]:CreateFontString(Key.."ArtifactNeckLevel","OVERLAY")
-                ArtifactNeckLevel:SetFontObject("GameFontNormal");
-                ArtifactNeckLevel:SetTextColor(237, 238, 239);
-                ArtifactNeckLevel:SetPoint("CENTER",0,1);
-                ArtifactNeckLevel:SetText(totalilvl[Value]);
-              else
-							  Slot:SetText(totalilvl[Value]);
-							  Slot:SetShadowColor(1,1,1,1);
-							  Slot:Show();
-              end
-              ailvl = ailvl + (totalilvl[Value] or 0)
+                            -- added to make sure HOA neck ilevel is visible, by moving it up a little
+                            if Value == 2 then
+                                CharacterNeckSlot.RankFrame.Label:SetPoint("TOP",0,15)
+                            end
+                            Slot:SetText(totalilvl[Value]);
+                            Slot:SetShadowColor(1,1,1,1);
+                            Slot:Show();
+                            ailvl = ailvl + (totalilvl[Value] or 0)
 
 							-- check gem and enchant
 							if Value < 17 then
