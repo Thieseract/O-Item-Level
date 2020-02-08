@@ -1,5 +1,5 @@
 Changing enchants requires updating local oenchantItem to have a 1 for each slot that can be enchanted and updating local enchantID
-to have the correct ID for the best enchants. Changing gems requires update local gemTexture with the texture ID of the best gems.
+to have the correct ID for the best enchants. Changing gems requires update local gemTexture with the texture ID of the best gems. Looking up gem on wowhead and hovering over icon name will have the texture ID in the link
 
 Individual boss kill stats can be found with wowhead statistics and then filter by boss name.
 Example - https://www.wowhead.com/battle-for-azeroth-dungeon-and-raid-statistics/name:taloc

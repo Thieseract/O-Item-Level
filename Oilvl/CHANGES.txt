@@ -1,3 +1,7 @@
+teece | 2019-02-08 | v 8.3.0
+	Updated raid IDs and progression display for both raid frame and tooltip
+	Fixed Gem IDs 
+
 teece | 2019-06-25 | v 8.2.0
 	Updated raid IDs and progression display for both raid frame and tooltip
 	Updated UIlibs 
