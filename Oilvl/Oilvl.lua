@@ -2302,15 +2302,18 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 	g:SetCursorPosition(0);
 	f:Hide();
 
-	h = CreateFrame("Button", cname.."_bodyBackground", UIParent)
+	-- H.Sch. - ReglohPri - changes for Patch 9.0.1 Shadowlands
+	h = CreateFrame("Button", cname.."_bodyBackground", UIParent, "BackdropTemplate")
 	h:SetPoint("BOTTOMLEFT", f, -10,-10)
 	h:SetPoint("TOPRIGHT", f, 27,10)
-	h:SetBackdrop({
+	h.backdropInfo = {
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 		tile = true,
 		tileSize = 16,
 		edgeSize = 16
-	})
+	}
+	h:ApplyBackdrop();
+	-- End for Patch 9.0.1
 	h:Hide();
 	local gg = CreateFrame("Button", nil, g)
 	gg:SetNormalTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Up.blp")
@@ -2323,16 +2326,19 @@ local function CopyEditBox(cname, cx, cy, cw, ch)
 end
 
 local function CopyEditBox2(cname, cx, cy, cw, ch, cbfunc)
-	local f=CreateFrame("frame",cname,UIParent);
+	-- H.Sch. - ReglohPri - changes for Patch 9.0.1 Shadowlands
+	local f=CreateFrame("frame",cname,UIParent,"BackdropTemplate");
 	f:SetWidth(cw+10); f:SetHeight(ch+10);
 	f:SetPoint("CENTER",cx,cy);
-	f:SetBackdrop({
+	f.backdropInfo = {
 		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
 		tile = true,
 		tileSize = 16,
 		edgeSize = 16
-	})
+	}
+	f:ApplyBackdrop();
+	-- End for Patch 9.0.1
 	f:SetFrameStrata("HIGH");
 	f:SetMovable(true);
 	f:EnableMouse(true);
@@ -2959,8 +2965,8 @@ function oilvlframe()
 -- Oilvl Game Tooltips
 	CreateFrame("GameTooltip", "OilvlTooltip", UIParent, "GameTooltipTemplate");
 
--- Oilvl Inspect Tooltips
-	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "GameTooltipTemplate");
+-- Oilvl Inspect Tooltips - H.Sch. - ReglohPri - changes for Patch 9.0.1 Shadowlands
+	CreateFrame("GameTooltip", "OilvlInspectTooltip", UIParent, "BackdropTemplate");
 
 -- Oilvl Roll Tooltips
 	CreateFrame("GameTooltip", "OilvlRollTooltip", UIParent, "GameTooltipTemplate");
@@ -3048,7 +3054,7 @@ function oilvlSetOSTATAEP()
 end
 
 function oilvlSetOSTATNWC()
- 	for i = 1,8 do
+ 	for i = 1,12 do
  		OSTATNWC[i][5] = select(2,GetAchievementInfo(OSTATNWC[i][1])):gsub(" %(.*%)","")..""
  	end
 end
@@ -3580,7 +3586,7 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		 	DrawOTooltip2()
 		end)
 		otooltip2:SetCell(5,4,"|cffffffff"..NWCname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
+		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
 		 	Save_orp_vars(NWCname)
 		 	otooltip2:Clear()
 		 	DrawOTooltip2()
@@ -3955,7 +3961,7 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
 	SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
 	SaveAOTCCE(RaidAchiv[AEPname],13784,13785)
-	SaveAOTCCE(RaidAchiv[NWCname],13784,13785)
+	SaveAOTCCE(RaidAchiv[NWCname],14068,14069)
 	--SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
 	--SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
 	--SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
@@ -4723,7 +4729,10 @@ function otooltip6func()
 						OilvlInspectTooltip:SetMinimumWidth(150)
 
 						local additionalTooltipBackdrop = {bgFile="Interface/Buttons/WHITE8X8",edgeFile="Interface/Tooltips/UI-Tooltip-Border",tile=false,edgeSize=14,insets={left=0.5,right=0.5,top=0.5,bottom=0.5}}
-						OilvlInspectTooltip:SetBackdrop(additionalTooltipBackdrop)
+						-- H.Sch. - ReglohPri - changes for Patch 9.0.1 Shadowlands
+						OilvlInspectTooltip.backdropInfo = additionalTooltipBackdrop;
+						OilvlInspectTooltip:ApplyBackdrop();
+						-- End for Patch 9.0.1
 						OilvlInspectTooltip:SetBackdropColor(0,0,0,1)
 						OilvlInspectTooltip:SetBackdropBorderColor(1,1,1,1)
 
@@ -6611,6 +6620,9 @@ function oilvlShowBagItemLevel()
 		[6] = { 255/255, 204/255, 0/255}, -- Artifact (Light Gold)
 		[7] = { 255/255, 255/255, 0/255}, -- Heirloom (Light Gold)
 	}
+
+	-- H.Sch. - ReglohPri - it's now defined locally in FrameXML / ContainerFrame.lua - not more global
+	local MAX_CONTAINER_ITEMS = 36;
 
 	if GetTime() - bagilvltime > 0.3 then
 		if not bagupdatesw then

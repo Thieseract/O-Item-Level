@@ -1,10 +1,10 @@
-## Interface: 70300
+## Interface: 90000
 ## Title: Lib: QTip-1.0
 ## Notes: Library providing multi-column tooltips.
 ## Author: Torhal, Adirelle, Elkano, Tristanian
-## Version: 7.3.5.3
+## Version: 442326b
 ## LoadOnDemand: 1
-## X-Date: 2018-04-12T0:31:08Z
+## X-Date: 2020-10-15T15:12:00Z
 ## X-Credits: Kaelten (input on initial design)
 ## X-Category: Library, Tooltip
 ## X-License: Ace3 BSD-like license

@@ -1,3 +1,10 @@
+teece | 2020-10-22 | 9.0.2
+	Updated libraries that were generating errors
+
+teece | 2020-10-12 | 9.0.1
+	Updated addon for 9.0 prepatch (big thanks to RegloPri)
+	General bug fixes
+
 teece | 2019-02-08 | v 8.3.0
 	Updated raid IDs and progression display for both raid frame and tooltip
 	Fixed Gem IDs 
