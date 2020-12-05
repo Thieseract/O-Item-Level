@@ -5079,8 +5079,7 @@ local enchantID = {
 }
 
 local gemTexture = {
-	--[1990986]=true,[1990989]=true,[1990987]=true, [1990984]=true, [1995542]=true
-	[463466]=true,[629170]=true,[629171]=true, [629173]=true, [629168]=true
+	[3743190]=true,[3743188]=true,[3743191]=true, [3743193]=true
 }
 
 local OgemFrame = CreateFrame('GameTooltip', 'OSocketTooltip', nil, 'GameTooltipTemplate');
