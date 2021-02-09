@@ -9,17 +9,17 @@ local oenchantItem = {
 	[2] = {0, INVTYPE_NECK},
 	[3] = {0, INVTYPE_SHOULDER},
 	[4] = {0, INVTYPE_BODY},
-	[5] = {0, INVTYPE_CHEST},
+	[5] = {1, INVTYPE_CHEST},
 	[6] = {0, INVTYPE_WAIST},
 	[7] = {0, INVTYPE_LEGS},
-	[8] = {0, INVTYPE_FEET},
-	[9] = {0, INVTYPE_WRIST},
-	[10] = {0, INVTYPE_HAND},
+	[8] = {1, INVTYPE_FEET},
+	[9] = {1, INVTYPE_WRIST},
+	[10] = {1, INVTYPE_HAND},
 	[11] = {1, INVTYPE_FINGER.."1"},
 	[12] = {1, INVTYPE_FINGER.."2"},
 	[13] = {0, INVTYPE_TRINKET.."1"},
 	[14] = {0, INVTYPE_TRINKET.."2"},
-	[15] = {0, INVTYPE_CLOAK},
+	[15] = {1, INVTYPE_CLOAK},
 	[16] = {1, INVTYPE_WEAPON},
 	[17] = {0, INVTYPE_SHIELD},
 }
@@ -226,321 +226,381 @@ local otooltip6gearsw2=false; -- show only specific raider
 
 local bagilvltime=0
 
-local BFA, _, _ = EJ_GetTierInfo(8);
-local ULDname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1031); -- Uldir
-local DAZAname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1176); -- Dazar'alor
-local COSname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1177); -- Crucible of Storm
-local AEPname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1179); -- Eternal Palace
-local NWCname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1180); -- Ny'alotha
---/run local instID = EJ_GetInstanceForMap(C_Map.GetBestMapForUnit("player")); DEFAULT_CHAT_FRAME:AddMessage(instID)
+local SL, _, _ = EJ_GetTierInfo(9);
+
+local CNname, _, _, _, _, _, _ = EJ_GetInstanceInfo(1190); -- Castle Nathria
 
 -- Each raid has its own entry,
 -- 1-4 are Raid Finder, Normal, Heroic, and Mythic kills statistic ID
-local OSTATULD = {
+
+local OSTATCN = {
 	{
-		12786, -- [1]
-		12787, -- [2]
-		12788, -- [3]
-		12789, -- [4]
+		14422, -- [1]
+		14419, -- [2]
+		14420, -- [3]
+		14421, -- [4]
 	}, -- [1]
 	{
-		12790, -- [1]
-		12791, -- [2]
-		12792, -- [3]
-		12793, -- [4]
+		14426, -- [1]
+		14423, -- [2]
+		14424, -- [3]
+		14425, -- [4]
 	}, -- [2]
 	{
-		12794, -- [1]
-		12795, -- [2]
-		12796, -- [3]
-		12797, -- [4]
+		14438, -- [1]
+		14435, -- [2]
+		14436, -- [3]
+		14437, -- [4]
 	}, -- [3]
 	{
-		12798, -- [1]
-		12799, -- [2]
-		12800, -- [3]
-		12801, -- [4]
+		14434, -- [1]
+		14431, -- [2]
+		14432, -- [3]
+		14433, -- [4]
 	}, -- [4]
 	{
-		12802, -- [1]
-		12803, -- [2]
-		12804, -- [3]
-		12805, -- [4]
+		14430, -- [1]
+		14427, -- [2]
+		14428, -- [3]
+		14429, -- [4]
 	}, -- [5]
 	{
-		12808, -- [1]
-		12809, -- [2]
-		12810, -- [3]
-		12811, -- [4]
+		14442, -- [1]
+		14439, -- [2]
+		14440, -- [3]
+		14441, -- [4]
 	}, -- [6]
 	{
-		12813, -- [1]
-		12814, -- [2]
-		12815, -- [3]
-		12816, -- [4]
+		14446, -- [1]
+		14443, -- [2]
+		14444, -- [3]
+		14445, -- [4]
 	}, -- [7]
 	{
-		12817, -- [1]
-		12818, -- [2]
-		12819, -- [3]
-		12820, -- [4]
-	}, -- [8]
-}
-
-local OSTATDAZAho = {
-	{
-		13328, -- [1]
-		13329, -- [2]
-		13330, -- [3]
-		13331, -- [4]
-	}, -- [1]
-	{
-		13332, -- [1]
-		13333, -- [2]
-		13334, -- [3]
-		13336, -- [4]
-	}, -- [2]
-	{
-		13354, -- [1]
-		13355, -- [2]
-		13356, -- [3]
-		13357, -- [4]
-	}, -- [3]
-	{
-		13358, -- [1]
-		13359, -- [2]
-		13361, -- [3]
-		13362, -- [4]
-	}, -- [4]
-	{
-		13363, -- [1]
-		13364, -- [2]
-		13365, -- [3]
-		13366, -- [4]
-	}, -- [5]
-	{
-		13367, -- [1]
-		13368, -- [2]
-		13369, -- [3]
-		13370, -- [4]
-	}, -- [6]
-	{
-		13371, -- [1]
-		13372, -- [2]
-		13373, -- [3]
-		13374, -- [4]
-	}, -- [7]
-	{
-		13375, -- [1]
-		13376, -- [2]
-		13377, -- [3]
-		13378, -- [4]
+		14450, -- [1]
+		14447, -- [2]
+		14448, -- [3]
+		14449, -- [4]
 	}, -- [8]
 	{
-		13379, -- [1]
-		13380, -- [2]
-		13381, -- [3]
-		13382, -- [4]
-	}, -- [9]
-}
-
-local OSTATDAZAal = {
-	{
-		13328, -- [1]
-		13329, -- [2]
-		13330, -- [3]
-		13331, -- [4]
-	}, -- [1]
-	{
-		13349, -- [1]
-		13350, -- [2]
-		13351, -- [3]
-		13353, -- [4]
-	}, -- [2]
-	{
-		13344, -- [1]
-		13346, -- [2]
-		13347, -- [3]
-		13348, -- [4]
-	}, -- [3]
-	{
-		13358, -- [1]
-		13359, -- [2]
-		13361, -- [3]
-		13362, -- [4]
-	}, -- [4]
-	{
-		13363, -- [1]
-		13364, -- [2]
-		13365, -- [3]
-		13366, -- [4]
-	}, -- [5]
-	{
-		13367, -- [1]
-		13368, -- [2]
-		13369, -- [3]
-		13370, -- [4]
-	}, -- [6]
-	{
-		13371, -- [1]
-		13372, -- [2]
-		13373, -- [3]
-		13374, -- [4]
-	}, -- [7]
-	{
-		13375, -- [1]
-		13376, -- [2]
-		13377, -- [3]
-		13378, -- [4]
-	}, -- [8]
-	{
-		13379, -- [1]
-		13380, -- [2]
-		13381, -- [3]
-		13382, -- [4]
-	}, -- [9]
-}
-
-local OSTATCOS = {
-	{
-		13404, -- [1]
-		13405, -- [2]
-		13406, -- [3]
-		13407, -- [4]
-	}, -- [1]
-	{
-		13408, -- [1]
-		13409, -- [2]
-		13410, -- [3]
-		13411, -- [4]
-	}, -- [2]
-}
-
-local OSTATAEP = {
-	{
-		13587, -- [1]
-		13588, -- [2]
-		13589, -- [3]
-		13590, -- [4]
-	}, -- [1]
-	{
-		13591, -- [1]
-		13592, -- [2]
-		13593, -- [3]
-		13594, -- [4]
-	}, -- [2]
-	{
-		13595, -- [1]
-		13596, -- [2]
-		13597, -- [3]
-		13598, -- [4]
-	}, -- [3]
-	{
-		13600, -- [1]
-		13601, -- [2]
-		13602, -- [3]
-		13603, -- [4]
-	}, -- [4]
-	{
-		13604, -- [1]
-		13605, -- [2]
-		13606, -- [3]
-		13607, -- [4]
-	}, -- [5]
-	{
-		13608, -- [1]
-		13609, -- [2]
-		13610, -- [3]
-		13611, -- [4]
-	}, -- [6]
-	{
-		13612, -- [1]
-		13613, -- [2]
-		13614, -- [3]
-		13615, -- [4]
-	}, -- [7]
-	{
-		13616, -- [1]
-		13617, -- [2]
-		13618, -- [3]
-		13619, -- [4]
-	}, -- [8]
-}
-
-local OSTATNWC = {
-	{
-		14078, -- [1]
-		14079, -- [2]
-		14080, -- [3]
-		14082, -- [4]
-	}, -- [1]
-	{
-		14089, -- [1]
-		14091, -- [2]
-		14093, -- [3]
-		14094, -- [4]
-	}, -- [2]
-	{
-		14095, -- [1]
-		14096, -- [2]
-		14097, -- [3]
-		14098, -- [4]
-	}, -- [3]
-	{
-		14101, -- [1]
-		14102, -- [2]
-		14104, -- [3]
-		14105, -- [4]
-	}, -- [4]
-	{
-		14107, -- [1]
-		14108, -- [2]
-		14109, -- [3]
-		14110, -- [4]
-	}, -- [5]
-	{
-		14111, -- [1]
-		14112, -- [2]
-		14114, -- [3]
-		14115, -- [4]
-	}, -- [6]
-	{
-		14117, -- [1]
-		14118, -- [2]
-		14119, -- [3]
-		14120, -- [4]
-	}, -- [7]
-	{
-		14207, -- [1]
-		14208, -- [2]
-		14210, -- [3]
-		14211, -- [4]
-	}, -- [8]
-	{
-		14123, -- [1]
-		14124, -- [2]
-		14125, -- [3]
-		14126, -- [4]
+		14454, -- [1]
+		14451, -- [2]
+		14452, -- [3]
+		14453, -- [4]
 	}, -- [9]
 	{
-		14127, -- [1]
-		14128, -- [2]
-		14129, -- [3]
-		14130, -- [4]
+		14458, -- [1]
+		14455, -- [2]
+		14456, -- [3]
+		14457, -- [4]
 	}, -- [10]
-	{
-		14131, -- [1]
-		14132, -- [2]
-		14133, -- [3]
-		14134, -- [4]
-	}, -- [11]
-	{
-		14135, -- [1]
-		14136, -- [2]
-		14137, -- [3]
-		14138, -- [4]
-	}, -- [12]
 }
+--
+-- local OSTATULD = {
+-- 	{
+-- 		12786, -- [1]
+-- 		12787, -- [2]
+-- 		12788, -- [3]
+-- 		12789, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		12790, -- [1]
+-- 		12791, -- [2]
+-- 		12792, -- [3]
+-- 		12793, -- [4]
+-- 	}, -- [2]
+-- 	{
+-- 		12794, -- [1]
+-- 		12795, -- [2]
+-- 		12796, -- [3]
+-- 		12797, -- [4]
+-- 	}, -- [3]
+-- 	{
+-- 		12798, -- [1]
+-- 		12799, -- [2]
+-- 		12800, -- [3]
+-- 		12801, -- [4]
+-- 	}, -- [4]
+-- 	{
+-- 		12802, -- [1]
+-- 		12803, -- [2]
+-- 		12804, -- [3]
+-- 		12805, -- [4]
+-- 	}, -- [5]
+-- 	{
+-- 		12808, -- [1]
+-- 		12809, -- [2]
+-- 		12810, -- [3]
+-- 		12811, -- [4]
+-- 	}, -- [6]
+-- 	{
+-- 		12813, -- [1]
+-- 		12814, -- [2]
+-- 		12815, -- [3]
+-- 		12816, -- [4]
+-- 	}, -- [7]
+-- 	{
+-- 		12817, -- [1]
+-- 		12818, -- [2]
+-- 		12819, -- [3]
+-- 		12820, -- [4]
+-- 	}, -- [8]
+-- }
+--
+-- local OSTATDAZAho = {
+-- 	{
+-- 		13328, -- [1]
+-- 		13329, -- [2]
+-- 		13330, -- [3]
+-- 		13331, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		13332, -- [1]
+-- 		13333, -- [2]
+-- 		13334, -- [3]
+-- 		13336, -- [4]
+-- 	}, -- [2]
+-- 	{
+-- 		13354, -- [1]
+-- 		13355, -- [2]
+-- 		13356, -- [3]
+-- 		13357, -- [4]
+-- 	}, -- [3]
+-- 	{
+-- 		13358, -- [1]
+-- 		13359, -- [2]
+-- 		13361, -- [3]
+-- 		13362, -- [4]
+-- 	}, -- [4]
+-- 	{
+-- 		13363, -- [1]
+-- 		13364, -- [2]
+-- 		13365, -- [3]
+-- 		13366, -- [4]
+-- 	}, -- [5]
+-- 	{
+-- 		13367, -- [1]
+-- 		13368, -- [2]
+-- 		13369, -- [3]
+-- 		13370, -- [4]
+-- 	}, -- [6]
+-- 	{
+-- 		13371, -- [1]
+-- 		13372, -- [2]
+-- 		13373, -- [3]
+-- 		13374, -- [4]
+-- 	}, -- [7]
+-- 	{
+-- 		13375, -- [1]
+-- 		13376, -- [2]
+-- 		13377, -- [3]
+-- 		13378, -- [4]
+-- 	}, -- [8]
+-- 	{
+-- 		13379, -- [1]
+-- 		13380, -- [2]
+-- 		13381, -- [3]
+-- 		13382, -- [4]
+-- 	}, -- [9]
+-- }
+--
+-- local OSTATDAZAal = {
+-- 	{
+-- 		13328, -- [1]
+-- 		13329, -- [2]
+-- 		13330, -- [3]
+-- 		13331, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		13349, -- [1]
+-- 		13350, -- [2]
+-- 		13351, -- [3]
+-- 		13353, -- [4]
+-- 	}, -- [2]
+-- 	{
+-- 		13344, -- [1]
+-- 		13346, -- [2]
+-- 		13347, -- [3]
+-- 		13348, -- [4]
+-- 	}, -- [3]
+-- 	{
+-- 		13358, -- [1]
+-- 		13359, -- [2]
+-- 		13361, -- [3]
+-- 		13362, -- [4]
+-- 	}, -- [4]
+-- 	{
+-- 		13363, -- [1]
+-- 		13364, -- [2]
+-- 		13365, -- [3]
+-- 		13366, -- [4]
+-- 	}, -- [5]
+-- 	{
+-- 		13367, -- [1]
+-- 		13368, -- [2]
+-- 		13369, -- [3]
+-- 		13370, -- [4]
+-- 	}, -- [6]
+-- 	{
+-- 		13371, -- [1]
+-- 		13372, -- [2]
+-- 		13373, -- [3]
+-- 		13374, -- [4]
+-- 	}, -- [7]
+-- 	{
+-- 		13375, -- [1]
+-- 		13376, -- [2]
+-- 		13377, -- [3]
+-- 		13378, -- [4]
+-- 	}, -- [8]
+-- 	{
+-- 		13379, -- [1]
+-- 		13380, -- [2]
+-- 		13381, -- [3]
+-- 		13382, -- [4]
+-- 	}, -- [9]
+-- }
+--
+-- local OSTATCOS = {
+-- 	{
+-- 		13404, -- [1]
+-- 		13405, -- [2]
+-- 		13406, -- [3]
+-- 		13407, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		13408, -- [1]
+-- 		13409, -- [2]
+-- 		13410, -- [3]
+-- 		13411, -- [4]
+-- 	}, -- [2]
+-- }
+--
+-- local OSTATAEP = {
+-- 	{
+-- 		13587, -- [1]
+-- 		13588, -- [2]
+-- 		13589, -- [3]
+-- 		13590, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		13591, -- [1]
+-- 		13592, -- [2]
+-- 		13593, -- [3]
+-- 		13594, -- [4]
+-- 	}, -- [2]
+-- 	{
+-- 		13595, -- [1]
+-- 		13596, -- [2]
+-- 		13597, -- [3]
+-- 		13598, -- [4]
+-- 	}, -- [3]
+-- 	{
+-- 		13600, -- [1]
+-- 		13601, -- [2]
+-- 		13602, -- [3]
+-- 		13603, -- [4]
+-- 	}, -- [4]
+-- 	{
+-- 		13604, -- [1]
+-- 		13605, -- [2]
+-- 		13606, -- [3]
+-- 		13607, -- [4]
+-- 	}, -- [5]
+-- 	{
+-- 		13608, -- [1]
+-- 		13609, -- [2]
+-- 		13610, -- [3]
+-- 		13611, -- [4]
+-- 	}, -- [6]
+-- 	{
+-- 		13612, -- [1]
+-- 		13613, -- [2]
+-- 		13614, -- [3]
+-- 		13615, -- [4]
+-- 	}, -- [7]
+-- 	{
+-- 		13616, -- [1]
+-- 		13617, -- [2]
+-- 		13618, -- [3]
+-- 		13619, -- [4]
+-- 	}, -- [8]
+-- }
+--
+-- local OSTATNWC = {
+-- 	{
+-- 		14078, -- [1]
+-- 		14079, -- [2]
+-- 		14080, -- [3]
+-- 		14082, -- [4]
+-- 	}, -- [1]
+-- 	{
+-- 		14089, -- [1]
+-- 		14091, -- [2]
+-- 		14093, -- [3]
+-- 		14094, -- [4]
+-- 	}, -- [2]
+-- 	{
+-- 		14095, -- [1]
+-- 		14096, -- [2]
+-- 		14097, -- [3]
+-- 		14098, -- [4]
+-- 	}, -- [3]
+-- 	{
+-- 		14101, -- [1]
+-- 		14102, -- [2]
+-- 		14104, -- [3]
+-- 		14105, -- [4]
+-- 	}, -- [4]
+-- 	{
+-- 		14107, -- [1]
+-- 		14108, -- [2]
+-- 		14109, -- [3]
+-- 		14110, -- [4]
+-- 	}, -- [5]
+-- 	{
+-- 		14111, -- [1]
+-- 		14112, -- [2]
+-- 		14114, -- [3]
+-- 		14115, -- [4]
+-- 	}, -- [6]
+-- 	{
+-- 		14117, -- [1]
+-- 		14118, -- [2]
+-- 		14119, -- [3]
+-- 		14120, -- [4]
+-- 	}, -- [7]
+-- 	{
+-- 		14207, -- [1]
+-- 		14208, -- [2]
+-- 		14210, -- [3]
+-- 		14211, -- [4]
+-- 	}, -- [8]
+-- 	{
+-- 		14123, -- [1]
+-- 		14124, -- [2]
+-- 		14125, -- [3]
+-- 		14126, -- [4]
+-- 	}, -- [9]
+-- 	{
+-- 		14127, -- [1]
+-- 		14128, -- [2]
+-- 		14129, -- [3]
+-- 		14130, -- [4]
+-- 	}, -- [10]
+-- 	{
+-- 		14131, -- [1]
+-- 		14132, -- [2]
+-- 		14133, -- [3]
+-- 		14134, -- [4]
+-- 	}, -- [11]
+-- 	{
+-- 		14135, -- [1]
+-- 		14136, -- [2]
+-- 		14137, -- [3]
+-- 		14138, -- [4]
+-- 	}, -- [12]
+-- }
 
 local function round(number, digits)
     return tonumber(string.format("%." .. (digits or 0) .. "f", number))
@@ -1747,11 +1807,12 @@ function oilvlcheckrange()
 					--if cfg.raidmenuid == 5 then msg = msg:find(TENname); if msg then break end end
 					--if cfg.raidmenuid == 4 then msg = msg:find(TOVname); if msg then break end end
 					--if cfg.raidmenuid == 3 then msg = msg:find(TNname); if msg then break end end
-					if cfg.raidmenuid == 5 then msg = msg:find(NWCname); if msg then break end end
-					if cfg.raidmenuid == 4 then msg = msg:find(AEPname); if msg then break end end
-					if cfg.raidmenuid == 3 then msg = msg:find(COSname); if msg then break end end
-					if cfg.raidmenuid == 2 then msg = msg:find(DAZAname); if msg then break end end
-					if cfg.raidmenuid == 1 then msg = msg:find(ULDname); if msg then break end end
+					-- if cfg.raidmenuid == 5 then msg = msg:find(NWCname); if msg then break end end
+					-- if cfg.raidmenuid == 4 then msg = msg:find(AEPname); if msg then break end end
+					-- if cfg.raidmenuid == 3 then msg = msg:find(COSname); if msg then break end end
+					-- if cfg.raidmenuid == 2 then msg = msg:find(DAZAname); if msg then break end end
+					-- if cfg.raidmenuid == 1 then msg = msg:find(ULDname); if msg then break end end
+					if cfg.raidmenuid == 1 then msg = msg:find(CNname); if msg then break end end
 				end
 			end
 			if not msg then
@@ -3023,41 +3084,46 @@ function OilvlGetStatisticId(OCategory, ORaidName, OTable, Oprint)
 	end
 end
 
-function oilvlSetOSTATULD()
-	for i = 1,8 do
-		OSTATULD[i][5] = select(2,GetAchievementInfo(OSTATULD[i][1])):gsub(" %(.*%)","")..""
+function oilvlSetOSTATCN()
+	for i = 1,10 do
+		OSTATCN[i][5] = select(2,GetAchievementInfo(OSTATCN[i][1])):gsub(" %(.*%)","")..""
 	end
 end
-
-function oilvlSetOSTATDAZAal()
- 	for i = 1,9 do
- 		OSTATDAZAal[i][5] = select(2,GetAchievementInfo(OSTATDAZAal[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATDAZAho()
- 	for i = 1,9 do
- 		OSTATDAZAho[i][5] = select(2,GetAchievementInfo(OSTATDAZAho[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATCOS()
- 	for i = 1,2 do
- 		OSTATCOS[i][5] = select(2,GetAchievementInfo(OSTATCOS[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATAEP()
- 	for i = 1,8 do
- 		OSTATAEP[i][5] = select(2,GetAchievementInfo(OSTATAEP[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
-
-function oilvlSetOSTATNWC()
- 	for i = 1,12 do
- 		OSTATNWC[i][5] = select(2,GetAchievementInfo(OSTATNWC[i][1])):gsub(" %(.*%)","")..""
- 	end
-end
+-- function oilvlSetOSTATULD()
+-- 	for i = 1,8 do
+-- 		OSTATULD[i][5] = select(2,GetAchievementInfo(OSTATULD[i][1])):gsub(" %(.*%)","")..""
+-- 	end
+-- end
+--
+-- function oilvlSetOSTATDAZAal()
+--  	for i = 1,9 do
+--  		OSTATDAZAal[i][5] = select(2,GetAchievementInfo(OSTATDAZAal[i][1])):gsub(" %(.*%)","")..""
+--  	end
+-- end
+--
+-- function oilvlSetOSTATDAZAho()
+--  	for i = 1,9 do
+--  		OSTATDAZAho[i][5] = select(2,GetAchievementInfo(OSTATDAZAho[i][1])):gsub(" %(.*%)","")..""
+--  	end
+-- end
+--
+-- function oilvlSetOSTATCOS()
+--  	for i = 1,2 do
+--  		OSTATCOS[i][5] = select(2,GetAchievementInfo(OSTATCOS[i][1])):gsub(" %(.*%)","")..""
+--  	end
+-- end
+--
+-- function oilvlSetOSTATAEP()
+--  	for i = 1,8 do
+--  		OSTATAEP[i][5] = select(2,GetAchievementInfo(OSTATAEP[i][1])):gsub(" %(.*%)","")..""
+--  	end
+-- end
+--
+-- function oilvlSetOSTATNWC()
+--  	for i = 1,12 do
+--  		OSTATNWC[i][5] = select(2,GetAchievementInfo(OSTATNWC[i][1])):gsub(" %(.*%)","")..""
+--  	end
+-- end
 
 -- function oilvlSetOSTATTN()
 -- 	for i = 1,10 do
@@ -3457,15 +3523,16 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		return ORP;
 	end
 
-	if Faction == 'Alliance' then
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
-	else
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
-    end
-	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
-	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
-	bigorp[AEPname] = Save_orp(AEPname, OSTATAEP, 8)
-	bigorp[NWCname] = Save_orp(NWCname, OSTATNWC, 12)
+	-- if Faction == 'Alliance' then
+	-- 	bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
+	-- else
+	-- 	bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
+  --   end
+	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
+	-- bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
+	-- bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
+	-- bigorp[AEPname] = Save_orp(AEPname, OSTATAEP, 8)
+	-- bigorp[NWCname] = Save_orp(NWCname, OSTATNWC, 12)
 	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
 	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
 
@@ -3484,18 +3551,20 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		end
 	end
 
-	-- check Achivements for 4 raids
+	-- check Achivements for raids
 	local RaidAchiv = {}
-	RaidAchiv[ULDname] ={}
-	RaidAchiv[DAZAname] ={}
-	RaidAchiv[COSname] ={}
-	RaidAchiv[AEPname] ={}
-	RaidAchiv[NWCname] ={}
-	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
-	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
-	SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
-	SaveAOTCCE(RaidAchiv[AEPname],13784,13785)
-	SaveAOTCCE(RaidAchiv[NWCname],14068,14069)
+	RaidAchiv[CNname] ={}
+	-- RaidAchiv[ULDname] ={}
+	-- RaidAchiv[DAZAname] ={}
+	-- RaidAchiv[COSname] ={}
+	-- RaidAchiv[AEPname] ={}
+	-- RaidAchiv[NWCname] ={}
+	SaveAOTCCE(RaidAchiv[CNname],14460,14461)
+	-- SaveAOTCCE(RaidAchiv[COSname],13418,13419)
+	-- SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
+	-- SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
+	-- SaveAOTCCE(RaidAchiv[AEPname],13784,13785)
+	-- SaveAOTCCE(RaidAchiv[NWCname],14068,14069)
 	--SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
 	--SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
 	--SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
@@ -3561,36 +3630,36 @@ function OGetRaidProgression2(RaidName, OSTAT, NumRaidBosses, Faction)
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
 
 		local line = otooltip2:AddLine("")
-		otooltip2:SetCell(1,4,"|cffffffff"..ULDname,"LEFT",2)
+		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
-			Save_orp_vars(ULDname)
+			Save_orp_vars(CNname)
 			otooltip2:Clear()
 			DrawOTooltip2()
 		end)
-		otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
-			Save_orp_vars(DAZAname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(COSname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
-		otooltip2:SetCell(4,4,"|cffffffff"..AEPname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(AEPname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
-		otooltip2:SetCell(5,4,"|cffffffff"..NWCname,"LEFT",2)
-		otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
-		 	Save_orp_vars(NWCname)
-		 	otooltip2:Clear()
-		 	DrawOTooltip2()
-		end)
+		-- otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
+		-- otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
+		-- 	Save_orp_vars(DAZAname)
+		-- 	otooltip2:Clear()
+		-- 	DrawOTooltip2()
+		-- end)
+		-- otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
+		-- otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
+		--  	Save_orp_vars(COSname)
+		--  	otooltip2:Clear()
+		--  	DrawOTooltip2()
+		-- end)
+		-- otooltip2:SetCell(4,4,"|cffffffff"..AEPname,"LEFT",2)
+		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
+		--  	Save_orp_vars(AEPname)
+		--  	otooltip2:Clear()
+		--  	DrawOTooltip2()
+		-- end)
+		-- otooltip2:SetCell(5,4,"|cffffffff"..NWCname,"LEFT",2)
+		-- otooltip2:SetCellScript(5,4,"OnMouseUp",function(s)
+		--  	Save_orp_vars(NWCname)
+		--  	otooltip2:Clear()
+		--  	DrawOTooltip2()
+		-- end)
 		-- otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
 		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 		-- 	Save_orp_vars(TOVname)
@@ -3926,15 +3995,16 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		return ORP;
 	end
 
-	if Faction == 'Alliance' then
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
-	else
-		bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
-    end
-	bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
-	bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
-	bigorp[AEPname] = Save_orp(AEPname, OSTATAEP, 8)
-	bigorp[NWCname] = Save_orp(NWCname, OSTATNWC, 12)
+	-- if Faction == 'Alliance' then
+	-- 	bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAal, 9)
+	-- else
+	-- 	bigorp[DAZAname] = Save_orp(DAZAname, OSTATDAZAho, 9)
+  --   end
+	bigorp[CNname] = Save_orp(CNname, OSTATCN, 10)
+	-- bigorp[ULDname] = Save_orp(ULDname, OSTATULD, 8)
+	-- bigorp[COSname] = Save_orp(COSname, OSTATCOS, 2)
+	-- bigorp[AEPname] = Save_orp(AEPname, OSTATAEP, 8)
+	-- bigorp[NWCname] = Save_orp(NWCname, OSTATNWC, 12)
 	--bigorp[TOSname] = Save_orp(TOSname, OSTATTOS, 9)
 	--bigorp[ABTname] = Save_orp(ABTname, OSTATABT, 11)
 
@@ -3954,14 +4024,16 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 	end
 
 	local RaidAchiv = {}
-	RaidAchiv[ULDname] ={}
-	RaidAchiv[DAZAname] ={}
-	RaidAchiv[COSname] ={}
-	SaveAOTCCE(RaidAchiv[COSname],13418,13419)
-	SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
-	SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
-	SaveAOTCCE(RaidAchiv[AEPname],13784,13785)
-	SaveAOTCCE(RaidAchiv[NWCname],14068,14069)
+	RaidAchiv[CNname] ={}
+	-- RaidAchiv[ULDname] ={}
+	-- RaidAchiv[DAZAname] ={}
+	-- RaidAchiv[COSname] ={}
+	SaveAOTCCE(RaidAchiv[CNname],13418,13419)
+	-- SaveAOTCCE(RaidAchiv[COSname],13418,13419)
+	-- SaveAOTCCE(RaidAchiv[DAZAname],13322,13323)
+	-- SaveAOTCCE(RaidAchiv[ULDname],12536,12535)
+	-- SaveAOTCCE(RaidAchiv[AEPname],13784,13785)
+	-- SaveAOTCCE(RaidAchiv[NWCname],14068,14069)
 	--SaveAOTCCE(RaidAchiv[TOVname],11581,11580)
 	--SaveAOTCCE(RaidAchiv[TOSname],11790,11874,11875)
 	--SaveAOTCCE(RaidAchiv[ABTname],12110,12111)
@@ -4051,30 +4123,30 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 		for i = 1, #oilvltooltiptexts do otooltip2:AddLine(oilvltooltiptexts[i]) end
 
 		local line = otooltip2:AddLine("")
-		otooltip2:SetCell(1,4,"|cffffffff"..ULDname,"LEFT",2)
+		otooltip2:SetCell(1,4,"|cffffffff"..CNname,"LEFT",2)
 		otooltip2:SetCellScript(1,4,"OnMouseUp",function(s)
-			Save_orp_vars(ULDname)
+			Save_orp_vars(CNname)
 		 	otooltip2:Clear()
 		 	DrawOTooltip2()
 		end)
-		otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
-		otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
-			Save_orp_vars(DAZAname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
-		otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
-			Save_orp_vars(COSname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
-		otooltip2:SetCell(4,4,"|cffffffff"..AEPname,"LEFT",2)
-		otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
-			Save_orp_vars(AEPname)
-			otooltip2:Clear()
-			DrawOTooltip2()
-		end)
+		-- otooltip2:SetCell(2,4,"|cffffffff"..DAZAname,"LEFT",2)
+		-- otooltip2:SetCellScript(2,4,"OnMouseUp",function(s)
+		-- 	Save_orp_vars(DAZAname)
+		-- 	otooltip2:Clear()
+		-- 	DrawOTooltip2()
+		-- end)
+		-- otooltip2:SetCell(3,4,"|cffffffff"..COSname,"LEFT",2)
+		-- otooltip2:SetCellScript(3,4,"OnMouseUp",function(s)
+		-- 	Save_orp_vars(COSname)
+		-- 	otooltip2:Clear()
+		-- 	DrawOTooltip2()
+		-- end)
+		-- otooltip2:SetCell(4,4,"|cffffffff"..AEPname,"LEFT",2)
+		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
+		-- 	Save_orp_vars(AEPname)
+		-- 	otooltip2:Clear()
+		-- 	DrawOTooltip2()
+		-- end)
 		-- otooltip2:SetCell(4,4,"|cffffffff"..TOVname,"LEFT",2)
 		-- otooltip2:SetCellScript(4,4,"OnMouseUp",function(s)
 		-- 	Save_orp_vars(TOVname)
@@ -5073,9 +5145,11 @@ function otooltip7func()
 end
 
 local enchantID = {
-
-	[5942]=true,[5943]=true,[5944]=true,[5945]=true, -- ring
-	[5946]=true,[5948]=true,[5949]=true,[5950]=true,[5965]=true,[5964]=true,[5963]=true,[5966]=true,[5962]=true -- weapon
+  [6211]=true, [6210]=true, [6220]=true, --stat specific pieces
+	[6230]=true, [6214]=true, [6265]=true, [6217]=true, [6213]=true, -- chest
+	[6202]=true, [6204]=true, [6203]=true, [6208]=true,  -- cloak
+	[6166]=true,[6170]=true,[6164]=true,[6168]=true, -- ring
+	[6228]=true,[6229]=true,[6223]=true,[6227]=true,[6226]=true -- weapon
 }
 
 local gemTexture = {
@@ -5097,17 +5171,58 @@ function OItemAnalysis_CountEmptySockets(unitid, slot, itemLink)
 	return count, count2;
 end
 
+function EnumerateTooltipLines_helperOI(...)
+    for i = 1, select("#", ...) do
+        local region = select(i, ...)
+				for key, val in pairs(region) do
+				 			if key ~= 0 then
+								--print(key, val);
+							end
+				end
+        if region and region:GetObjectType() == "FontString" then
+            local text = region:GetText() -- string or nil
+						if text == 'Prismatic Socket' then
+							return true;
+						end
+        end
+    end
+end
+
 function OItemAnalysis_CountEmptySockets2(unitid, slot)
-	local count = 0; -- missing gem
+	local count9 = 0; -- missing gem
 	OgemFrame:SetOwner(UIParent, 'ANCHOR_NONE');
 	OgemFrame:ClearLines();
-	OgemFrame:SetInventoryItem(unitid, slot)
+	OgemFrame:SetInventoryItem(unitid, slot);
+	local itemLink = GetInventoryItemLink(unitid, slot);
+	-- print("itemLink");
+	-- print(itemLink);
+	-- local stats = GetItemStats(itemLink);
+	-- if stats ~= nil then
+	-- 		for key, val in pairs(stats) do
+	-- 			print(key, val);
+	-- 				if (string.find(key, "EMPTY_SOCKET_")) then
+	-- 						count9 = count9 + 1;
+	-- 				end
+	-- 		end
+	-- end
 
-	local temp = OSocketTooltipTexture1:GetTexture();
-	if temp and temp == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then
-		count = count + 1;
+	if EnumerateTooltipLines_helperOI(OgemFrame:GetRegions()) then
+		count9 = count9 + 1;
 	end
-	return count
+	return count9
+
+  -- local tempOI = 0;
+	-- print("Setting temp to 0");
+	-- print(tempOI);
+	--
+	-- tempOI = OSocketTooltipTexture1:GetTexture();
+	-- print(unitid, slot, count9, tempOI);
+	-- if tempOI and tempOI == "Interface\\ItemSocketingFrame\\UI-EmptySocket-Prismatic" then
+	-- 	count9 = count9 + 1;
+	-- end
+	-- print("returning value:");
+	-- print(count9);
+	-- return count9
 end
 
 function OItemAnalysisLowGem(unitid, slot)
@@ -5691,17 +5806,17 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 		if cfg.oilvlms then
 			if Omover2 == 1 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression2(ULDname, OSTATULD, 8, UnitFactionGroup(rpunit)); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression2(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
 					-- if cfg.raidmenuid == 4 then OGetRaidProgression2(TOVname, OSTATTOV, 3); end
 					-- if cfg.raidmenuid == 3 then OGetRaidProgression2(TNname, OSTATTN, 10); end
-					if UnitFactionGroup(rpunit) == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression2(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression2(AEPname, OSTATAEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
+					-- if UnitFactionGroup(rpunit) == 'Alliance' then
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
+					-- else
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression2(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
+					-- end
+					-- if cfg.raidmenuid == 3 then OGetRaidProgression2(COSname, OSTATCOS, 2); end
+					-- if cfg.raidmenuid == 4 then OGetRaidProgression2(AEPname, OSTATAEP, 8); end
+					-- if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5710,17 +5825,17 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 				end
 			elseif Omover2 == 2 then
 				if UnitExists(rpunit) and CheckInteractDistance(rpunit, 1) and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression3(ULDname, OSTATULD, 8, UnitFactionGroup(rpunit)); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression3(CNname, OSTATCN, 10, UnitFactionGroup(rpunit)); end
 					-- if cfg.raidmenuid == 4 then OGetRaidProgression3(TOVname, OSTATTOV, 3); end
 					-- if cfg.raidmenuid == 3 then OGetRaidProgression3(TNname, OSTATTN, 10); end
-					if UnitFactionGroup(rpunit) == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression3(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression3(AEPname, OSTATAEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
+					-- if UnitFactionGroup(rpunit) == 'Alliance' then
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAal, 9, UnitFactionGroup(rpunit)); end
+					-- else
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression3(DAZAname, OSTATDAZAho, 9, UnitFactionGroup(rpunit)); end
+					-- end
+					-- if cfg.raidmenuid == 3 then OGetRaidProgression3(COSname, OSTATCOS, 2); end
+					-- if cfg.raidmenuid == 4 then OGetRaidProgression3(AEPname, OSTATAEP, 8); end
+					-- if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5729,17 +5844,17 @@ function events:INSPECT_ACHIEVEMENT_READY(...)
 				end
 			else
 				if UnitExists("target") and CheckInteractDistance("target", 1)  and rpsw then
-					if cfg.raidmenuid == 1 then OGetRaidProgression(ULDname, OSTATULD, 8); end
+					if cfg.raidmenuid == 1 then OGetRaidProgression(CNname, OSTATCN, 10); end
 					-- if cfg.raidmenuid == 4 then OGetRaidProgression(TOVname, OSTATTOV, 3); end
 					-- if cfg.raidmenuid == 3 then OGetRaidProgression(TNname, OSTATTN, 10); end
-					if UnitFactionGroup("target") == 'Alliance' then
-						if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAal, 9); end
-					else
-						if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAho, 9); end
-					end
-					if cfg.raidmenuid == 3 then OGetRaidProgression(COSname, OSTATCOS, 2); end
-					if cfg.raidmenuid == 4 then OGetRaidProgression(AEPname, OSTATAEP, 8); end
-					if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
+					-- if UnitFactionGroup("target") == 'Alliance' then
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAal, 9); end
+					-- else
+					-- 	if cfg.raidmenuid == 2 then OGetRaidProgression(DAZAname, OSTATDAZAho, 9); end
+					-- end
+					-- if cfg.raidmenuid == 3 then OGetRaidProgression(COSname, OSTATCOS, 2); end
+					-- if cfg.raidmenuid == 4 then OGetRaidProgression(AEPname, OSTATAEP, 8); end
+					-- if cfg.raidmenuid == 5 then OGetRaidProgression2(NWCname, OSTATNWC, 12); end
 				else
 					--ClearAchievementComparisonUnit();
 					rpsw=false;
@@ -5859,12 +5974,13 @@ function events:PLAYER_LOGIN(...)
 		if not lootslotSW then C_Timer.After(5,function() oilvlaltc() end); end
 		if not oilvlOnHyperlinkClickSW then C_Timer.After(5,function() oilvlOnHyperlinkClick() end); end
 	end
-	oilvlSetOSTATULD()
-	oilvlSetOSTATDAZAal()
-	oilvlSetOSTATDAZAho()
-	oilvlSetOSTATCOS()
-	oilvlSetOSTATAEP()
-	oilvlSetOSTATNWC()
+	oilvlSetOSTATCN()
+	-- oilvlSetOSTATULD()
+	-- oilvlSetOSTATDAZAal()
+	-- oilvlSetOSTATDAZAho()
+	-- oilvlSetOSTATCOS()
+	-- oilvlSetOSTATAEP()
+	-- oilvlSetOSTATNWC()
 	-- oilvlSetOSTATTOS()
 	-- oilvlSetOSTATABT()
 	--[[Fix for Lua errors with Blizzard_AchievementUI below]]--
@@ -6117,14 +6233,15 @@ function OilvlRaidMenu()
 	ORaidDropDownMenu:Show()
 
 	local items = {
+		CNname
 		-- ABTname,
 		-- TOSname,
 		-- TNname,
-		ULDname,
-		DAZAname,
-		COSname,
-		AEPname,
-		NWCname
+		-- ULDname,
+		-- DAZAname,
+		-- COSname,
+		-- AEPname,
+		-- NWCname
 	}
 
 	local function OnClick(self)
