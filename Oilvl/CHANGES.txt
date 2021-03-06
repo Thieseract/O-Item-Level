@@ -1,3 +1,6 @@
+teece | 2021-02-08 | 9.0.2
+	Fixes for many of the issues that have been happening since Shadowlands launch
+
 teece | 2020-10-22 | 9.0.2
 	Updated libraries that were generating errors
 
