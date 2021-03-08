@@ -3601,15 +3601,6 @@ function OGetRaidProgression3(RaidName, OSTAT, NumRaidBosses, Faction)
 			otooltip2:SetFont(ssRegFont)
 			otooltip2:ClearAllPoints()
 			otooltip2:SetClampedToScreen(false)
-			--[[if GetScreenWidth() - OilvlTooltip:GetRight() < 500 then
-				-- show on left
-				otooltip2:SetPoint("TOPRIGHT", OilvlTooltip, "TOPLEFT")
-				otooltip2:SetAutoHideDelay(0.25, OilvlTooltip:GetOwner());
-			else
-				-- show on right
-				otooltip2:SetPoint("TOPLEFT", OilvlTooltip, "TOPRIGHT")
-				otooltip2:SetAutoHideDelay(0.25, OilvlTooltip:GetOwner());
-			end]]--
 			local _, obottom, _, _ = otooltip6rpd:GetRect()
 			otooltip2:SmartAnchorTo(self)
 			otooltip2:SetAutoHideDelay(0.25, self, function()
