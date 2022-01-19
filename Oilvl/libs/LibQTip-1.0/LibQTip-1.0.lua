@@ -540,7 +540,12 @@ function InitializeTooltip(tooltip, key)
 	----------------------------------------------------------------------
 	-- (Re)set frame settings
 	----------------------------------------------------------------------
-	local backdrop = GameTooltip:GetBackdrop()
+	if not GameTooltip.GetBackdrop then
+		print("No GetBackdrop")
+		Mixin(GameTooltip, BackdropTemplateMixin)
+	else
+		local backdrop = GameTooltip:GetBackdrop()
+	end
 
 	tooltip:SetBackdrop(backdrop)
 
